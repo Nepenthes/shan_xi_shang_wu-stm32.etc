@@ -1,8 +1,26 @@
-#include <Includes.h>
+/*----------------------------------------------------------------------------
+ * CMSIS-RTOS 'main' function template
+ *---------------------------------------------------------------------------*/
+#define osObjectsPublic                    		 // define objects in main module
+#include "includes.h"
 
-int main(void)
+int main (void const *argument)
 {
-	BSP_CPU_ClkFreq();
 	
-	return 0;
+	osKernelInitialize ();                    	// initialize CMSIS-RTOS
+	
+	// initialize peripherals here
+
+	// create 'thread' functions that start executing,
+	// example: tid_name = osThreadCreate (osThread(name), NULL);
+	
+	BSP_Init();
+	
+	USARTTest();
+	
+	keyTest ();
+	
+	LEDTest();
+	
+	osKernelStart ();                         	// start thread execution 
 }

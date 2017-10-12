@@ -64,12 +64,12 @@
 */
 
                                                                 /* Configure CPU host name feature (see Note #1) :      */
-#define  CPU_CFG_NAME_EN                        DEF_DISABLED
+#define  CPU_CFG_NAME_EN                        DEF_ENABLED
                                                                 /*   DEF_DISABLED  CPU host name DISABLED               */
                                                                 /*   DEF_ENABLED   CPU host name ENABLED                */
 
                                                                 /* Configure CPU host name ASCII string size ...        */
-#define  CPU_CFG_NAME_SIZE                                16    /* ... (see Note #2).                                   */
+#define  CPU_CFG_NAME_SIZE                             16u   	 /* ... (see Note #2).                                   */
 
 
 /*
@@ -98,7 +98,7 @@
 */
 
                                                                 /* Configure CPU timestamp features (see Note #1) :     */
-#define  CPU_CFG_TS_32_EN                       DEF_DISABLED
+#define  CPU_CFG_TS_32_EN								DEF_ENABLED
 #define  CPU_CFG_TS_64_EN                       DEF_DISABLED
                                                                 /*   DEF_DISABLED  CPU timestamps DISABLED              */
                                                                 /*   DEF_ENABLED   CPU timestamps ENABLED               */
@@ -106,7 +106,6 @@
                                                                 /* Configure CPU timestamp timer word size ...          */
                                                                 /* ... (see Note #2) :                                  */
 #define  CPU_CFG_TS_TMR_SIZE                    CPU_WORD_SIZE_32
-
 
 /*
 *********************************************************************************************************
@@ -128,7 +127,7 @@
 *********************************************************************************************************
 */
 
-#if 0                                                           /* Configure CPU interrupts disabled time ...           */
+#if 1                                                           /* Configure CPU interrupts disabled time ...           */
 #define  CPU_CFG_INT_DIS_MEAS_EN                                /* ... measurements feature (see Note #1a).             */
 #endif
 
@@ -160,7 +159,7 @@
 *********************************************************************************************************
 */
 
-#if 0                                                           /* Configure CPU count leading  zeros bits ...          */
+#if 1                                                           /* Configure CPU count leading  zeros bits ...          */
 #define  CPU_CFG_LEAD_ZEROS_ASM_PRESENT                         /* ... assembly-version (see Note #1a).                 */
 #endif
 

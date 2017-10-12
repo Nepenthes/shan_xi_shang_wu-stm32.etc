@@ -1,0 +1,139 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;/*-----------------------------------------------------
+                       -----------------------
+    2 00000000         ; *      CMSIS-RTOS  -  RTX
+    3 00000000         ; *-----------------------------------------------------
+                       -----------------------
+    4 00000000         ; *      Name:    SVC_TABLE.S
+    5 00000000         ; *      Purpose: Pre-defined SVC Table for Cortex-M
+    6 00000000         ; *      Rev.:    V4.70
+    7 00000000         ; *-----------------------------------------------------
+                       -----------------------
+    8 00000000         ; *
+    9 00000000         ; * Copyright (c) 1999-2009 KEIL, 2009-2017 ARM Germany 
+                       GmbH. All rights reserved.
+   10 00000000         ; *
+   11 00000000         ; * SPDX-License-Identifier: Apache-2.0
+   12 00000000         ; *
+   13 00000000         ; * Licensed under the Apache License, Version 2.0 (the 
+                       License); you may
+   14 00000000         ; * not use this file except in compliance with the Lice
+                       nse.
+   15 00000000         ; * You may obtain a copy of the License at
+   16 00000000         ; *
+   17 00000000         ; * www.apache.org/licenses/LICENSE-2.0
+   18 00000000         ; *
+   19 00000000         ; * Unless required by applicable law or agreed to in wr
+                       iting, software
+   20 00000000         ; * distributed under the License is distributed on an A
+                       S IS BASIS, WITHOUT
+   21 00000000         ; * WARRANTIES OR CONDITIONS OF ANY KIND, either express
+                        or implied.
+   22 00000000         ; * See the License for the specific language governing 
+                       permissions and
+   23 00000000         ; * limitations under the License.
+   24 00000000         ; *-----------------------------------------------------
+                       ----------------------*/
+   25 00000000         
+   26 00000000         
+   27 00000000                 AREA             SVC_TABLE, CODE, READONLY
+   28 00000000         
+   29 00000000                 EXPORT           SVC_Count
+   30 00000000         
+   31 00000000 00000000 
+                       SVC_Cnt EQU              (SVC_End-SVC_Table)/4
+   32 00000000 00000000 
+                       SVC_Count
+                               DCD              SVC_Cnt
+   33 00000004         
+   34 00000004         ; Import user SVC functions here.
+   35 00000004         ;               IMPORT  __SVC_1
+   36 00000004         
+   37 00000004                 EXPORT           SVC_Table
+   38 00000004         SVC_Table
+   39 00000004         ; Insert user SVC functions here. SVC 0 used by RTL Kern
+                       el.
+   40 00000004         ;               DCD     __SVC_1                 ; user S
+                       VC function
+   41 00000004         
+   42 00000004         SVC_End
+   43 00000004         
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   44 00000004                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
+ork --depend=.\output\svc_table.d -o.\output\svc_table.o -IE:\My_GTAProject\Pro
+ject_ShanXiShangWu\Software\MBoard\User\RTE -IE:\My_GTAProject\Project_ShanXiSh
+angWu\Software\MBoard\User\RTE\Device\STM32F103VC -ID:\Keil\Software\ARM\PACK\A
+RM\CMSIS\5.1.0\CMSIS\Driver\Include -ID:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0
+\CMSIS\Include -ID:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\RTOS\RTX\INC -
+ID:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include -ID:\Keil\So
+ftware\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc -ID:\Keil\
+Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver --predefine="__RTX SETA 1
+" --predefine="__UVISION_VERSION SETA 518" --predefine="_RTE_ SETA 1" --predefi
+ne="STM32F10X_HD SETA 1" --list=.\listings\svc_table.lst SVC_Table.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+SVC_Count 00000000
+
+Symbol: SVC_Count
+   Definitions
+      At line 32 in file SVC_Table.s
+   Uses
+      At line 29 in file SVC_Table.s
+Comment: SVC_Count used once
+SVC_End 00000004
+
+Symbol: SVC_End
+   Definitions
+      At line 42 in file SVC_Table.s
+   Uses
+      At line 31 in file SVC_Table.s
+Comment: SVC_End used once
+SVC_TABLE 00000000
+
+Symbol: SVC_TABLE
+   Definitions
+      At line 27 in file SVC_Table.s
+   Uses
+      None
+Comment: SVC_TABLE unused
+SVC_Table 00000004
+
+Symbol: SVC_Table
+   Definitions
+      At line 38 in file SVC_Table.s
+   Uses
+      At line 31 in file SVC_Table.s
+      At line 37 in file SVC_Table.s
+
+4 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+SVC_Cnt 00000000
+
+Symbol: SVC_Cnt
+   Definitions
+      At line 31 in file SVC_Table.s
+   Uses
+      At line 32 in file SVC_Table.s
+Comment: SVC_Cnt used once
+1 symbol
+339 symbols in table

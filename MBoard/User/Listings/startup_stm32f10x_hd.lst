@@ -564,21 +564,17 @@ ARM Macro Assembler    Page 9
               00000200 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
-ork --depend=.\startup_stm32f10x_hd.d -o.\startup_stm32f10x_hd.o -IE:\ÎÒµÄÏîÄ¿¹
-¤³Ì\É½Î÷ÉÌÎñ\Software\MBoard\User\RTE -IE:\ÎÒµÄÏîÄ¿¹¤³Ì\É½Î÷ÉÌÎñ\Software\MBoar
-d\User\RTE\Device\STM32F103VC -IE:\ÎÒµÄÏîÄ¿¹¤³Ì\É½Î÷ÉÌÎñ\Software\MBoard\User\R
-TE\RTOS -ID:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Driver\Include -ID:\K
-eil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include -ID:\Keil\Software\ARM\PACK
-\Keil\STM32F1xx_DFP\2.2.0\Device\Include -ID:\Keil\Software\ARM\PACK\Keil\STM32
-F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc -ID:\Keil\Software\ARM\PACK\Keil\STM
-32F1xx_DFP\2.2.0\RTE_Driver -ID:\Keil\Software\ARM\PACK\Micrium\RTOS\1.0.0\Soft
-ware\uC-CPU -ID:\Keil\Software\ARM\PACK\Micrium\RTOS\1.0.0\Software\uC-CPU\ARM-
-Cortex-M3\RealView -ID:\Keil\Software\ARM\PACK\Micrium\RTOS\1.0.0\Software\uC-L
-IB -ID:\Keil\Software\ARM\PACK\Micrium\RTOS\1.0.0\Software\uCOS-III\Ports\ARM-C
-ortex-M3\Generic\RealView -ID:\Keil\Software\ARM\PACK\Micrium\RTOS\1.0.0\Softwa
-re\uCOS-III\Source --predefine="__UVISION_VERSION SETA 518" --predefine="_RTE_ 
-SETA 1" --predefine="STM32F10X_HD SETA 1" --list=.\listings\startup_stm32f10x_h
-d.lst RTE\Device\STM32F103VC\startup_stm32f10x_hd.s
+ork --depend=.\output\startup_stm32f10x_hd.d -o.\output\startup_stm32f10x_hd.o 
+-IE:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\User\RTE -IE:\My_GTAPr
+oject\Project_ShanXiShangWu\Software\MBoard\User\RTE\Device\STM32F103VC -ID:\Ke
+il\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Driver\Include -ID:\Keil\Software\AR
+M\PACK\ARM\CMSIS\5.1.0\CMSIS\Include -ID:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.
+0\CMSIS\RTOS\RTX\INC -ID:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Devic
+e\Include -ID:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph
+_Driver\inc -ID:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver --p
+redefine="__RTX SETA 1" --predefine="__UVISION_VERSION SETA 518" --predefine="_
+RTE_ SETA 1" --predefine="STM32F10X_HD SETA 1" --list=.\listings\startup_stm32f
+10x_hd.lst RTE\Device\STM32F103VC\startup_stm32f10x_hd.s
 
 
 
@@ -1475,4 +1471,4 @@ Symbol: __use_two_region_memory
       None
 Comment: __use_two_region_memory unused
 3 symbols
-426 symbols in table
+427 symbols in table
