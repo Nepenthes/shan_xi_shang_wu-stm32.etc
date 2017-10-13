@@ -13,13 +13,13 @@
 #define K1	GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_5)		//按键1监测
 #define K2	GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_6)		//按键2监测
 
-#define KEY_TICK						10			 // 按键节拍 / ms
+#define KEY_TICK						30			 // 按键节拍 / ms
 
-#define KEY_COMFIRM					1			 // 按键长按后继续保持确认时长 / ms*KEY_TICK
+#define KEY_COMFIRM					2			 // 按键长按后继续保持确认时长 / ms*KEY_TICK
 
-#define KEY_LONG_PERIOD				200		 // 长按时长定义 / ms*KEY_TICK 二进制8位 最大值254
-#define KEY_KEEP_PERIOD				50			 // 长按保持间隔 / ms*KEY_TICK
-#define KEY_CONTINUE_PERIOD		40		*1000000		// 连按间隔 / us
+#define KEY_LONG_PERIOD				100		 // 长按时长定义 / ms*KEY_TICK 二进制8位 最大值254
+#define KEY_KEEP_PERIOD				20			 // 长按保持间隔 / ms*KEY_TICK
+#define KEY_CONTINUE_PERIOD		50		*1000000		// 连按间隔 / us
 
 #define KEY_VALUE_1	0x0010		//按键键值1
 #define KEY_VALUE_2	0x0020		//按键键值2
