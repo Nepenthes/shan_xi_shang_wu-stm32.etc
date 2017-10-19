@@ -163,12 +163,12 @@ void keyTest_Thread(const void *argument){
 
 /***按键调试（串口1反馈调试信息）****/
 #if(KEY_DEBUG)
-	uint16_t keyVal;
-	uint8_t	kCount;
-	static uint8_t	kCount_rec;
-	const	 uint8_t	tipsLen = 30;
+	uint16_t keyVal;						//按键状态事件
+	uint8_t	kCount;						//按键计数值变量，长按保持计数和连按计数使用同一个变量，因为两个状态不会同时发生
+	static uint8_t	kCount_rec;			//历史计数值保存
+	const	 uint8_t	tipsLen = 30;		//Tips打印字符串长度
 	
-	char	tips[tipsLen];
+	char	tips[tipsLen];					//Tips字符串
 #endif
 
 #if(KEY_DEBUG)
@@ -176,8 +176,8 @@ void keyTest_Thread(const void *argument){
 		
 		keyVal = getKey();
 		
-		memset(tips,0,tipsLen*sizeof(char));
-		strcat(tips,"Tips-");
+		memset(tips,0,tipsLen*sizeof(char));	//每轮Tips打印后清空
+		strcat(tips,"Tips-");						//Tips标识
 		
 		switch(keyVal & 0xf000){
 		
@@ -199,7 +199,7 @@ void keyTest_Thread(const void *argument){
 					
 			case KEY_KEEP		:
 				
-					kCount		= (uint8_t)((keyVal & 0x0f00) >> 8) + '0';
+					kCount		= (uint8_t)((keyVal & 0x0f00) >> 8) + '0';  //获取计数值并转为ASCII
 					kCount_rec	= kCount;
 					switch(keyVal & 0x00f0){
 						
@@ -296,7 +296,7 @@ void keyTest_Thread(const void *argument){
 					
 			case KEY_CONTINUE	:
 				
-					kCount 		= (uint8_t)((keyVal & 0x000f) >> 0) + '0';
+					kCount 		= (uint8_t)((keyVal & 0x000f) >> 0) + '0';	//获取计数值并转为ASCII
 					kCount_rec	= kCount + 1;
 					switch(keyVal & 0x00f0){
 						
