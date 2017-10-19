@@ -28,3 +28,4 @@
 .\output\key&tips.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdbool.h
 .\output\key&tips.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\key&tips.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\string.h
+.\output\key&tips.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdlib.h

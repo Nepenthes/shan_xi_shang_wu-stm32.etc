@@ -13,7 +13,7 @@
 #define K1	GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_5)		//按键1监测
 #define K2	GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_6)		//按键2监测
 
-#define KEY_TICK						30			 // 按键节拍 / ms
+#define KEY_TICK						20			 // 按键节拍 / ms
 
 #define KEY_COMFIRM					2			 // 按键长按后继续保持确认时长 / ms*KEY_TICK
 
@@ -30,6 +30,7 @@
 #define KEY_KEEP		0x4000		//按键状态：按键长按后保持
 #define KEY_UP			0x5000		//按键状态：按键弹起
 #define KEY_NULL		0x6000		//按键状态：无按键事件
+#define KEY_CTOVER	0x7000		//按键状态：连按结束
 
 #define KEY_STATE_INIT		0x0100	//检测状态机状态：初始化
 #define KEY_STATE_WOBBLE	0x0200	//检测状态机状态：消抖检测
@@ -40,6 +41,10 @@
 #define KEY_STATE_RELEASE	0x0700	//检测状态机状态：按键释放检测
 
 #define KEY_STATE_RECORD	0x0800	//检测状态机状态：按键记录及连按确认检测
+
+#define KEY_OVER_SHORT		0x01
+#define KEY_OVER_LONG		0x02
+#define KEY_OVER_KEEP		0x03
 
 void keyInit(void);
 void keyTest_Thread(const void *argument);

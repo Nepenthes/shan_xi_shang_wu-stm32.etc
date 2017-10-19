@@ -1,11 +1,17 @@
 #include <Key&Tips.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
-extern ARM_DRIVER_USART Driver_USART1;						//设备驱动库串口一设备声明
+extern ARM_DRIVER_USART Driver_USART1;								//设备驱动库串口一设备声明
 
-osThreadId tid_keyTest_Thread;								//按键监测主线程ID
+osThreadId tid_keyTest_Thread;										//按键监测主线程ID
 osThreadDef(keyTest_Thread,osPriorityAboveNormal,1,1024);	//按键监测主线程定义
+
+static	uint8_t 	keyOverFlg 	= 	0;				//按键事件结束标志
+static	uint16_t	sKeyCount	=	0;				//连续短按	 计数值
+static	uint16_t	sKeyKeep		=	0;				//长按并保持 计数值
+static	uint8_t	keyCTflg		=  0;				//按键连按标志
 
 /***按键外设初始化***/
 void keyInit(void){	
@@ -33,8 +39,6 @@ uint16_t getKey(void){
 
 	static	uint16_t s_u16KeyState 		= KEY_STATE_INIT;		//状态机检测状态，初始化状态
 	static	uint16_t	s_u16LastKey		= KEY_NULL;				//保留历史按键键值	
-	static	uint16_t	sKeyCount			= 0;						//连续短按计数值
-	static	uint16_t	sKeyKeep				= 0;						//长按并保持 计数值
 	static	uint8_t	KeyKeepComfirm		= 0;						//长按后确认保持 确认所用时长计时
 	static	uint16_t	s_u16KeyTimeCount	= 0;						//长按时长定义（用来对KEY_TICK进行计数，根据这个计数值来确认是否属于长按）
 				uint16_t keyTemp				= KEY_NULL;				//十六进制第一位：按键状态；第二位：保持计数值；第三位：键值；第四位：连按计数值
@@ -46,6 +50,16 @@ uint16_t getKey(void){
 	switch(s_u16KeyState){	//获取状态机状态
 	
 		case KEY_STATE_INIT:	//初始化状态
+			
+				if(keyCTflg){	//检测上一次是否为连按
+				
+					if((osKernelSysTick() - osTick_last) > KEY_CONTINUE_PERIOD){	//上一次是连按则检测本次是否继续连按
+					
+						keyTemp	= s_u16LastKey & 0x00f0;	//本次不是连按，处理返回值为连按结束状态，同时连按标志位清零
+						keyTemp |= KEY_CTOVER;
+						keyCTflg = 0;	
+					}
+				}
 		
 				if(KEY_NULL != keyTemp)s_u16KeyState = KEY_STATE_WOBBLE;	//检测到有按键，切换状态到抖动检测
 				break;
@@ -57,7 +71,7 @@ uint16_t getKey(void){
 		
 		case KEY_STATE_PRESS:	//短按状态检测
 		
-				if(KEY_NULL != keyTemp){	//按键是否弹起？
+				if(KEY_NULL != keyTemp){		//按键是否弹起？
 				
 					s_u16LastKey 	= keyTemp;	//存储按键键值
 					keyTemp 		  |= KEY_DOWN;	//按键状态确认为按下
@@ -79,7 +93,9 @@ uint16_t getKey(void){
 						KeyKeepComfirm		= 0;			//检测状态机切换状态前，对保持确认状态所需计数值提前清零，本数值用于定义长按后多久进行保持计数
 						keyTemp			  |= KEY_LONG;	//按键状态确认为长按
 						s_u16KeyState		= KEY_STATE_KEEP;	//按键依然未弹起，切换状态到长按保持检测
-					}
+						
+						keyOverFlg			= KEY_OVER_LONG;	//长按
+					}else	keyOverFlg	= KEY_OVER_SHORT;		//短按
 				}else{
 				
 					s_u16KeyState		= KEY_STATE_RELEASE;	//检测确认为长按后按键弹起，切换状态到弹起检测
@@ -99,7 +115,8 @@ uint16_t getKey(void){
 						
 							keyTemp	|= sKeyKeep << 8;		//保持计数数据左移8位放在十六进制keyTemp第二位
 							keyTemp	|= KEY_KEEP;			//按键状态确认为长按后继续保持
-						}				
+						}		
+						keyOverFlg	 = KEY_OVER_KEEP;
 					}
 				}else{
 				
@@ -118,11 +135,15 @@ uint16_t getKey(void){
 
 				if((osKernelSysTick() - osTick_last) < KEY_CONTINUE_PERIOD){	//若两次按键弹起时间间隔小于规定值，则判断为连按
 					
-					sKeyCount++;	//连按计数							
-				}else sKeyCount = 0;	//连按断开，计数清零
+					sKeyCount++;	//连按计数		
+				}else{
+					
+					sKeyCount = 0;	//连按断开，计数清零
+				}
 				
 				if(sKeyCount){		//若连按次数不为零，即确认为按键连按，对返回值进行相应处理
 													
+					keyCTflg	= 1;	//打开连按标志
 					keyTemp	= s_u16LastKey & 0x00f0;	//提取键值
 					keyTemp	|=	KEY_CONTINUE;				//确认为按键连按
 					if(sKeyCount < 15)keyTemp += sKeyCount;	//连按计数数据放在十六进制keyTemp第四位（最低位）
@@ -144,7 +165,8 @@ void keyTest_Thread(const void *argument){
 #if(KEY_DEBUG)
 	uint16_t keyVal;
 	uint8_t	kCount;
-	const	uint8_t	tipsLen = 30;
+	static uint8_t	kCount_rec;
+	const	 uint8_t	tipsLen = 30;
 	
 	char	tips[tipsLen];
 #endif
@@ -177,7 +199,8 @@ void keyTest_Thread(const void *argument){
 					
 			case KEY_KEEP		:
 				
-					kCount = (uint8_t)((keyVal & 0x0f00) >> 8) + '0';
+					kCount		= (uint8_t)((keyVal & 0x0f00) >> 8) + '0';
+					kCount_rec	= kCount;
 					switch(keyVal & 0x00f0){
 						
 						case KEY_VALUE_1:	strcat(tips,"按键1长按保持，保持计数：");	
@@ -200,11 +223,11 @@ void keyTest_Thread(const void *argument){
 				
 					switch(keyVal & 0x00f0){
 						
-						case KEY_VALUE_1:	strcat(tips,"按键1短按\r\n");	
+						case KEY_VALUE_1:	strcat(tips,"按键1按下\r\n");	
 												Driver_USART1.Send(tips,strlen(tips));	
 												break;
 						
-						case KEY_VALUE_2:	strcat(tips,"按键2短按\r\n");	
+						case KEY_VALUE_2:	strcat(tips,"按键2按下\r\n");	
 												Driver_USART1.Send(tips,strlen(tips));
 												break;
 									default:	break;
@@ -215,21 +238,66 @@ void keyTest_Thread(const void *argument){
 				
 					switch(keyVal & 0x00f0){
 						
-						case KEY_VALUE_1:	strcat(tips,"按键1弹起\r\n");	
-												Driver_USART1.Send(tips,strlen(tips));	
-												break;
+						case KEY_VALUE_1:	
+								
+								switch(keyOverFlg){
+								
+								
+									case KEY_OVER_SHORT		:	strcat(tips,"按键1短按后弹起\r\n");	
+																		Driver_USART1.Send(tips,strlen(tips));
+																		keyOverFlg = 0;
+																		break;
+									
+									case KEY_OVER_LONG		:	strcat(tips,"按键1长按后弹起\r\n");	
+																		Driver_USART1.Send(tips,strlen(tips));
+																		keyOverFlg = 0;
+																		break;
+									
+									case KEY_OVER_KEEP		:	strcat(tips,"按键1长按后保持");
+																		strcat(tips,(const char*)&kCount_rec);
+																		strcat(tips,"次计数后结束\r\n");
+																		Driver_USART1.Send(tips,strlen(tips));
+																		kCount_rec = 0;
+																		break;			
+									default:break;
+								}
+								break;
+							
 						
-						case KEY_VALUE_2:	strcat(tips,"按键2弹起\r\n");	
-												Driver_USART1.Send(tips,strlen(tips));	
-												break;
 						
-									default:	break;
+						case KEY_VALUE_2:	
+								
+								switch(keyOverFlg){
+								
+								
+									case KEY_OVER_SHORT		:	strcat(tips,"按键2短按后弹起\r\n");	
+																		Driver_USART1.Send(tips,strlen(tips));
+																		keyOverFlg = 0;
+																		break;
+									
+									case KEY_OVER_LONG		:	strcat(tips,"按键2长按后弹起\r\n");	
+																		Driver_USART1.Send(tips,strlen(tips));
+																		keyOverFlg = 0;
+																		break;
+									
+									case KEY_OVER_KEEP		:	strcat(tips,"按键2长按后保持");
+																		strcat(tips,(const char*)&kCount_rec);
+																		strcat(tips,"次计数后结束\r\n");
+																		Driver_USART1.Send(tips,strlen(tips));
+																		kCount_rec = 0;
+																		break;	
+									default:break;
+								}
+								break;
+								
+						default:break;
 					}
 					break;
 					
 			case KEY_CONTINUE	:
 				
-					kCount = (uint8_t)((keyVal & 0x000f) >> 0) + '0';
+					kCount 		= (uint8_t)((keyVal & 0x000f) >> 0) + '0';
+					kCount_rec	= kCount + 1;
 					switch(keyVal & 0x00f0){
 						
 						case KEY_VALUE_1:	strcat(tips,"按键1连按，连按计数：");	
@@ -241,12 +309,35 @@ void keyTest_Thread(const void *argument){
 						case KEY_VALUE_2:	strcat(tips,"按键2连按，连按计数：");	
 												strcat(tips,(const char*)&kCount);	
 												strcat(tips,"\r\n");	
-												Driver_USART1.Send(tips,strlen(tips));		
+												Driver_USART1.Send(tips,strlen(tips));											
 												break;
 						
 									default:	break;
 					}
 					break;
+					
+			case KEY_CTOVER	:
+				
+					switch(keyVal & 0x00f0){
+					
+					
+						case KEY_VALUE_1:	strcat(tips,"按键1连按");
+												strcat(tips,(const char*)&kCount_rec);
+												strcat(tips,"次后结束\r\n");
+												Driver_USART1.Send(tips,strlen(tips));
+												kCount_rec = 0;
+												break;
+						
+						case KEY_VALUE_2:	strcat(tips,"按键2连按");
+												strcat(tips,(const char*)&kCount_rec);
+												strcat(tips,"次后结束\r\n");
+												Driver_USART1.Send(tips,strlen(tips));
+												kCount_rec = 0;
+												break;
+						
+									default:	break;
+					}
+					
 					
 			default:break;
 		}

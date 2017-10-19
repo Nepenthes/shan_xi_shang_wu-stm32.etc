@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Output\Mboard.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Output\Mboard.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060061: Last Updated: Fri Oct 13 14:52:58 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060061: Last Updated: Thu Oct 19 16:40:41 2017
 <BR><P>
 <H3>Maximum Stack Usage =        108 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -911,7 +911,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_switch_req
 </UL>
 
-<P><STRONG><a name="[c9]"></a>getKey</STRONG> (Thumb, 408 bytes, Stack size 8 bytes, key&tips.o(i.getKey))
+<P><STRONG><a name="[c9]"></a>getKey</STRONG> (Thumb, 476 bytes, Stack size 8 bytes, key&tips.o(i.getKey))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = getKey &rArr; keyScan
 </UL>
 <BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osKernelSysTick
@@ -972,7 +972,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[63]"></a>keyTest_Thread</STRONG> (Thumb, 542 bytes, Stack size 40 bytes, key&tips.o(i.keyTest_Thread))
+<P><STRONG><a name="[63]"></a>keyTest_Thread</STRONG> (Thumb, 922 bytes, Stack size 40 bytes, key&tips.o(i.keyTest_Thread))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = keyTest_Thread &rArr; getKey &rArr; keyScan
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getKey
@@ -1498,10 +1498,10 @@ Global Symbols
 <P><STRONG><a name="[53]"></a>svcKernelInitialize</STRONG> (Thumb, 80 bytes, Stack size 8 bytes, rt_cmsis.o(i.svcKernelInitialize))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = svcKernelInitialize &rArr; svcThreadCreate &rArr; rt_tsk_create &rArr; rt_init_context &rArr; rt_init_stack
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;svcMessageCreate
-<LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_sys_init
+<BR>[Calls]<UL><LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_sys_init
 <LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_init_mem
 <LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;svcThreadCreate
+<LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;svcMessageCreate
 </UL>
 <BR>[Called By]<UL><LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osKernelInitialize
 </UL>
@@ -1856,8 +1856,8 @@ Local Symbols
 </UL>
 
 <P><STRONG><a name="[fb]"></a>rt_ms2tick</STRONG> (Thumb, 58 bytes, Stack size 0 bytes, rt_cmsis.o(i.rt_ms2tick))
-<BR><BR>[Called By]<UL><LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;svcMessageGet
-<LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;svcDelay
+<BR><BR>[Called By]<UL><LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;svcDelay
+<LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;svcMessageGet
 </UL>
 
 <P><STRONG><a name="[106]"></a>rt_tid2ptcb</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, rt_cmsis.o(i.rt_tid2ptcb))

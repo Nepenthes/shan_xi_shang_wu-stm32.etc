@@ -29,7 +29,7 @@ I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Driver\Include\Driver_Common.
 I (D:\Keil\Software\ARM\ARMCC\include\stdbool.h)(0x569DEA3A)
 I (..\Module\Transmitter_USART\WirelessTrans_USART.h)(0x59DE6C24)
 I (D:\Keil\Software\ARM\ARMCC\include\string.h)(0x569DEA3A)
-I (..\Module\KEY&TIPS\Key&Tips.h)(0x59E06267)
+I (..\Module\KEY&TIPS\Key&Tips.h)(0x59E864C6)
 F (.\main.c)(0x59DE6C24)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\..\MBoard -I ..\User -I ..\Module -I ..\Module\Actuator -I ..\Module\DATS -I ..\Module\KEY&TIPS -I ..\Module\LCD -I ..\Module\Sensor_Analog -I ..\Module\Sensor_Digital -I ..\Module\Transmitter_USART --locale=english-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\User\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\User\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\output\main.o --omf_browse .\output\main.crf --depend .\output\main.d)
 I (includes.h)(0x59DE6C24)
 I (Bsp.h)(0x59DE6C24)
@@ -61,7 +61,7 @@ I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Driver\Include\Driver_Common.
 I (D:\Keil\Software\ARM\ARMCC\include\stdbool.h)(0x569DEA3A)
 I (..\Module\Transmitter_USART\WirelessTrans_USART.h)(0x59DE6C24)
 I (D:\Keil\Software\ARM\ARMCC\include\string.h)(0x569DEA3A)
-I (..\Module\KEY&TIPS\Key&Tips.h)(0x59E06267)
+I (..\Module\KEY&TIPS\Key&Tips.h)(0x59E864C6)
 F (.\stm32f10x_it.c)(0x59DE6C24)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\..\MBoard -I ..\User -I ..\Module -I ..\Module\Actuator -I ..\Module\DATS -I ..\Module\KEY&TIPS -I ..\Module\LCD -I ..\Module\Sensor_Analog -I ..\Module\Sensor_Digital -I ..\Module\Transmitter_USART --locale=english-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\User\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\User\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\output\stm32f10x_it.o --omf_browse .\output\stm32f10x_it.crf --depend .\output\stm32f10x_it.d)
 I (stm32f10x_it.h)(0x59DE6C24)
 I (D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include\stm32f10x.h)(0x5825386C)
@@ -139,8 +139,8 @@ I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Driver\Include\Driver_USART.h
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Driver\Include\Driver_Common.h)(0x58AA9904)
 I (D:\Keil\Software\ARM\ARMCC\include\stdbool.h)(0x569DEA3A)
 I (D:\Keil\Software\ARM\ARMCC\include\string.h)(0x569DEA3A)
-F (..\Module\KEY&TIPS\Key&Tips.c)(0x59DE6C24)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\..\MBoard -I ..\User -I ..\Module -I ..\Module\Actuator -I ..\Module\DATS -I ..\Module\KEY&TIPS -I ..\Module\LCD -I ..\Module\Sensor_Analog -I ..\Module\Sensor_Digital -I ..\Module\Transmitter_USART --locale=english-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\User\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\User\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\output\key&tips.o --omf_browse .\output\key&tips.crf --depend .\output\key&tips.d)
-I (..\Module\KEY&TIPS\Key&Tips.h)(0x59E06267)
+F (..\Module\KEY&TIPS\Key&Tips.c)(0x59E86508)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\..\MBoard -I ..\User -I ..\Module -I ..\Module\Actuator -I ..\Module\DATS -I ..\Module\KEY&TIPS -I ..\Module\LCD -I ..\Module\Sensor_Analog -I ..\Module\Sensor_Digital -I ..\Module\Transmitter_USART --locale=english-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\User\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\User\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\output\key&tips.o --omf_browse .\output\key&tips.crf --depend .\output\key&tips.d)
+I (..\Module\KEY&TIPS\Key&Tips.h)(0x59E864C6)
 I (D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include\stm32f10x.h)(0x5825386C)
 I (E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\User\RTE\RTE_Components.h)(0x59E0617A)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\core_cm3.h)(0x59840DC6)
@@ -168,6 +168,7 @@ I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Driver\Include\Driver_Common.
 I (D:\Keil\Software\ARM\ARMCC\include\stdbool.h)(0x569DEA3A)
 I (D:\Keil\Software\ARM\ARMCC\include\stdio.h)(0x569DEA3A)
 I (D:\Keil\Software\ARM\ARMCC\include\string.h)(0x569DEA3A)
+I (D:\Keil\Software\ARM\ARMCC\include\stdlib.h)(0x569DEA3A)
 F (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Lib\ARM\arm_cortexM3l_math.lib)(0x58AA9906)()
 F (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\RTOS\RTX\LIB\ARM\RTX_CM3.lib)(0x58AA9908)()
 F (RTE\CMSIS\RTX_Conf_CM.c)(0x59DE6C24)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\..\MBoard -I ..\User -I ..\Module -I ..\Module\Actuator -I ..\Module\DATS -I ..\Module\KEY&TIPS -I ..\Module\LCD -I ..\Module\Sensor_Analog -I ..\Module\Sensor_Digital -I ..\Module\Transmitter_USART --locale=english-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\User\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\User\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\output\rtx_conf_cm.o --omf_browse .\output\rtx_conf_cm.crf --depend .\output\rtx_conf_cm.d)
