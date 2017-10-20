@@ -2326,7 +2326,7 @@ Image component sizes
         20          0          0          0          0     242709   bsp.o
        368         50          0          0          0      12235   dma_stm32f10x.o
        744         76          0          0          0       6321   gpio_stm32f10x.o
-      1888        400         16         25          0       4424   key&tips.o
+      1888        400         16         25          0       4420   key&tips.o
         32          0          0          0          0        507   main.o
        126         26        104         20       7872       9215   rtx_conf_cm.o
         64         26        304          0       1536        824   startup_stm32f10x_hd.o
@@ -2341,7 +2341,7 @@ Image component sizes
        382         86         77         12         16       3841   wirelesstrans_usart.o
 
     ----------------------------------------------------------------------
-     10008        942        692         92       9508     353516   Object Totals
+     10008        942        692         92       9508     353512   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         34          0          3          3          4          0   (incl. Padding)
 
@@ -2411,8 +2411,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     16528       1544        692        132       9708     427469   Grand Totals
-     16528       1544        692        132       9708     427469   ELF Image Totals
+     16528       1544        692        132       9708     427465   Grand Totals
+     16528       1544        692        132       9708     427465   ELF Image Totals
      16528       1544        692        132          0          0   ROM Totals
 
 ==============================================================================

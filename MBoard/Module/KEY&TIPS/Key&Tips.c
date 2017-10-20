@@ -113,10 +113,10 @@ uint16_t getKey(void){
 						if(sKeyKeep < 15 && KeyKeepComfirm > KEY_COMFIRM)sKeyKeep++; 	//检测到允许计数，执行长按后保持计数
 						if(sKeyKeep){		//检测到长按后保持计数值不为零，即确认按键状态为长按后继续保持，对返回值进行相应确认处理
 						
+							keyOverFlg	 = KEY_OVER_KEEP;	//状态确认为长按后为保持
 							keyTemp	|= sKeyKeep << 8;		//保持计数数据左移8位放在十六进制keyTemp第二位
 							keyTemp	|= KEY_KEEP;			//按键状态确认为长按后继续保持
 						}		
-						keyOverFlg	 = KEY_OVER_KEEP;
 					}
 				}else{
 				
