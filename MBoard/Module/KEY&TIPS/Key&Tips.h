@@ -10,8 +10,8 @@
 
 #define KEY_DEBUG		1		//是否开启按键调试（串口1反馈调试信息）
 
-#define K1	GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_5)		//按键1监测
-#define K2	GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_6)		//按键2监测
+#define K1	GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_11)		//按键1监测
+#define K2	GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_12)		//按键2监测
 
 #define KEY_TICK						20			 // 按键节拍 / (ms)
 
@@ -19,7 +19,7 @@
 
 #define KEY_LONG_PERIOD				150		 // 长按时长定义 / 乘以KEY_TICK(ms) 二进制8位 最大值254
 #define KEY_KEEP_PERIOD				40			 // 长按保持间隔 / 乘以KEY_TICK(ms)
-#define KEY_CONTINUE_PERIOD		50		*1000000		// 连按间隔 / (us)
+#define KEY_CONTINUE_PERIOD		40		*1000000		// 连按间隔 / (us)
 
 #define KEY_VALUE_1	0x0010		//按键键值1
 #define KEY_VALUE_2	0x0020		//按键键值2
@@ -45,6 +45,32 @@
 #define KEY_OVER_SHORT		0x01
 #define KEY_OVER_LONG		0x02
 #define KEY_OVER_KEEP		0x03
+
+typedef void (* funEventKey)(void);
+
+typedef void (* funKeyInit)(void);
+typedef uint16_t (*funKeyScan)(void);
+
+typedef struct keyStatus{
+
+	uint8_t 	keyOverFlg;			//按键事件结束标志
+	uint16_t	sKeyCount;			//连续短按	 计数值
+	uint16_t	sKeyKeep;			//长按并保持 计数值
+	uint8_t	keyCTflg;			//按键连按标志
+}Obj_keyStatus;
+
+typedef struct keyEvent{		//创建一个按键检测线程对象封装
+
+	funKeyInit keyInit;			//按键引脚初始化
+	funKeyScan keyScan;			//按键键值及状态扫描
+	/*想要哪个事件就创建对应函数进行赋值即可*/
+	funEventKey funKeyLONG[16];	//长按事件
+	funEventKey funKeySHORT[16];	//短按事件
+	funEventKey funKeyCONTINUE[16][8];	//长按保持事件
+	funEventKey funKeyKEEP[16][8];	//连按事件
+}Obj_eventKey;
+
+typedef void (* funkeyThread)(funKeyInit keyInit,funKeyScan keyScan,Obj_eventKey keyEvent);
 
 void keyInit(void);
 void keyTest_Thread(const void *argument);

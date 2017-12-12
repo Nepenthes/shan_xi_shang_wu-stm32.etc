@@ -99,8 +99,8 @@ void USARTTest_Thread(const void *argument){
 
 		osDelay(10);													//必需延时，防乱序
 		Driver_USART1.Receive(cmd,strlen(TestCMD[0]));
-		if(strstr(cmd,TestCMD[0])){								//子串比较
-		//if(!strcmp(TestCMD[0],cmd)){							//全等比较
+		//if(strstr(cmd,TestCMD[0])){								//子串比较
+		if(!strcmp(TestCMD[0],cmd)){							//全等比较
 		
 			if (uart_mutex_id != NULL){
 				
