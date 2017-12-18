@@ -30,3 +30,4 @@
 .\objects\wirelesstrans_usart.o: D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include\Driver_Common.h
 .\objects\wirelesstrans_usart.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\wirelesstrans_usart.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\string.h
+.\objects\wirelesstrans_usart.o: ..\Module\KEY&TIPS\Key&Tips.h

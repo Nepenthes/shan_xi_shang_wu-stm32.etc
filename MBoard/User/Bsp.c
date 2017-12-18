@@ -31,9 +31,7 @@
 
 void  BSP_Init (void)
 {
+	bsp_delayinit	();
 	
 	testInit		();
-	USARTInit1	();
-	USARTInit2	();
-	keyInit		();
 }

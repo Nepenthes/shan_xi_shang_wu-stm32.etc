@@ -1,4 +1,4 @@
-#include "Test.h"
+#include "Tips.h"
 
 void testInit (void){
 
@@ -9,7 +9,7 @@ void testInit (void){
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;			//最高输出速率50MHz
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;			//推挽输出
 	GPIO_Init(GPIOE, &GPIO_InitStructure);							//初始化外设GPIOx寄存器
-	GPIO_WriteBit(GPIOE, GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5, Bit_SET);
+	GPIO_WriteBit(GPIOE, GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15, Bit_SET);
 }
 
 osThreadId tid1,tid2,tid3;
@@ -37,6 +37,8 @@ void LEDTest (void) {
 
 void Task0 (void const *argument){
 	
+	u32 time;
+	
 	osTimerId	 Tim_id0;
 	
 	Tim_id0 = osTimerCreate(osTimer(Tim0), osTimerPeriodic, &TTask0);
@@ -45,10 +47,21 @@ void Task0 (void const *argument){
 	
 	while(1){
 	
-		LED1_0;
-		osDelay(200);
-		LED1_1;
-		osDelay(100);
+		for(time = 0;time < 500;time ++){
+		
+			LED1_0;
+			delay_us(time);
+			LED1_1;
+			delay_us(500 - time);
+		}
+		
+		for(time = 0;time < 500;time ++){
+		
+			LED1_0;
+			delay_us(500 - time);
+			LED1_1;
+			delay_us(time);
+		}
 	}
 }
 

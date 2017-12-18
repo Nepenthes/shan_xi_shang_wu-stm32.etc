@@ -1,11 +1,13 @@
-#ifndef TEST_H
-#define TEST_H
+#ifndef _TIPS_H__
+#define _TIPS_H__
 
 #define osObjectsPublic                     // define objects in main module
 
 #include "stm32f10x.h"
 #include "osObjects.h"                      // RTOS object definitions
 #include "Driver_USART.h"
+
+#include "delay.h"
 
 #define LED1_0		GPIO_WriteBit(GPIOE, GPIO_Pin_13, Bit_SET)
 #define LED1_1		GPIO_WriteBit(GPIOE, GPIO_Pin_13, Bit_RESET)

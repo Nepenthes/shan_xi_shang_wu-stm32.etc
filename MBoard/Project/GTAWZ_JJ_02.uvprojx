@@ -332,7 +332,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\User;..\User\reWrite;..\Module;..\Module\KEY&amp;TIPS;..\Module\Transmitter_USART;..\Module\Infra_Trans;..\备忘录</IncludePath>
+              <IncludePath>..\User;..\User\reWrite;..\Module;..\Module\LCD(1.44inches);..\Module\KEY&amp;TIPS;..\Module\Finger_ID;..\Module\Transmitter_USART;..\Module\Infra_Trans;..\备忘录</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -391,24 +391,37 @@
               <FilePath>..\User\stm32f10x_it.c</FilePath>
             </File>
             <File>
-              <FileName>Test.c</FileName>
+              <FileName>delay.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Module\Test.c</FilePath>
+              <FilePath>..\User\delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>Tips.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Tips.c</FilePath>
+            </File>
+            <File>
+              <FileName>Moudle_DEC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Moudle_DEC.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
           <GroupName>传感器构件</GroupName>
+        </Group>
+        <Group>
+          <GroupName>显示构件</GroupName>
           <Files>
             <File>
-              <FileName>WirelessTrans_USART.c</FileName>
+              <FileName>LCD_1.44.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Module\Transmitter_USART\WirelessTrans_USART.c</FilePath>
+              <FilePath>..\Module\LCD(1.44inches)\LCD_1.44.c</FilePath>
             </File>
             <File>
-              <FileName>infraTrans.c</FileName>
+              <FileName>GUI_1.44.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Module\Infra_Trans\infraTrans.c</FilePath>
+              <FilePath>..\Module\LCD(1.44inches)\GUI_1.44.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -420,10 +433,27 @@
               <FileType>1</FileType>
               <FilePath>..\Module\KEY&amp;TIPS\Key&amp;Tips.c</FilePath>
             </File>
+            <File>
+              <FileName>infraTrans.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Infra_Trans\infraTrans.c</FilePath>
+            </File>
+            <File>
+              <FileName>finger_ID.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Finger_ID\finger_ID.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>通讯构件</GroupName>
+          <Files>
+            <File>
+              <FileName>dataTrans_USART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Transmitter_USART\dataTrans_USART.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>系统驱动文件改写</GroupName>

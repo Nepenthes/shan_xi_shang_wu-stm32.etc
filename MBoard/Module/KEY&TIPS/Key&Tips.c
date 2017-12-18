@@ -5,8 +5,10 @@
 
 extern ARM_DRIVER_USART Driver_USART1;								//设备驱动库串口一设备声明
 
-osThreadId tid_keyTest_Thread;										//按键监测主线程ID
-osThreadDef(keyTest_Thread,osPriorityAboveNormal,1,4096);	//按键监测主线程定义
+osThreadId tid_keyMboard_Thread;										//按键监测主线程ID
+osThreadDef(keyMboard_Thread,osPriorityAboveNormal,1,1536);	//按键监测主线程定义
+
+typedef void (* funkeyThread)(funKeyInit key_Init,Obj_keyStatus *orgKeyStatus,funKeyScan key_Scan,Obj_eventKey keyEvent,const char *Tips_head);
 
 /***按键外设初始化***/
 void keyInit(void){	
@@ -30,7 +32,7 @@ static uint16_t keyScan(void){
 }
 
 /***按键检测状态机***/
-uint16_t getKey(Obj_keyStatus *orgKeyStatus,funKeyScan keyScan){
+static uint16_t getKey(Obj_keyStatus *orgKeyStatus,funKeyScan keyScan){
 
 	static	uint16_t s_u16KeyState 		= KEY_STATE_INIT;		//状态机检测状态，初始化状态
 	static	uint16_t	s_u16LastKey		= KEY_NULL;				//保留历史按键键值	
@@ -153,50 +155,77 @@ uint16_t getKey(Obj_keyStatus *orgKeyStatus,funKeyScan keyScan){
 	return keyTemp;	//返回按键状态和键值
 }
 
-void key_Thread(funKeyInit key_Init,Obj_keyStatus *orgKeyStatus,funKeyScan key_Scan,Obj_eventKey keyEvent){
+/*按键初始化函数，按键状态缓存结构体，按键扫描函数，按键触发事件函数表，按键提示信息头*/
+void key_Thread(funKeyInit key_Init,
+					 Obj_keyStatus *orgKeyStatus,
+					 funKeyScan key_Scan,Obj_eventKey keyEvent,
+					 const char *Tips_head){
 	
 /***按键调试（串口1反馈调试信息）****/
-	uint16_t keyVal;						//按键状态事件
-	uint8_t	key_temp;					//按键键值缓冲
-	uint8_t	kCount;						//按键计数值变量，长按保持计数和连按计数使用同一个变量，因为两个状态不会同时发生
+	static uint16_t keyVal;						//按键状态事件
+	static uint8_t	key_temp;					//按键键值缓冲
+	static uint8_t	kCount;						//按键计数值变量，长按保持计数和连按计数使用同一个变量，因为两个状态不会同时发生
 	static uint8_t	kCount_rec;			//历史计数值保存
-#if(KEY_DEBUG)
-	const	 uint8_t	tipsLen = 30;		//Tips打印字符串长度
-	char	key_tempDisp;
-	char	kCountDisp;
-	char	kCount_recDisp;
-	char	tips[tipsLen];					//Tips字符串
-#endif
+	
+	static osThreadId ID_Temp;					//当前线程ID缓存
+	static osEvent evt;
+	static uint8_t KEY_DEBUG_FLG = 0;
+
+	const	 uint8_t	tipsLen = 80;		//Tips打印字符串长度
+	static char	key_tempDisp;
+	static char	kCountDisp;
+	static char	kCount_recDisp;
+	static char	tips[tipsLen];					//Tips字符串
 	
 	key_Init();
 
 	for(;;){
 		
 		keyVal = getKey(orgKeyStatus,key_Scan);    //获取键值
-#if(KEY_DEBUG)	
+		
+		ID_Temp = osThreadGetId();
+		evt = osSignalWait (KEY_DEBUG_OFF, 1);		 //获取Debug_log输出权限信号
+		if (evt.value.signals == KEY_DEBUG_OFF){
+		
+			KEY_DEBUG_FLG = 0;
+			osSignalClear(ID_Temp ,KEY_DEBUG_OFF);
+		}else{
+		
+			evt = osSignalWait (KEY_DEBUG_ON, 1);
+			if (evt.value.signals == KEY_DEBUG_ON){
+			
+				KEY_DEBUG_FLG = 1;
+				osSignalClear(ID_Temp ,KEY_DEBUG_ON);
+			}		
+		}  
+		
+if(KEY_DEBUG_FLG){
+	
 		memset(tips,0,tipsLen*sizeof(char));	//每轮Tips打印后清空
-		strcat(tips,"Tips-");						//Tips标识
-#endif
+		strcat(tips,"Tips:");						//Tips标识
+		strcat(tips,Tips_head);
+		strcat(tips,"-");
+}
 /*------------------------------------------------------------------------------------------------------------------------------*/		
 		switch(keyVal & 0xf000){
 		
 			case KEY_LONG		:	
 				
 					key_temp = (uint8_t)((keyVal & 0x00f0) >> 4);
-#if(KEY_DEBUG)				
+if(KEY_DEBUG_FLG){/*Debug_log输出使能*/
 					strcat(tips,"按键");	
 					key_tempDisp = key_temp + '0';
 					strcat(tips,(const char*)&key_tempDisp);
 					strcat(tips,"长按\r\n");	
 					Driver_USART1.Send(tips,strlen(tips));	
-#endif
+}/***/
 					break;
 					
 			case KEY_KEEP		:
 				
 					kCount		= (uint8_t)((keyVal & 0x0f00) >> 8);  //获取计数值
 					kCount_rec	= kCount;
-#if(KEY_DEBUG)					
+if(KEY_DEBUG_FLG){/*Debug_log输出使能*/					
 					strcat(tips,"按键");	
 					key_tempDisp = key_temp + '0';
 					strcat(tips,(const char*)&key_tempDisp);
@@ -205,60 +234,60 @@ void key_Thread(funKeyInit key_Init,Obj_keyStatus *orgKeyStatus,funKeyScan key_S
 					strcat(tips,(const char*)&kCountDisp);	
 					strcat(tips,"\r\n");	
 					Driver_USART1.Send(tips,strlen(tips));	
-#endif			
+}/***/		
 					break;
 					
 			case KEY_DOWN		:
 				
 					key_temp = (uint8_t)((keyVal & 0x00f0) >> 4);
-#if(KEY_DEBUG)				
+if(KEY_DEBUG_FLG){/*Debug_log输出使能*/				
 					strcat(tips,"按键");	
 					key_tempDisp = key_temp + '0';
 					strcat(tips,(const char*)&key_tempDisp);	
 					strcat(tips,"按下\r\n");	
 					Driver_USART1.Send(tips,strlen(tips));
-#endif			
+}/***/			
 					break;
 					
 			case KEY_UP			:
-#if(KEY_DEBUG)					
+if(KEY_DEBUG_FLG){/*Debug_log输出使能*/			
 					strcat(tips,"按键");	
 					key_tempDisp = key_temp + '0';
 					strcat(tips,(const char*)&key_tempDisp);	
-#endif						
+}/***/						
 					switch(orgKeyStatus->keyOverFlg){
 
 							case KEY_OVER_SHORT		:	
 								
 								   if(keyEvent.funKeySHORT[key_temp])keyEvent.funKeySHORT[key_temp]();		//按键事件触发，先检测触发事件是否创建，没创建则不进行触发
-#if(KEY_DEBUG)									
+if(KEY_DEBUG_FLG){/*Debug_log输出使能*/								
 									strcat(tips,"短按后弹起\r\n");	
 									Driver_USART1.Send(tips,strlen(tips));
 									orgKeyStatus->keyOverFlg = 0;
-#endif							
+}/***/							
 									break;
 
 							case KEY_OVER_LONG		:
 								
 									if(keyEvent.funKeyLONG[key_temp])keyEvent.funKeyLONG[key_temp]();
-#if(KEY_DEBUG)									
+if(KEY_DEBUG_FLG){/*Debug_log输出使能*/								
 									strcat(tips,"长按后弹起\r\n");	
 									Driver_USART1.Send(tips,strlen(tips));
 									orgKeyStatus->keyOverFlg = 0;
-#endif							
+}/***/							
 									break;
 
 							case KEY_OVER_KEEP		:	
 								
 									if(keyEvent.funKeyKEEP[key_temp][kCount_rec])keyEvent.funKeyKEEP[key_temp][kCount_rec]();
-#if(KEY_DEBUG)									
+if(KEY_DEBUG_FLG){/*Debug_log输出使能*/									
 									strcat(tips,"长按后保持");
 									kCount_recDisp = kCount_rec + '0';
 									strcat(tips,(const char*)&kCount_recDisp);
 									strcat(tips,"次计数后结束\r\n");
 									Driver_USART1.Send(tips,strlen(tips));
 									kCount_rec = 0;
-#endif							
+}/***/							
 									break;			
 							default:break;
 						}
@@ -268,7 +297,7 @@ void key_Thread(funKeyInit key_Init,Obj_keyStatus *orgKeyStatus,funKeyScan key_S
 				
 					kCount 		= (uint8_t)((keyVal & 0x000f) >> 0);	//获取计数值
 					kCount_rec	= kCount + 1;
-#if(KEY_DEBUG)	
+if(KEY_DEBUG_FLG){/*Debug_log输出使能*/	
 					strcat(tips,"按键");	
 					key_tempDisp = key_temp + '0';
 					strcat(tips,(const char*)&key_tempDisp);	
@@ -277,13 +306,13 @@ void key_Thread(funKeyInit key_Init,Obj_keyStatus *orgKeyStatus,funKeyScan key_S
 					strcat(tips,(const char*)&kCountDisp);	
 					strcat(tips,"\r\n");	
 					Driver_USART1.Send(tips,strlen(tips));		
-#endif			
+}/***/			
 					break;
 					
 			case KEY_CTOVER	:
 				
 					if(keyEvent.funKeyCONTINUE[key_temp][kCount_rec])keyEvent.funKeyCONTINUE[key_temp][kCount_rec]();
-#if(KEY_DEBUG)					
+if(KEY_DEBUG_FLG){/*Debug_log输出使能*/					
 					strcat(tips,"按键");	
 					key_tempDisp = key_temp + '0';
 					strcat(tips,(const char*)&key_tempDisp);
@@ -292,7 +321,7 @@ void key_Thread(funKeyInit key_Init,Obj_keyStatus *orgKeyStatus,funKeyScan key_S
 					strcat(tips,(const char*)&kCount_recDisp);
 					strcat(tips,"次后结束\r\n");
 					Driver_USART1.Send(tips,strlen(tips));
-#endif	
+}/***/	
 					kCount_rec = 0;				
 					break;
 					
@@ -309,19 +338,21 @@ void abc(void){
 }
 
 /***按键监测主线程***/
-void keyTest_Thread(const void *argument){
+void keyMboard_Thread(const void *argument){
 	
-	Obj_eventKey myKeyEvent = {0};					//按键触发事件表，先建立空表，需要哪种触发事件，直接创建对应函数即可，空白处自动判断不会触发
+	const char *Tips_Head = "底板按键";
+	static Obj_eventKey myKeyEvent = {0};					//按键触发事件表，先建立空表，需要哪种触发事件，直接创建对应函数即可，空白处自动判断不会触发
 	static Obj_keyStatus myKeyStatus = {0};		//按键判断所需标志初始化
+	static funkeyThread key_ThreadMB = key_Thread;
 	
-	myKeyEvent.funKeyCONTINUE[2][5] = abc;			//设定按键二连按5次触发事件
+	myKeyEvent.funKeyCONTINUE[2][6] = abc;			//设定按键二连按6次触发事件
 
-	key_Thread(keyInit,&myKeyStatus,keyScan,myKeyEvent);	
+	key_ThreadMB(keyInit,&myKeyStatus,keyScan,myKeyEvent,Tips_Head);	
 }
 	
-void keyTest(void){
+void keyMboardActive(void){
 	
-	tid_keyTest_Thread = osThreadCreate(osThread(keyTest_Thread),NULL);
+	tid_keyMboard_Thread = osThreadCreate(osThread(keyMboard_Thread),NULL);
 }
 
 

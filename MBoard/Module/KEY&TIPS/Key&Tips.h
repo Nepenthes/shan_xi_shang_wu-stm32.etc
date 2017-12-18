@@ -8,7 +8,8 @@
 #include "osObjects.h"                      // RTOS object definitions
 #include "Driver_USART.h"
 
-#define KEY_DEBUG		1		//是否开启按键调试（串口1反馈调试信息）
+#define KEY_DEBUG_ON		0x00000004		//开启按键调试信息输出信号（串口1反馈调试信息）
+#define KEY_DEBUG_OFF	0x00000005		//关闭按键调试信息输出信号（串口1反馈调试信息）
 
 #define K1	GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_11)		//按键1监测
 #define K2	GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_12)		//按键2监测
@@ -21,8 +22,22 @@
 #define KEY_KEEP_PERIOD				40			 // 长按保持间隔 / 乘以KEY_TICK(ms)
 #define KEY_CONTINUE_PERIOD		40		*1000000		// 连按间隔 / (us)
 
+#define KEY_VALUE_0	0x0000		//按键键值0
 #define KEY_VALUE_1	0x0010		//按键键值1
 #define KEY_VALUE_2	0x0020		//按键键值2
+#define KEY_VALUE_3	0x0030		//按键键值3
+#define KEY_VALUE_4	0x0040		//按键键值4
+#define KEY_VALUE_5	0x0050		//按键键值5
+#define KEY_VALUE_6	0x0060		//按键键值6
+#define KEY_VALUE_7	0x0070		//按键键值7
+#define KEY_VALUE_8	0x0080		//按键键值8
+#define KEY_VALUE_9	0x0090		//按键键值9
+#define KEY_VALUE_10	0x00A0		//按键键值10
+#define KEY_VALUE_11	0x00B0		//按键键值11
+#define KEY_VALUE_12	0x00C0		//按键键值12
+#define KEY_VALUE_13	0x00D0		//按键键值13
+#define KEY_VALUE_14	0x00E0		//按键键值14
+#define KEY_VALUE_15	0x00F0		//按键键值15
 
 #define KEY_DOWN		0x1000		//按键状态：按下
 #define KEY_CONTINUE	0x2000		//按键状态：按键连按
@@ -70,10 +85,10 @@ typedef struct keyEvent{		//创建一个按键检测线程对象封装
 	funEventKey funKeyKEEP[16][8];	//连按事件
 }Obj_eventKey;
 
-typedef void (* funkeyThread)(funKeyInit keyInit,funKeyScan keyScan,Obj_eventKey keyEvent);
+void key_Thread(funKeyInit key_Init,Obj_keyStatus *orgKeyStatus,funKeyScan key_Scan,Obj_eventKey keyEvent,const char *Tips_head);
 
 void keyInit(void);
-void keyTest_Thread(const void *argument);
-void keyTest(void);
+void keyMboard_Thread(const void *argument);
+void keyMboardActive(void);
 
 #endif

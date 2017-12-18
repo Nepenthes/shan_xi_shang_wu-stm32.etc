@@ -16,11 +16,19 @@ int main (void const *argument)
 	
 	BSP_Init();
 	
-	USARTTest();
+	USARTthread_Active();
 	
-	keyTest ();
+	fingerID_Active();
 	
-	LEDTest();
+	MoudleDEC_Init();
+	
+	LCD144_test();
+	
+	keyMboardActive();
+	
+	keyIFRActive();
+	
+	//LEDTest();
 	
 	osKernelStart ();                         	// start thread execution 
 }

@@ -39,7 +39,7 @@
 //   <i> Defines max. number of user threads that will run at the same time.
 //   <i> Default: 6
 #ifndef OS_TASKCNT
- #define OS_TASKCNT     20
+ #define OS_TASKCNT     12
 #endif
  
 //   <o>Default Thread stack size [bytes] <64-4096:8><#/4>
@@ -60,14 +60,14 @@
 //   <i> Defines the number of threads with user-provided stack size.
 //   <i> Default: 0
 #ifndef OS_PRIVCNT
- #define OS_PRIVCNT     10
+ #define OS_PRIVCNT     6
 #endif
  
 //   <o>Total stack size [bytes] for threads with user-provided stack size <0-1048576:8><#/4>
 //   <i> Defines the combined stack size for threads with user-provided stack size.
 //   <i> Default: 0
 #ifndef OS_PRIVSTKSIZE
- #define OS_PRIVSTKSIZE 2560       // this stack size value is in words
+ #define OS_PRIVSTKSIZE 5120       // this stack size value is in words
 #endif
  
 //   <q>Stack overflow checking
@@ -136,7 +136,7 @@
 //   <i> Defines how long a thread will execute before a thread switch.
 //   <i> Default: 5
 #ifndef OS_ROBINTOUT
- #define OS_ROBINTOUT   5
+ #define OS_ROBINTOUT   1
 #endif
  
 // </e>

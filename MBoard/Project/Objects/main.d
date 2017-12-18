@@ -1,7 +1,7 @@
 .\objects\main.o: ..\User\Main.c
 .\objects\main.o: ..\User\includes.h
 .\objects\main.o: ..\User\Bsp.h
-.\objects\main.o: ..\Module\Test.h
+.\objects\main.o: ..\Module\Tips.h
 .\objects\main.o: D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include\stm32f10x.h
 .\objects\main.o: E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\RTE_Components.h
 .\objects\main.o: D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include\core_cm3.h
@@ -30,7 +30,16 @@
 .\objects\main.o: D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include\Driver_USART.h
 .\objects\main.o: D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include\Driver_Common.h
 .\objects\main.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdbool.h
-.\objects\main.o: ..\Module\Transmitter_USART\WirelessTrans_USART.h
-.\objects\main.o: ..\Module\Transmitter_USART\WirelessTrans_USART.h
+.\objects\main.o: ..\User\delay.h
+.\objects\main.o: ..\Module\Transmitter_USART\dataTrans_USART.h
+.\objects\main.o: ..\Module\Transmitter_USART\dataTrans_USART.h
 .\objects\main.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\string.h
 .\objects\main.o: ..\Module\KEY&TIPS\Key&Tips.h
+.\objects\main.o: ..\Module\LCD(1.44inches)\LCD_1.44.h
+.\objects\main.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\main.o: ..\Module\LCD(1.44inches)\GUI_1.44.h
+.\objects\main.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\main.o: ..\Module\Infra_Trans\infraTrans.h
+.\objects\main.o: ..\User\IO_Map.h
+.\objects\main.o: ..\Module\Moudle_DEC.h
+.\objects\main.o: ..\Module\Finger_ID\finger_ID.h
