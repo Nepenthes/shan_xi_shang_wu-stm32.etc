@@ -25,7 +25,7 @@ extern ARM_DRIVER_USART Driver_USART1;
 extern ARM_DRIVER_USART Driver_USART2;
 
 extern osThreadId tid_keyMboard_Thread;	//声明主板按键任务ID，便于传递信息调试使能信号
-extern osThreadId tid_keyIFR_Thread;		//声明红外转发扩展板按键任务ID，便于传递信息调试使能信号
+extern osThreadId tid_keyIFR_Thread;	//声明红外转发扩展板按键任务ID，便于传递信息调试使能信号
 
 osThreadId tid_USARTDebug_Thread;
 osThreadId tid_USARTWireless_Thread;

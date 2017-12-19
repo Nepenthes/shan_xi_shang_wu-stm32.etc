@@ -1,6 +1,6 @@
 #include "Tips.h"
 
-void testInit (void){
+void tipsInit(void){
 
 	GPIO_InitTypeDef GPIO_InitStructure;
 	
@@ -8,90 +8,140 @@ void testInit (void){
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;			//最高输出速率50MHz
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;			//推挽输出
-	GPIO_Init(GPIOE, &GPIO_InitStructure);							//初始化外设GPIOx寄存器
-	GPIO_WriteBit(GPIOE, GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15, Bit_SET);
+	GPIO_Init(GPIOE, &GPIO_InitStructure);						//初始化外设GPIOx寄存器
+	GPIO_WriteBit(GPIOE, GPIO_Pin_3 | GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15, Bit_SET);
 }
 
-osThreadId tid1,tid2,tid3;
+osThreadId tid_tips;
 
 void Task0 (void const *argument);
 void Task1 (void const *argument);
 
-void TTask0 (void const *argument);
-void TTask1 (void const *argument);
-
-osThreadDef(Task0,osPriorityNormal,1,0);
+osThreadDef(tipsThread,osPriorityNormal,1,512);
 osTimerDef(Tim0,TTask0);
 
 /*
  * main: initialize and start the system
  */
-void LEDTest (void) {
-	
-	testInit ();
-	
-	tid1	=	osThreadCreate(osThread(Task0), NULL);
-	tid2	=	osThreadCreate(osThread(Task0), NULL);
-	tid3	=	osThreadCreate(osThread(Task0), NULL);
+void tipsLEDActive(void) {
+
+	tipsInit();
+	tid_tips = osThreadCreate(osThread(tipsThread), NULL);
 }
 
-void Task0 (void const *argument){
+void LED_Breath(u8 Obj,u16 cycle,bool type){
+
+	u16 loop;
 	
-	u32 time;
+	switch(Obj){
 	
-	osTimerId	 Tim_id0;
+		case OBJ_SYS:
+			
+				for(loop = 0;loop < cycle;loop ++){
+
+					if(type)LED_SYS = 1;
+					else LED_SYS = 0;
+					delay_us(cycle - loop);
+					if(type)LED_SYS = 0;
+					else LED_SYS = 1;
+					delay_us(loop);
+				}break;
+				
+		case OBJ_MSG:
+			
+				for(loop = 0;loop < cycle;loop ++){
+
+					if(type)LED_MSG = PEout(3) = 1;
+					else LED_MSG = PEout(3) = 0;
+					delay_us(cycle - loop);
+					if(type)LED_MSG = PEout(3) = 0;
+					else LED_MSG = PEout(3) = 1;
+					delay_us(loop);
+				}break;
+				
+		case OBJ_EXT:
+			
+				for(loop = 0;loop < cycle;loop ++){
+
+					if(type)LED_EXT = 1;
+					else LED_EXT = 0;
+					delay_us(cycle - loop);
+					if(type)LED_EXT = 0;
+					else LED_EXT = 1;
+					delay_us(loop);
+				}break;
+	}
+}
+
+void tipsBoardActive(void){
+
+	const u16 time = 500;
+	
+	LED_Breath(OBJ_SYS,time,true);
+	LED_Breath(OBJ_MSG,time,true);
+	LED_Breath(OBJ_EXT,time,true);
+	
+	LED_Breath(OBJ_SYS,time,false);
+	LED_Breath(OBJ_MSG,time,false);
+	LED_Breath(OBJ_EXT,time,false);
+	
+	LED_Breath(OBJ_EXT,time,true);
+	LED_Breath(OBJ_MSG,time,true);
+	LED_Breath(OBJ_SYS,time,true);
+	
+	LED_Breath(OBJ_EXT,time,false);
+	LED_Breath(OBJ_MSG,time,false);
+	LED_Breath(OBJ_SYS,time,false);
+}
+
+void tipsThread(void const *argument){
+		
+	osTimerId Tim_id0;
+	osEvent evt;
 	
 	Tim_id0 = osTimerCreate(osTimer(Tim0), osTimerPeriodic, &TTask0);
 	
+	tipsBoardActive();
+	
 	osTimerStart(Tim_id0,3000);
 	
-	while(1){
+	for(;;){
 	
-		for(time = 0;time < 500;time ++){
+		evt = osSignalWait (EVTSIG_SYS, 100);
+		evt = osSignalWait (EVTSIG_MSG, 100);
+		evt = osSignalWait (EVTSIG_EXT, 100);
+		if(evt.status == osEventSignal){
 		
-			LED1_0;
-			delay_us(time);
-			LED1_1;
-			delay_us(500 - time);
+			switch(evt.value.signals){
+			
+				case EVTSIG_SYS:	
+						
+						LED_Breath(OBJ_SYS,500,true);
+						osSignalClear (tid_tips,EVTSIG_SYS);
+						break;
+				
+				case EVTSIG_MSG:	
+						
+						LED_Breath(OBJ_MSG,500,true);
+						osSignalClear (tid_tips,EVTSIG_MSG);
+						break;
+				
+				case EVTSIG_EXT:	
+						
+						LED_Breath(OBJ_EXT,500,true);
+						osSignalClear (tid_tips,EVTSIG_EXT);
+						break;
+				
+				default:break;
+			}
 		}
 		
-		for(time = 0;time < 500;time ++){
-		
-			LED1_0;
-			delay_us(500 - time);
-			LED1_1;
-			delay_us(time);
-		}
-	}
-}
-
-void Task1 (void const *argument){
-	
-	while(1){
-	
-		LED2_0;
-		osDelay(200);
-		LED2_1;
 		osDelay(100);
 	}
 }
+
 void TTask0(void const *argument){
 
-	unsigned char cnt = 5;
-	while(--cnt){
-	
-		LED2_0;
-		osDelay(200);
-		LED2_1;
-		osDelay(100);
-	}
-	cnt = 5;
-	while(--cnt){
-	
-		LED3_0;
-		osDelay(100);
-		LED3_1;
-		osDelay(200);
-	}
+	osDelay(1000);
 }
 

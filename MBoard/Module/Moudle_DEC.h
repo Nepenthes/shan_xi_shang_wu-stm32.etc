@@ -9,6 +9,8 @@
 #include "Driver_USART.h"
 #include "delay.h"
 
+#include "Tips.h"
+
 #define		extension_FLG	0x80
 #define		wireless_FLG	0x40
 #define		LCD4_3_FLG		0x20

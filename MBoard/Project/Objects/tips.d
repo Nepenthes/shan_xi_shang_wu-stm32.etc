@@ -28,4 +28,5 @@
 .\objects\tips.o: D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include\Driver_USART.h
 .\objects\tips.o: D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include\Driver_Common.h
 .\objects\tips.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\tips.o: ..\User\IO_Map.h
 .\objects\tips.o: ..\User\delay.h

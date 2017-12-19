@@ -31,3 +31,7 @@
 .\objects\datatrans_usart.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\datatrans_usart.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\string.h
 .\objects\datatrans_usart.o: ..\Module\KEY&TIPS\Key&Tips.h
+.\objects\datatrans_usart.o: ..\Module\Finger_ID\finger_ID.h
+.\objects\datatrans_usart.o: ..\User\IO_Map.h
+.\objects\datatrans_usart.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\datatrans_usart.o: ..\User\delay.h

@@ -66,7 +66,7 @@ void Remote_Init(void)
     GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource14);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOB, &GPIO_InitStructure);
     GPIO_SetBits(GPIOB,GPIO_Pin_14);
@@ -131,9 +131,11 @@ void EXTI15_10_IRQHandler(void) {
 	const uint16_t SIGLEN_MIN = 4000  / IFR_PER;  //一个电平信号维持最短时间限制
 	
 	static uint8_t Tab_Hp,Tab_Lp;
-	static uint16_t HT_Tab[Tab_size];
-	static uint16_t LT_Tab[Tab_size];
-	uint16_t time;
+	static uint16_t HT_Tab[Tab_size] = {0};
+	static uint16_t LT_Tab[Tab_size] = {0};
+	uint16_t time = 0;
+	
+	Tab_Hp = Tab_Lp = 0;
 
     if(measure_en && EXTI_GetITStatus(EXTI_Line14) == SET)
     {
@@ -149,9 +151,9 @@ void EXTI15_10_IRQHandler(void) {
 				
 				if(time > SIGLEN_MIN && Tab_Lp > 155){  //缓存不够，周期截波跳出
 				
-					Driver_USART1.Send(&Tab_Lp,1);
-					memcpy((uint16_t *)LTtab,LT_Tab,Tab_Lp);
-					memcpy((uint16_t *)HTtab,HT_Tab,Tab_Hp);
+					//Driver_USART1.Send(&Tab_Lp,1);   //单周期高电平信号总长输出测试
+					memcpy((uint16_t *)LTtab,LT_Tab,Tab_Lp * 2);	//数据类型为 u16,而memcpy以字节为单位，倍乘2
+					memcpy((uint16_t *)HTtab,HT_Tab,Tab_Hp * 2);
 					tabLp = Tab_Lp;
 					tabHp = Tab_Hp;
 					measure_en = false;
@@ -167,9 +169,9 @@ void EXTI15_10_IRQHandler(void) {
 					
 				if((time > SIGLEN_MAX) || (time > SIGLEN_MIN && Tab_Hp > 155)){
 					
-					Driver_USART1.Send(&Tab_Hp,1);
-					memcpy((uint16_t *)LTtab,LT_Tab,Tab_Lp);
-					memcpy((uint16_t *)HTtab,HT_Tab,Tab_Hp);
+					//Driver_USART1.Send(&Tab_Hp,1);	//单周期低电平信号总长输出测试
+					memcpy((uint16_t *)LTtab,LT_Tab,Tab_Lp * 2);	//数据类型为 u16,而memcpy以字节为单位，倍乘2
+					memcpy((uint16_t *)HTtab,HT_Tab,Tab_Hp * 2);
 					tabLp = Tab_Lp;
 					tabHp = Tab_Hp;
 					measure_en = false;
@@ -192,9 +194,9 @@ void IFR_Send(uint16_t HTab[],uint8_t Hp,uint16_t LTab[],uint8_t Lp){
 	uint8_t loop;
 	uint16_t temp;
 	
-	char disp[20];
-	sprintf(disp,"%d",LTab[30]);
-	Driver_USART1.Send(disp,strlen(disp));
+//	char disp[20];							//对应数据位信号长度输出测试
+//	sprintf(disp,"%d",LTab[69]);
+//	Driver_USART1.Send(disp,strlen(disp));
 	
 	PBout(15) = 0;
 	for(loop = 0;loop < Lp;loop ++){
@@ -603,10 +605,10 @@ void keyIFR_Thread(const void *argument) {
 	
 	Remote_Init();
 
-    myKeyIFREvent.funKeySHORT[10] = test_s10;			
+    myKeyIFREvent.funKeySHORT[10] = test_s10;			//k10短按触发
 	
-	myKeyIFREvent.funKeySHORT[7]  = usr_sigin;
-	myKeyIFREvent.funKeySHORT[9]  = usr_sigout;
+	myKeyIFREvent.funKeySHORT[7]  = usr_sigin;			//k7短按触发
+	myKeyIFREvent.funKeySHORT[9]  = usr_sigout;			//k9短按触发
 
     key_ThreadIFR(keyIFR_ADCInit,&myKeyStatus,keyIFR_Scan,myKeyIFREvent,Tips_Head);
 }

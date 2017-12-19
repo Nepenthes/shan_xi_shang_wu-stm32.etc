@@ -11,6 +11,8 @@
 
 #include <Key&Tips.h>
 
+#include "finger_ID.h"
+
 typedef void (*funDebug)(void);
 
 void funDB_keyMB_ON(void);

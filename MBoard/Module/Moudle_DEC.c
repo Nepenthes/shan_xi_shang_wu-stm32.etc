@@ -7,7 +7,7 @@ osThreadDef(MBDEC_Thread,osPriorityAboveNormal,1,512);
 
 extern ARM_DRIVER_USART Driver_USART1;								//设备驱动库串口一设备声明
 
-void MoudleDEC_ioInit(void){
+void MoudleDEC_ioInit(void){		//模块检测脚初始化
 
 	GPIO_InitTypeDef GPIO_InitStructure;
 
@@ -29,7 +29,7 @@ void MoudleDEC_ioInit(void){
 	PEout(3) = 0;
 }
 
-void MoudleDEC_Init(void){
+void MoudleDEC_Init(void){	//模块检测线程激活
 	
 	MoudleDEC_ioInit();
 	tid_MBDEC_Thread = osThreadCreate(osThread(MBDEC_Thread),NULL);
@@ -46,13 +46,25 @@ void MBDEC_Thread(const void *argument){	//循环检测
 	
 	for(;;){
 	
-		if(!extension_IF)Moudle_GTA.Alive |= extension_FLG;else Moudle_GTA.Alive &= ~extension_FLG;
-		if(!wireless_IF) Moudle_GTA.Alive |= wireless_FLG; else Moudle_GTA.Alive &= ~wireless_FLG;
-		if(!LCD4_3_IF)	 Moudle_GTA.Alive |= LCD4_3_FLG;   else Moudle_GTA.Alive &= ~LCD4_3_FLG;
+		if(!extension_IF){
+			
+			Moudle_GTA.Alive |= extension_FLG;
+			osSignalSet (tid_tips, 0x0000000A);
+		}else Moudle_GTA.Alive &= ~extension_FLG;	//扩展模块检测  
+		if(!wireless_IF){
+		
+			Moudle_GTA.Alive |= wireless_FLG;
+			osSignalSet (tid_tips, 0x0000000B);
+		}else Moudle_GTA.Alive &= ~wireless_FLG;	//无线通信模块检测
+		if(!LCD4_3_IF){
+		
+			Moudle_GTA.Alive |= LCD4_3_FLG;
+			osSignalSet (tid_tips, 0x0000000C);
+		}else Moudle_GTA.Alive &= ~LCD4_3_FLG; 		//4.3寸LCD模块检测
 		
 		osDelay(200);
 		
-		if(Alive_local != Moudle_GTA.Alive){
+		if(Alive_local != Moudle_GTA.Alive){	//是否有模块插拔，消抖
 		
 			osDelay(500);
 			if(Alive_local != Moudle_GTA.Alive){
@@ -63,7 +75,7 @@ void MBDEC_Thread(const void *argument){	//循环检测
 		
 		if(M_CHG){
 		
-			alive_temp = Alive_local ^ Moudle_GTA.Alive;
+			alive_temp = Alive_local ^ Moudle_GTA.Alive;	//获取插拔变动模块
 			Alive_local = Moudle_GTA.Alive;
 			
 			if(alive_temp & extension_FLG){
@@ -92,7 +104,7 @@ void MBDEC_Thread(const void *argument){	//循环检测
 				
 					ID_temp = (GPIO_ReadInputData(GPIOD) >> 3) & 0x001f;
 					Moudle_GTA.Wirless_ID = (u8)ID_temp;	
-
+					
 					osDelay(100);
 					memset(disp,0,disp_size * sizeof(char));
 					sprintf(disp,"无线通讯模块：0x%02X(ID)已被安装并激活\r\n",Moudle_GTA.Wirless_ID);

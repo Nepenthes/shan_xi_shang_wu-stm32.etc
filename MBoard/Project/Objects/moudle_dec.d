@@ -32,3 +32,4 @@
 .\objects\moudle_dec.o: ..\User\delay.h
 .\objects\moudle_dec.o: ..\User\osObjects.h
 .\objects\moudle_dec.o: D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC\cmsis_os.h
+.\objects\moudle_dec.o: ..\Module\Tips.h

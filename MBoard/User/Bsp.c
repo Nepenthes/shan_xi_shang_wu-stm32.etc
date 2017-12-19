@@ -33,5 +33,5 @@ void  BSP_Init (void)
 {
 	bsp_delayinit	();
 	
-	testInit		();
+	tipsInit		();
 }

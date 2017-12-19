@@ -37,6 +37,9 @@ typedef struct{
 	u8 DAT;
 }FID_MEAS;
 
+extern osPoolId  	 FIDpool;
+extern osMessageQId  MsgBox;
+
 void fingerID_Thread(const void *argument);
 
 void fingerID_Active(void);

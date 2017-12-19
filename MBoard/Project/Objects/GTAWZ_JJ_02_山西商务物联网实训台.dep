@@ -1,8 +1,8 @@
 Dependencies for Project 'GTAWZ_JJ_02', Target '山西商务物联网实训台': (DO NOT MODIFY !)
-F (..\User\Main.c)(0x5A37B5D5)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Infra_Trans -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (..\User\Main.c)(0x5A38E136)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Infra_Trans -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (..\User\includes.h)(0x59DE6C24)
 I (..\User\Bsp.h)(0x5A37B5D5)
-I (..\Module\Tips.h)(0x5A334442)
+I (..\Module\Tips.h)(0x5A38ECA1)
 I (D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include\stm32f10x.h)(0x5825386C)
 I (E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\RTE_Components.h)(0x5A2F4A45)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include\core_cm3.h)(0x5A0D5BFA)
@@ -30,21 +30,21 @@ I (D:\Keil\Software\ARM\ARMCC\include\stddef.h)(0x569DEA3A)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include\Driver_USART.h)(0x58AA8AF6)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include\Driver_Common.h)(0x58AA8AF4)
 I (D:\Keil\Software\ARM\ARMCC\include\stdbool.h)(0x569DEA3A)
+I (..\User\IO_Map.h)(0x5A1DA488)
 I (..\User\delay.h)(0x5A2FAD13)
-I (..\Module\Transmitter_USART\dataTrans_USART.h)(0x5A37865B)
+I (..\Module\Transmitter_USART\dataTrans_USART.h)(0x5A38A629)
 I (D:\Keil\Software\ARM\ARMCC\include\string.h)(0x569DEA3A)
 I (..\Module\KEY&TIPS\Key&Tips.h)(0x5A3243E8)
+I (..\Module\Finger_ID\finger_ID.h)(0x5A38A629)
+I (D:\Keil\Software\ARM\ARMCC\include\stdio.h)(0x5A1F6BA0)
 I (..\Module\LCD(1.44inches)\LCD_1.44.h)(0x5A335872)
 I (D:\Keil\Software\ARM\ARMCC\include\stdlib.h)(0x569DEA3A)
 I (..\Module\LCD(1.44inches)\GUI_1.44.h)(0x5A1FA038)
-I (D:\Keil\Software\ARM\ARMCC\include\stdio.h)(0x5A1F6BA0)
 I (..\Module\Infra_Trans\infraTrans.h)(0x5A3260FC)
-I (..\User\IO_Map.h)(0x5A1DA488)
-I (..\Module\Moudle_DEC.h)(0x5A378316)
-I (..\Module\Finger_ID\finger_ID.h)(0x5A37B5D5)
-F (..\User\Bsp.c)(0x5A379D79)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Infra_Trans -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\bsp.o --omf_browse .\objects\bsp.crf --depend .\objects\bsp.d)
+I (..\Module\Moudle_DEC.h)(0x5A38E9FB)
+F (..\User\Bsp.c)(0x5A38DFCE)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Infra_Trans -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\bsp.o --omf_browse .\objects\bsp.crf --depend .\objects\bsp.d)
 I (..\User\Bsp.h)(0x5A37B5D5)
-I (..\Module\Tips.h)(0x5A334442)
+I (..\Module\Tips.h)(0x5A38ECA1)
 I (D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include\stm32f10x.h)(0x5825386C)
 I (E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\RTE_Components.h)(0x5A2F4A45)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include\core_cm3.h)(0x5A0D5BFA)
@@ -72,18 +72,18 @@ I (D:\Keil\Software\ARM\ARMCC\include\stddef.h)(0x569DEA3A)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include\Driver_USART.h)(0x58AA8AF6)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include\Driver_Common.h)(0x58AA8AF4)
 I (D:\Keil\Software\ARM\ARMCC\include\stdbool.h)(0x569DEA3A)
+I (..\User\IO_Map.h)(0x5A1DA488)
 I (..\User\delay.h)(0x5A2FAD13)
-I (..\Module\Transmitter_USART\dataTrans_USART.h)(0x5A37865B)
+I (..\Module\Transmitter_USART\dataTrans_USART.h)(0x5A38A629)
 I (D:\Keil\Software\ARM\ARMCC\include\string.h)(0x569DEA3A)
 I (..\Module\KEY&TIPS\Key&Tips.h)(0x5A3243E8)
+I (..\Module\Finger_ID\finger_ID.h)(0x5A38A629)
+I (D:\Keil\Software\ARM\ARMCC\include\stdio.h)(0x5A1F6BA0)
 I (..\Module\LCD(1.44inches)\LCD_1.44.h)(0x5A335872)
 I (D:\Keil\Software\ARM\ARMCC\include\stdlib.h)(0x569DEA3A)
 I (..\Module\LCD(1.44inches)\GUI_1.44.h)(0x5A1FA038)
-I (D:\Keil\Software\ARM\ARMCC\include\stdio.h)(0x5A1F6BA0)
 I (..\Module\Infra_Trans\infraTrans.h)(0x5A3260FC)
-I (..\User\IO_Map.h)(0x5A1DA488)
-I (..\Module\Moudle_DEC.h)(0x5A378316)
-I (..\Module\Finger_ID\finger_ID.h)(0x5A37B5D5)
+I (..\Module\Moudle_DEC.h)(0x5A38E9FB)
 F (..\User\stm32f10x_it.c)(0x59DE6C24)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Infra_Trans -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\stm32f10x_it.o --omf_browse .\objects\stm32f10x_it.crf --depend .\objects\stm32f10x_it.d)
 I (..\User\stm32f10x_it.h)(0x59DE6C24)
 I (D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include\stm32f10x.h)(0x5825386C)
@@ -133,8 +133,8 @@ I (D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\in
 I (..\User\osObjects.h)(0x59DE6C24)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC\cmsis_os.h)(0x5983FFB6)
 I (D:\Keil\Software\ARM\ARMCC\include\stddef.h)(0x569DEA3A)
-F (..\Module\Tips.c)(0x5A33592A)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Infra_Trans -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\tips.o --omf_browse .\objects\tips.crf --depend .\objects\tips.d)
-I (..\Module\Tips.h)(0x5A334442)
+F (..\Module\Tips.c)(0x5A38EE4B)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Infra_Trans -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\tips.o --omf_browse .\objects\tips.crf --depend .\objects\tips.d)
+I (..\Module\Tips.h)(0x5A38ECA1)
 I (D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include\stm32f10x.h)(0x5825386C)
 I (E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\RTE_Components.h)(0x5A2F4A45)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include\core_cm3.h)(0x5A0D5BFA)
@@ -162,9 +162,10 @@ I (D:\Keil\Software\ARM\ARMCC\include\stddef.h)(0x569DEA3A)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include\Driver_USART.h)(0x58AA8AF6)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include\Driver_Common.h)(0x58AA8AF4)
 I (D:\Keil\Software\ARM\ARMCC\include\stdbool.h)(0x569DEA3A)
+I (..\User\IO_Map.h)(0x5A1DA488)
 I (..\User\delay.h)(0x5A2FAD13)
-F (..\Module\Moudle_DEC.c)(0x5A3784C8)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Infra_Trans -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\moudle_dec.o --omf_browse .\objects\moudle_dec.crf --depend .\objects\moudle_dec.d)
-I (..\Module\Moudle_DEC.h)(0x5A378316)
+F (..\Module\Moudle_DEC.c)(0x5A38EB68)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Infra_Trans -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\moudle_dec.o --omf_browse .\objects\moudle_dec.crf --depend .\objects\moudle_dec.d)
+I (..\Module\Moudle_DEC.h)(0x5A38E9FB)
 I (..\User\IO_Map.h)(0x5A1DA488)
 I (D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include\stm32f10x.h)(0x5825386C)
 I (E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\RTE_Components.h)(0x5A2F4A45)
@@ -196,6 +197,7 @@ I (D:\Keil\Software\ARM\ARMCC\include\stdbool.h)(0x569DEA3A)
 I (..\User\delay.h)(0x5A2FAD13)
 I (..\User\osObjects.h)(0x59DE6C24)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC\cmsis_os.h)(0x5983FFB6)
+I (..\Module\Tips.h)(0x5A38ECA1)
 F (..\Module\LCD(1.44inches)\LCD_1.44.c)(0x5A30F67D)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Infra_Trans -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\lcd_1.44.o --omf_browse .\objects\lcd_1.44.crf --depend .\objects\lcd_1.44.d)
 I (..\Module\LCD(1.44inches)\LCD_1.44.h)(0x5A335872)
 I (D:\Keil\Software\ARM\ARMCC\include\stdlib.h)(0x569DEA3A)
@@ -297,7 +299,7 @@ I (D:\Keil\Software\ARM\ARMCC\include\stdbool.h)(0x569DEA3A)
 I (D:\Keil\Software\ARM\ARMCC\include\stdio.h)(0x5A1F6BA0)
 I (D:\Keil\Software\ARM\ARMCC\include\string.h)(0x569DEA3A)
 I (D:\Keil\Software\ARM\ARMCC\include\stdlib.h)(0x569DEA3A)
-F (..\Module\Infra_Trans\infraTrans.c)(0x5A37307C)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Infra_Trans -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\infratrans.o --omf_browse .\objects\infratrans.crf --depend .\objects\infratrans.d)
+F (..\Module\Infra_Trans\infraTrans.c)(0x5A38D46B)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Infra_Trans -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\infratrans.o --omf_browse .\objects\infratrans.crf --depend .\objects\infratrans.d)
 I (..\Module\Infra_Trans\infraTrans.h)(0x5A3260FC)
 I (..\User\IO_Map.h)(0x5A1DA488)
 I (D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include\stm32f10x.h)(0x5825386C)
@@ -332,8 +334,8 @@ I (..\User\osObjects.h)(0x59DE6C24)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC\cmsis_os.h)(0x5983FFB6)
 I (..\Module\KEY&TIPS\Key&Tips.h)(0x5A3243E8)
 I (D:\Keil\Software\ARM\ARMCC\include\stdlib.h)(0x569DEA3A)
-F (..\Module\Finger_ID\finger_ID.c)(0x5A37B937)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Infra_Trans -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\finger_id.o --omf_browse .\objects\finger_id.crf --depend .\objects\finger_id.d)
-I (..\Module\Finger_ID\finger_ID.h)(0x5A37B5D5)
+F (..\Module\Finger_ID\finger_ID.c)(0x5A38A4AF)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Infra_Trans -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\finger_id.o --omf_browse .\objects\finger_id.crf --depend .\objects\finger_id.d)
+I (..\Module\Finger_ID\finger_ID.h)(0x5A38A629)
 I (..\User\IO_Map.h)(0x5A1DA488)
 I (D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include\stm32f10x.h)(0x5825386C)
 I (E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\RTE_Components.h)(0x5A2F4A45)
@@ -365,8 +367,8 @@ I (D:\Keil\Software\ARM\ARMCC\include\stdbool.h)(0x569DEA3A)
 I (..\User\delay.h)(0x5A2FAD13)
 I (..\User\osObjects.h)(0x59DE6C24)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC\cmsis_os.h)(0x5983FFB6)
-F (..\Module\Transmitter_USART\dataTrans_USART.c)(0x5A379D79)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Infra_Trans -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\datatrans_usart.o --omf_browse .\objects\datatrans_usart.crf --depend .\objects\datatrans_usart.d)
-I (..\Module\Transmitter_USART\dataTrans_USART.h)(0x5A37865B)
+F (..\Module\Transmitter_USART\dataTrans_USART.c)(0x5A38A6B6)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Infra_Trans -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\datatrans_usart.o --omf_browse .\objects\datatrans_usart.crf --depend .\objects\datatrans_usart.d)
+I (..\Module\Transmitter_USART\dataTrans_USART.h)(0x5A38A629)
 I (D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include\stm32f10x.h)(0x5825386C)
 I (E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\RTE_Components.h)(0x5A2F4A45)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include\core_cm3.h)(0x5A0D5BFA)
@@ -396,6 +398,10 @@ I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include\Driver_Common.
 I (D:\Keil\Software\ARM\ARMCC\include\stdbool.h)(0x569DEA3A)
 I (D:\Keil\Software\ARM\ARMCC\include\string.h)(0x569DEA3A)
 I (..\Module\KEY&TIPS\Key&Tips.h)(0x5A3243E8)
+I (..\Module\Finger_ID\finger_ID.h)(0x5A38A629)
+I (..\User\IO_Map.h)(0x5A1DA488)
+I (D:\Keil\Software\ARM\ARMCC\include\stdio.h)(0x5A1F6BA0)
+I (..\User\delay.h)(0x5A2FAD13)
 F (..\User\reWrite\USART_STM32F10x.c)(0x5A1DA488)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Infra_Trans -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\usart_stm32f10x.o --omf_browse .\objects\usart_stm32f10x.crf --depend .\objects\usart_stm32f10x.d)
 I (D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver\USART_STM32F10x.h)(0x56F9DE5C)
 I (D:\Keil\Software\ARM\ARMCC\include\stdint.h)(0x569DEA3A)
@@ -427,7 +433,7 @@ I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include\Driver_USART.h
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include\Driver_Common.h)(0x58AA8AF4)
 I (D:\Keil\Software\ARM\ARMCC\include\stddef.h)(0x569DEA3A)
 I (E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC\RTE_Device.h)(0x5A309148)
-F (..\备忘录\备忘录.txt)(0x5A2FAA95)()
+F (..\备忘录\备忘录.txt)(0x5A38D57A)()
 F (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\LIB\ARM\RTX_CM3.lib)(0x58AA8AF8)()
 F (RTE\CMSIS\RTX_Conf_CM.c)(0x5A3712B8)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Infra_Trans -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\rtx_conf_cm.o --omf_browse .\objects\rtx_conf_cm.crf --depend .\objects\rtx_conf_cm.d)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC\cmsis_os.h)(0x5983FFB6)

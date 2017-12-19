@@ -18,7 +18,7 @@ int main (void const *argument)
 	
 	USARTthread_Active();
 	
-	fingerID_Active();
+	//fingerID_Active();
 	
 	MoudleDEC_Init();
 	
@@ -28,7 +28,7 @@ int main (void const *argument)
 	
 	keyIFRActive();
 	
-	//LEDTest();
+	tipsLEDActive();
 	
 	osKernelStart ();                         	// start thread execution 
 }
