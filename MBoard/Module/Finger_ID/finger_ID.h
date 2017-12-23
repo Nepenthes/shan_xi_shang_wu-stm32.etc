@@ -27,9 +27,12 @@
 #define FID_CMD_STOC	0x06
 #define FID_CMD_DELM	0x0C
 
-#define FID_MSGCMD_FIDSAVE	0x10
-#define FID_MSGCMD_FIDDELE	0x20
-#define FID_MSGCMD_FIDIDEN	0x30
+#define FID_MSGCMD_FIDSAVE	0x0A
+#define FID_MSGCMD_FIDDELE	0x0B
+#define FID_MSGCMD_FIDIDEN	0x0C
+
+#define FID_EXERES_SUCCESS	0x0A
+#define FID_EXERES_FAIL		0x0B
 
 typedef struct{
 
@@ -37,8 +40,12 @@ typedef struct{
 	u8 DAT;
 }FID_MEAS;
 
-extern osPoolId  	 FIDpool;
-extern osMessageQId  MsgBox;
+extern osThreadId  tid_fingerID_Thread;
+
+extern osPoolId  	 FID_pool;	
+extern osMessageQId  MsgBox_FID;							 
+extern osMessageQId  MsgBox_MTFID;
+extern osMessageQId  MsgBox_DPFID;
 
 void fingerID_Thread(const void *argument);
 

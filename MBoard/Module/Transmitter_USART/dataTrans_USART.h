@@ -10,26 +10,31 @@
 #include "string.h"
 
 #include <Key&Tips.h>
+#include "Moudle_DEC.h"
 
 #include "finger_ID.h"
+#include "fireMS.h"
+#include "gasMS.h"
+#include "lightMS.h"
+#include "pyroMS.h"
+#include "simuMS.h"
+#include "smokeMS.h"
+#include "tempMS.h"
 
-typedef void (*funDebug)(void);
+#include "infraTrans.h"
 
-void funDB_keyMB_ON(void);
-void funDB_keyMB_OFF(void);
-void funDB_keyIFR_ON(void);
-void funDB_keyIFR_OFF(void);
+#define  WIRLESS_THREAD_EN	123
+
+#define  datsTransCMD_UPLOAD	0x10
+#define  datsTransCMD_DOWNLOAD	0x20
+
+extern osThreadId tid_USARTWireless_Thread;
 	
-void myUSART1_callback(uint32_t event);
 void myUSART2_callback(uint32_t event);
-
-void USART1Debug_Init(void);
 void USART2Wirless_Init(void);
-
-void USARTDebug_Thread(const void *argument);
+void USART_WirelessInit(void);
 void USARTWireless_Thread(const void *argument);
 
-void USART_allInit(void);
-void USARTthread_Active(void);
+void wirelessThread_Active(void);
 
 #endif

@@ -6,6 +6,15 @@
 osThreadId tid_keyIFR_Thread;
 osThreadDef(keyIFR_Thread,osPriorityAboveNormal,1,4096);
 
+osPoolId  IFR_pool;								 
+osPoolDef(IFR_pool, 10, IFR_MEAS);                  // 内存池定义
+osMessageQId  MsgBox_IFR;
+osMessageQDef(MsgBox_IFR, 2, &IFR_MEAS);            // 消息队列定义，用于模块线程向无线通讯线程
+osMessageQId  MsgBox_MTIFR;
+osMessageQDef(MsgBox_MTIFR, 2, &IFR_MEAS);          // 消息队列定义,用于无线通讯线程向模块线程
+osMessageQId  MsgBox_DPIFR;
+osMessageQDef(MsgBox_DPIFR, 2, &IFR_MEAS);          // 消息队列定义，用于模块线程向显示模块线程
+
 const uint8_t Tab_size = 255;	//信号采样表
 const uint8_t IFR_PER  = 2;		//电平采样分辨率 2us
 bool measure_en = true;
@@ -602,8 +611,6 @@ void keyIFR_Thread(const void *argument) {
     static Obj_eventKey myKeyIFREvent = {0};	//按键触发事件表，先建立空表，需要哪种触发事件，直接创建对应函数即可，空白处自动判断不会触发
     static Obj_keyStatus myKeyStatus = {0};		//按键判断所需标志初始化
     static funkeyThread key_ThreadIFR = key_Thread2;
-	
-	Remote_Init();
 
     myKeyIFREvent.funKeySHORT[10] = test_s10;			//k10短按触发
 	
@@ -615,6 +622,8 @@ void keyIFR_Thread(const void *argument) {
 
 void keyIFRActive(void) {
 
+	Remote_Init();
+	keyIFR_ADCInit();
     tid_keyIFR_Thread = osThreadCreate(osThread(keyIFR_Thread),NULL);
 }
 

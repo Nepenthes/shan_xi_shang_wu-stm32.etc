@@ -1,78 +1,42 @@
 #include <dataTrans_USART.h>
 
-const uint8_t TestCMD_PAGSIZE = 20;
-const uint8_t TestCMD_MAXSIZE = 80;
-
-const char *TestCMD[TestCMD_PAGSIZE] = {
-
-	"公示底板按键调试信息",
-	"隐藏底板按键调试信息",
-	"公示红外转发扩展板按键调试信息",
-	"隐藏红外转发扩展板按键调试信息",
-};
-
-const char *TestREP[TestCMD_PAGSIZE] = {
-
-	"底板按键调试信息已公示\r\n",
-	"底板按键调试信息已隐藏\r\n",
-	"红外转发扩展板按键调试信息已公示\r\n",
-	"红外转发扩展板按键调试信息已隐藏\r\n",
-};
-
-funDebug funDebugTab[] = {funDB_keyMB_ON,funDB_keyMB_OFF,funDB_keyIFR_ON,funDB_keyIFR_OFF};
-
-extern ARM_DRIVER_USART Driver_USART1;
 extern ARM_DRIVER_USART Driver_USART2;
 
 extern osThreadId tid_keyMboard_Thread;	//声明主板按键任务ID，便于传递信息调试使能信号
 extern osThreadId tid_keyIFR_Thread;	//声明红外转发扩展板按键任务ID，便于传递信息调试使能信号
 
-osThreadId tid_USARTDebug_Thread;
 osThreadId tid_USARTWireless_Thread;
 
-osThreadDef(USARTDebug_Thread,osPriorityNormal,1,1024);
 osThreadDef(USARTWireless_Thread,osPriorityNormal,1,1024);
 
-osMutexDef (uart_mutex);    // Declare mutex
+const u8 dataTransFrameHead_size = 1;
+const u8 dataTransFrameHead[dataTransFrameHead_size + 1] = {
 
-void funDB_keyMB_ON(void){  // 开启主板按键Debug_log
+	0x7f
+};
 
-	osSignalSet (tid_keyMboard_Thread, KEY_DEBUG_ON);
-}
+const u8 dataTransFrameTail_size = 2;
+const u8 dataTransFrameTail[dataTransFrameTail_size + 1] = {
 
-void funDB_keyMB_OFF(void){ // 关闭主板按键Debug_log
+	0x0d,0x0a
+};
 
-	osSignalSet (tid_keyMboard_Thread, KEY_DEBUG_OFF);
-}
-
-void funDB_keyIFR_ON(void){  // 开启红外转发扩展板按键Debug_log
-
-	osSignalSet (tid_keyIFR_Thread, KEY_DEBUG_ON);
-}
-
-void funDB_keyIFR_OFF(void){ // 关闭红外转发扩展板按键Debug_log
-
-	osSignalSet (tid_keyIFR_Thread, KEY_DEBUG_OFF);
-}
-
-void USART1Debug_Init(void){
-
-	/*Initialize the USART driver */
-	Driver_USART1.Initialize(myUSART1_callback);
-	/*Power up the USART peripheral */
-	Driver_USART1.PowerControl(ARM_POWER_FULL);
-	/*Configure the USART to 4800 Bits/sec */
-	Driver_USART1.Control(ARM_USART_MODE_ASYNCHRONOUS |
-									ARM_USART_DATA_BITS_8 |
-									ARM_USART_PARITY_NONE |
-									ARM_USART_STOP_BITS_1 |
-							ARM_USART_FLOW_CONTROL_NONE, 115200);
-
-	/* Enable Receiver and Transmitter lines */
-	Driver_USART1.Control (ARM_USART_CONTROL_TX, 1);
-	Driver_USART1.Control (ARM_USART_CONTROL_RX, 1);
-
-	Driver_USART1.Send("i'm usart1 for debug log\r\n", 26);
+void *memmem(void *start, unsigned int s_len, void *find,unsigned int f_len){
+	
+	char *p, *q;
+	unsigned int len;
+	p = start, q = find;
+	len = 0;
+	while((p - (char *)start + f_len) <= s_len){
+			while(*p++ == *q++){
+					len++;
+					if(len == f_len)
+							return(p - f_len);
+			};
+			q = find;
+			len = 0;
+	};
+	return(NULL);
 }
 
 void USART2Wirless_Init(void){
@@ -95,78 +59,248 @@ void USART2Wirless_Init(void){
 	Driver_USART2.Send("i'm usart2 for wireless datstransfor\r\n", 38);
 }
 
-void myUSART1_callback(uint32_t event)
-{
-//  uint32_t mask;
-//  mask = ARM_USART_EVENT_RECEIVE_COMPLETE  |
-//         ARM_USART_EVENT_TRANSFER_COMPLETE |
-//         ARM_USART_EVENT_SEND_COMPLETE     |
-//         ARM_USART_EVENT_TX_COMPLETE       ;
-//  if (event & mask) {
-////    /* Success: Wakeup Thread */
-////    osSignalSet(tid_myUART_Thread, 0x01);
-//  }
-//  if (event & ARM_USART_EVENT_RX_TIMEOUT) {
-//    __breakpoint(0);  /* Error: Call debugger or replace with custom error handling */
-//  }
-//  if (event & (ARM_USART_EVENT_RX_OVERFLOW | ARM_USART_EVENT_TX_UNDERFLOW)) {
-//    __breakpoint(0);  /* Error: Call debugger or replace with custom error handling */
-//  }
-}
-
 void myUSART2_callback(uint32_t event){
 
 	;
 }
 
-void USARTDebug_Thread(const void *argument){
+/*****************发送帧数据填装*****************/
+//发送帧缓存，命令，模块地址，数据长度，核心数据包，核心数据包长
+u16 dataTransFrameLoad_TX(u8 bufs[],u8 cmd,u8 Maddr,u8 dats[],u8 datslen){
 
-	const uint8_t cmdsize = TestCMD_MAXSIZE;
-	char cmd[cmdsize] = "abc";
-	uint8_t loop;
+	u16 memp;
 	
-	for(;;){
-
-		osDelay(10);													//必需延时，防乱序
-		Driver_USART1.Receive(cmd,TestCMD_MAXSIZE);
-		
-		for(loop = 0; loop < 4; loop ++){
-		
-			if(strstr(cmd,TestCMD[loop])){							//子串比较
-			//if(!strcmp(TestCMD[loop],cmd)){						//全等比较
-			
-				osDelay(10);
-					
-				funDebugTab[loop]();
-				Driver_USART1.Send((char*)(TestREP[loop]),strlen((char*)(TestREP[loop])));
-				memset(cmd,0,cmdsize*sizeof(char));
-			}
-		}
-	}
+	memp = 0;
+	
+	memcpy(&bufs[memp],dataTransFrameHead,dataTransFrameHead_size); //帧头填充
+	memp += dataTransFrameHead_size;	//指针后推
+	bufs[memp ++] = cmd;
+	bufs[memp ++] = Maddr;
+	bufs[memp ++] = datslen;
+	memcpy(&bufs[memp],dats,datslen);
+	memp += datslen;
+	memcpy(&bufs[memp],dataTransFrameTail,dataTransFrameTail_size);
+	memp += dataTransFrameTail_size;
+	
+	return memp;
 }
 
 void USARTWireless_Thread(const void *argument){
-
-//	const uint8_t cmdsize = 60;
-//	char cmd[cmdsize] = "abc";
+	
+	osEvent  evt;
+	
+	bool RX_FLG = false; //有效数据获取标志
+	
+	const u8 frameDatatrans_totlen = 100;	//帧缓存限长
+	const u8 dats_BUFtemp_len = frameDatatrans_totlen - 20;	//核心数据包缓存限长
+	u8 dataTrans_TXBUF[frameDatatrans_totlen] = {0};  //发送帧缓存
+	u8 dataTrans_RXBUF[frameDatatrans_totlen] = {0};	//接收帧缓存
+	u8 TXdats_BUFtemp[dats_BUFtemp_len] = {0};	//发送核心数据包缓存
+	u8 RXdats_BUFtemp[dats_BUFtemp_len] = {0};	//接收核心数据包缓存
+	u8 memp;
+	char *p;
+	
+//	osSignalWait(WIRLESS_THREAD_EN,osWaitForever);		//等待线程使能信号
+//	osSignalClear(tid_USARTWireless_Thread,WIRLESS_THREAD_EN);	
+	
+	Moudle_GTA.Extension_ID = MID_SENSOR_FID;   /****调试语句*****/
+	Moudle_GTA.Wirless_ID = 0xAA;   			/****调试语句*****/
 	
 	for(;;){
-	
-		Driver_USART2.Send("哈哈哈哈\r\n",10);
-		osDelay(1500);
+		
+		memset(TXdats_BUFtemp, 0, sizeof(u8) * dats_BUFtemp_len);		//所有缓存清零
+		memset(RXdats_BUFtemp, 0, sizeof(u8) * dats_BUFtemp_len);
+		memset(dataTrans_TXBUF, 0, sizeof(u8) * frameDatatrans_totlen);
+		memset(dataTrans_RXBUF, 0, sizeof(u8) * frameDatatrans_totlen);
+		memp = 0;
+		
+		osDelay(20);
+		
+		memcpy(&RXdats_BUFtemp[memp],dataTransFrameHead,dataTransFrameHead_size);
+		memp += dataTransFrameHead_size;
+		RXdats_BUFtemp[memp ++] = Moudle_GTA.Wirless_ID;
+		RXdats_BUFtemp[memp ++] = datsTransCMD_DOWNLOAD;
+		RXdats_BUFtemp[memp ++] = Moudle_GTA.Extension_ID;
+		
+		osDelay(20);
+		
+		Driver_USART2.Receive(dataTrans_RXBUF,frameDatatrans_totlen);	
+		
+		osDelay(50);
+		
+		p = memmem(dataTrans_RXBUF,frameDatatrans_totlen,RXdats_BUFtemp,memp);	//帧头获取及校验
+		
+		if(p){
+			
+			memset(RXdats_BUFtemp, 0, sizeof(u8) * dats_BUFtemp_len);
+			memp = dataTransFrameHead_size + 3; //memp 复值为包长游标
+			memcpy(RXdats_BUFtemp, (const char*)&p[4 + dataTransFrameHead_size + p[memp]], dataTransFrameTail_size); //取帧尾
+			
+//			Driver_USART2.Send(RXdats_BUFtemp,2);		/****调试语句*****/
+//			osDelay(20);								/****调试语句*****/
+			
+			if(!memcmp((const char*)RXdats_BUFtemp,dataTransFrameTail,dataTransFrameTail_size)){	//帧尾校验
+			
+				memset(RXdats_BUFtemp, 0, sizeof(u8) * dats_BUFtemp_len);
+				memcpy(RXdats_BUFtemp, (const char*)&p[memp + 1], p[memp]);		//核心数据获取
+				RX_FLG = true;
+				
+//				Driver_USART2.Send(RXdats_BUFtemp,2);		/****调试语句*****/
+//				osDelay(20);								/****调试语句*****/
+			}
+			
+			memset(dataTrans_RXBUF, 0, sizeof(u8) * frameDatatrans_totlen);
+		}
+		
+		if(RX_FLG){
+			
+			RX_FLG = false;
+		
+			switch(Moudle_GTA.Extension_ID){	//数据接收
+			
+				case MID_SENSOR_FIRE :	break;
+				
+				case MID_SENSOR_PYRO :	break;
+				
+				case MID_SENSOR_SMOKE :	break;
+				
+				case MID_SENSOR_GAS  :	break;
+				
+				case MID_SENSOR_TEMP :	break;
+				
+				case MID_SENSOR_LIGHT:	break;
+				
+				case MID_SENSOR_SIMU :	break;
+				
+				case MID_SENSOR_FID :	
+					
+						{
+							FID_MEAS *mptr;
+							
+							mptr = osPoolAlloc(FID_pool); 
+							mptr -> CMD = RXdats_BUFtemp[0];  //下行命令加载
+							mptr -> DAT = RXdats_BUFtemp[1];  //下行数据加载
+							
+							osMessagePut(MsgBox_MTFID, (uint32_t)mptr, osWaitForever);	//指令推送至模块驱动
+							osDelay(100);
+						}break;
+				
+				case MID_EXEC_IFR	 :	break;
+				
+				case MID_EXEC_SOURCE :  break;
+				
+				
+				default:break;
+			}
+			
+			memset(RXdats_BUFtemp, 0, sizeof(u8) * dats_BUFtemp_len); //数据缓存清零
+		}
+		
+		switch(Moudle_GTA.Extension_ID){	//数据发送
+		
+			case MID_SENSOR_FIRE :	
+				
+					{
+						fireMS_MEAS *rptr;
+						
+						evt = osMessageGet(MsgBox_fireMS, 100);
+					}break;
+			
+			case MID_SENSOR_PYRO :	
+				
+					{
+						pyroMS_MEAS *rptr;
+						
+						evt = osMessageGet(MsgBox_pyroMS, 100);
+					}break;
+			
+			case MID_SENSOR_SMOKE :	
+				
+					{
+						smokeMS_MEAS *rptr;
+						
+						evt = osMessageGet(MsgBox_smokeMS, 100);
+					}break;
+			
+			case MID_SENSOR_GAS  :	
+				
+					{
+						gasMS_MEAS *rptr;
+						
+						evt = osMessageGet(MsgBox_gasMS, 100);
+					}break;
+			
+			case MID_SENSOR_TEMP :	
+				
+					{
+						tempMS_MEAS *rptr;
+						
+						evt = osMessageGet(MsgBox_tempMS, 100);
+					}break;
+			
+			case MID_SENSOR_LIGHT:	
+				
+					{
+						lightMS_MEAS *rptr;
+						
+						evt = osMessageGet(MsgBox_lightMS, 100);
+					}break;
+			
+			case MID_SENSOR_SIMU :	
+				
+					{
+						simuMS_MEAS *rptr;
+						
+						evt = osMessageGet(MsgBox_simuMS, 100);
+					}break;
+					
+			case MID_SENSOR_FID :
+
+					{
+						FID_MEAS *rptr;
+						evt = osMessageGet(MsgBox_FID, 100);
+						if (evt.status == osEventMessage) {		//等待消息指令
+							
+							rptr = evt.value.p;
+							
+							if(rptr -> CMD == FID_EXERES_SUCCESS){
+							
+								TXdats_BUFtemp[0] = rptr -> CMD;
+								TXdats_BUFtemp[1] = rptr -> DAT;
+								memp = dataTransFrameLoad_TX(dataTrans_TXBUF,datsTransCMD_UPLOAD,Moudle_GTA.Extension_ID,TXdats_BUFtemp,2);
+								Driver_USART2.Send(dataTrans_TXBUF,memp);
+								osDelay(20);
+								
+							}else{
+							
+							
+								
+							}
+							osPoolFree(FID_pool, rptr); 	//内存释放
+						}						
+					}break;			
+			
+			case MID_EXEC_IFR	 :	
+				
+					
+					keyIFRActive();
+					break;
+			
+			case MID_EXEC_SOURCE :  break;
+			
+			
+			default:break;
+		}	
 	}
 }
 
-void USART_allInit(void){
+void USART_WirelessInit(void){
 
-	USART1Debug_Init();
 	USART2Wirless_Init();
 }
 
-void USARTthread_Active(void){
+void wirelessThread_Active(void){
 	
-	USART_allInit();
-	
-	tid_USARTDebug_Thread 		= osThreadCreate(osThread(USARTDebug_Thread),NULL);
-	tid_USARTWireless_Thread	= osThreadCreate(osThread(USARTWireless_Thread),NULL);
+	USART_WirelessInit();
+	tid_USARTWireless_Thread = osThreadCreate(osThread(USARTWireless_Thread),NULL);
 }

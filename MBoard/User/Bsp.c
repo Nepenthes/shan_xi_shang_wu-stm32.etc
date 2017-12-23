@@ -31,7 +31,7 @@
 
 void  BSP_Init (void)
 {
-	bsp_delayinit	();
-	
-	tipsInit		();
+	bsp_delayinit			();
+	debugThread_Active		();
+//	wirelessThread_Active	();
 }

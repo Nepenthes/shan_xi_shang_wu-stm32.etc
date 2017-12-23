@@ -13,6 +13,8 @@
 
 #include "delay.h"
 
+#include "Moudle_DEC.h"
+
 //LCD重要参数集
 typedef struct  
 {										    
@@ -79,17 +81,17 @@ extern uint16_t  BACK_COLOR; //背景颜色.默认为白色
 //画笔颜色
 #define WHITE       0xFFFF
 #define BLACK      	0x0000	  
-#define BLUE       	0x001F  
-#define BRED        0XF81F
-#define GRED 		  0XFFE0
-#define GBLUE			0X07FF
-#define RED         0xF800
+#define BLUE       	0x001F  /**/
+#define BRED        0XF81F	/**/
+#define GRED 		0XFFE0
+#define GBLUE		0X07FF	/**/
+#define RED         0xF800	/**/
 #define MAGENTA     0xF81F
-#define GREEN       0x07E0
+#define GREEN       0x07E0	/**/
 #define CYAN        0x7FFF
-#define YELLOW      0xFFE0
+#define YELLOW      0xFFE0	/**/
 #define BROWN 			0XBC40 //棕色
-#define BRRED 			0XFC07 //棕红色
+#define BRRED 			0XFC07 //棕红色	/**/
 #define GRAY  			0X8430 //灰色
 //GUI颜色
 
@@ -98,7 +100,7 @@ extern uint16_t  BACK_COLOR; //背景颜色.默认为白色
 #define GRAYBLUE       	 0X5458 //灰蓝色
 //以上三色为PANEL的颜色 
  
-#define LIGHTGREEN     	0X841F //浅绿色
+#define LIGHTGREEN     	0X841F //浅绿色	/**/
 //#define LIGHTGRAY     0XEF5B //浅灰色(PANNEL)
 #define LGRAY 			 		0XC618 //浅灰色(PANNEL),窗体背景色
 
@@ -131,9 +133,9 @@ uint16_t LCD_1_44_BGR2RGB(uint16_t c);
 void LCD_1_44_SetParam(void);
 
 void LCD144Test_Thread(const void *argument);
-void LCD144_Thread(const void *argument);
+void LCD144Disp_Thread(const void *argument);
 
-void LCD144_test(void);
+void LCD144Disp_Active(void);
 						  		 
 #endif  
 	 

@@ -6,7 +6,7 @@ _lcd144_dev lcd144dev;
 
 osThreadId tid_LCD144Test_Thread;
 
-osThreadDef(LCD144Test_Thread,osPriorityNormal,1,1024);
+osThreadDef(LCD144Disp_Thread,osPriorityNormal,1,1024);
 
 //画笔颜色,背景颜色
 uint16_t LCD144POINT_COLOR = 0x0000,LCD144BACK_COLOR = 0xFFFF;  
@@ -506,9 +506,180 @@ void LCD144Test_Thread(const void *argument){
 	}
 }
 
-void LCD144_test(void){
+void LCD144Disp_Thread(const void *argument){
+
+	static char EXT_ID,MSG_ID,ZW_ADDR;
+	u8 EXTID_Disp[5],MSGID_Disp[5],WZADDR_Disp[10];
+	
+	LCD_1_44_Clear(BLACK); //清屏
+	
+	Show_Str(70,3,LGRAYBLUE,BLACK,"MSG_type:",12,1);
+	Show_Str(123,4,YELLOW,BLACK,"x",12,1);
+	
+	Show_Str(3,3,LGRAYBLUE,BLACK,"EXT_ID:",12,1);
+	Show_Str(44,3,YELLOW,BLACK,"xxxx",12,1);
+	
+	Show_Str(3,13,LGRAYBLUE,BLACK,"W/Z_ADDR:",12,1);
+	Show_Str(56,14,YELLOW,BLACK,"unknown",12,1);
+	
+	for(;;){
+		
+		if(MSG_ID != Moudle_GTA.Wirless_ID){
+		
+			MSG_ID = Moudle_GTA.Wirless_ID;
+			LCD_1_44_ClearS(BLACK,122,0,130,13);
+			
+			switch(Moudle_GTA.Wirless_ID){
+			
+				case MID_TRANS_Zigbee:	
+					
+						sprintf((char *)MSGID_Disp,"Z");
+						Show_Str(123,4,BRED,BLACK,MSGID_Disp,12,1);
+						break;
+						
+				case MID_TRANS_Wifi:	
+					
+						sprintf((char *)MSGID_Disp,"W");
+						Show_Str(123,4,BRED,BLACK,MSGID_Disp,12,1);
+						break;
+				
+				default:sprintf((char *)MSGID_Disp,"-");
+						Show_Str(123,4,LGRAYBLUE,BLACK,MSGID_Disp,12,1);
+						break;
+			}
+		}
+		
+		if(EXT_ID != Moudle_GTA.Extension_ID){		//检测到模块更改，基层界面更新
+		
+			EXT_ID = Moudle_GTA.Extension_ID;
+			sprintf((char *)EXTID_Disp,"0x%02X",Moudle_GTA.Extension_ID);
+			LCD_1_44_ClearS(BLACK,43,0,70,13);
+			Show_Str(44,3,BRRED,BLACK,EXTID_Disp,12,1);
+			
+			osDelay(500);
+			
+			switch(Moudle_GTA.Extension_ID){		
+
+				case MID_SENSOR_FIRE:	
+
+						Show_Str(5,50,WHITE,BLACK,"火焰监测鑞",24,1);
+						Show_Str(50,75,WHITE,BLACK,"X X",24,1);
+						break;
+				
+				case MID_SENSOR_PYRO:		
+					
+						Show_Str(5,50,WHITE,BLACK,"人体侦测鑞",24,1);
+						Show_Str(50,75,WHITE,BLACK,"X X",24,1);
+						break;
+				
+				case MID_SENSOR_SMOKE:
+
+						Show_Str(5,50,WHITE,BLACK,"烟雾监测鑞",24,1);
+						Show_Str(50,75,WHITE,BLACK,"X X",24,1);
+						break;
+						
+				case MID_SENSOR_GAS:	
+							
+						Show_Str(5,50,WHITE,BLACK,"燃气检测鑞",24,1);
+						Show_Str(50,75,WHITE,BLACK,"X X",24,1);
+						break;	
+				
+				case MID_SENSOR_TEMP:	
+
+						Show_Str(5,25,WHITE,BLACK,"温度鑞",24,1);
+						Show_Str(50,50,GREEN,BLACK,"X X",24,1);
+						Show_Str(5,75,WHITE,BLACK,"湿度鑞",24,1);
+						Show_Str(50,100,GREEN,BLACK,"X X",24,1);	
+						break;
+				
+				case MID_SENSOR_LIGHT:	
+					
+						Show_Str(5,50,WHITE,BLACK,"亮度检测鑞",24,1);
+						Show_Str(50,75,WHITE,BLACK,"X X",24,1);
+						break;	
+				
+				case MID_SENSOR_SIMU:
+				
+						Show_Str(5,25,WHITE,BLACK,"模拟量通道鑞",24,1);
+						Show_Str(50,50,GREEN,BLACK,"X X",24,1);
+						Show_Str(5,75,WHITE,BLACK,"模拟值鑞",24,1);
+						Show_Str(50,100,GREEN,BLACK,"X X",24,1);
+						break;
+				
+				case MID_EXEC_IFR:		
+					
+						Show_Str(5,25,WHITE,BLACK,"键值鑞",24,1);
+						Show_Str(50,50,GREEN,BLACK,"X X",24,1);
+						Show_Str(5,75,WHITE,BLACK,"按键状态鑞",24,1);
+						Show_Str(50,100,GREEN,BLACK,"X X",24,1);
+						break;
+				
+				case MID_EXEC_SOURCE:
+					
+						Show_Str(5,25,WHITE,BLACK,"电源编号鑞",24,1);
+						Show_Str(50,50,GREEN,BLACK,"X X",24,1);
+						Show_Str(5,75,WHITE,BLACK,"电源状态鑞",24,1);
+						Show_Str(50,100,GREEN,BLACK,"X X",24,1);	
+						break;
+
+				default:break;
+			}
+		}
+		
+		switch(Moudle_GTA.Extension_ID){		
+
+			case MID_SENSOR_FIRE:	
+
+					{
+					
+						;
+					}break;
+			
+			case MID_SENSOR_PYRO:		
+				
+
+			
+			case MID_SENSOR_SMOKE:
+
+
+					
+			case MID_SENSOR_GAS:	
+						
+
+			
+			case MID_SENSOR_TEMP:	
+
+
+			
+			case MID_SENSOR_LIGHT:	
+				
+
+			
+			case MID_SENSOR_SIMU:
+			
+
+			
+			case MID_EXEC_IFR:		
+			
+					{
+						IFR_MEAS *rptr;
+						osEvent  evt;
+						
+						evt = osMessageGet(MsgBox_DPFID, osWaitForever);
+					}break;
+			
+			case MID_EXEC_SOURCE:
+				
+
+
+			default:break;
+		}
+	}
+}
+
+void LCD144Disp_Active(void){
 	
 	LCD144_Init();
-	tid_LCD144Test_Thread = osThreadCreate(osThread(LCD144Test_Thread),NULL);
+	tid_LCD144Test_Thread = osThreadCreate(osThread(LCD144Disp_Thread),NULL);
 }
 

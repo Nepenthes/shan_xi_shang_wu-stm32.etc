@@ -28,19 +28,19 @@ static uint16_t keyScan(void){
 
 	if(!K1)return KEY_VALUE_1;		//键值1
 	if(!K2)return KEY_VALUE_2;		//键值2
-	return KEY_NULL;					//无按键
+	return KEY_NULL;				//无按键
 }
 
 /***按键检测状态机***/
 static uint16_t getKey(Obj_keyStatus *orgKeyStatus,funKeyScan keyScan){
 
 	static	uint16_t s_u16KeyState 		= KEY_STATE_INIT;		//状态机检测状态，初始化状态
-	static	uint16_t	s_u16LastKey		= KEY_NULL;				//保留历史按键键值	
-	static	uint8_t	KeyKeepComfirm		= 0;						//长按后确认保持 确认所用时长计时
-	static	uint16_t	s_u16KeyTimeCount	= 0;						//长按时长定义（用来对KEY_TICK进行计数，根据这个计数值来确认是否属于长按）
-				uint16_t keyTemp				= KEY_NULL;				/*十六进制第一位：按键状态；	第二位：保持计数值；		第三位：键值；		第四位：连按计数值*/
+	static	uint16_t	s_u16LastKey		= KEY_NULL;			//保留历史按键键值	
+	static	uint8_t	KeyKeepComfirm		= 0;					//长按后确认保持 确认所用时长计时
+	static	uint16_t	s_u16KeyTimeCount	= 0;				//长按时长定义（用来对KEY_TICK进行计数，根据这个计数值来确认是否属于长按）
+				uint16_t keyTemp				= KEY_NULL;		/*十六进制第一位：按键状态；	第二位：保持计数值；		第三位：键值；		第四位：连按计数值*/
 	
-	static	uint32_t osTick_last			= 0xffff0000;			//对osTick进行记录，用于与下一次osTick进行对比获取间隔（此间隔用于判断按键是否属于连续按下）
+	static	uint32_t osTick_last			= 0xffff0000;		//对osTick进行记录，用于与下一次osTick进行对比获取间隔（此间隔用于判断按键是否属于连续按下）
 	
 	keyTemp = keyScan();		//获取键值
 	

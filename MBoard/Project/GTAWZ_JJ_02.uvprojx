@@ -332,7 +332,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\User;..\User\reWrite;..\Module;..\Module\LCD(1.44inches);..\Module\KEY&amp;TIPS;..\Module\Finger_ID;..\Module\Transmitter_USART;..\Module\Infra_Trans;..\备忘录</IncludePath>
+              <IncludePath>..\User;..\User\reWrite;..\Module;..\Module\LCD(1.44inches);..\Module\KEY&amp;TIPS;..\Module\Finger_ID;..\Module\Transmitter_USART;..\Module\Debug_USART;..\Module\Infra_Trans;..\Module\Fire_MS;..\Module\Gas_MS;..\Module\Light_MS;..\Module\Pyro_MS;..\Module\Simu_MS;..\Module\Smoke_MS;..\Module\Temp_MS;..\备忘录</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -409,6 +409,48 @@
         </Group>
         <Group>
           <GroupName>传感器构件</GroupName>
+          <Files>
+            <File>
+              <FileName>fireMS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Fire_MS\fireMS.c</FilePath>
+            </File>
+            <File>
+              <FileName>gasMS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Gas_MS\gasMS.c</FilePath>
+            </File>
+            <File>
+              <FileName>lightMS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Light_MS\lightMS.c</FilePath>
+            </File>
+            <File>
+              <FileName>pyroMS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Pyro_MS\pyroMS.c</FilePath>
+            </File>
+            <File>
+              <FileName>simuMS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Simu_MS\simuMS.c</FilePath>
+            </File>
+            <File>
+              <FileName>smokeMS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Smoke_MS\smokeMS.c</FilePath>
+            </File>
+            <File>
+              <FileName>tempMS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Temp_MS\tempMS.c</FilePath>
+            </File>
+            <File>
+              <FileName>finger_ID.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Finger_ID\finger_ID.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>显示构件</GroupName>
@@ -438,11 +480,6 @@
               <FileType>1</FileType>
               <FilePath>..\Module\Infra_Trans\infraTrans.c</FilePath>
             </File>
-            <File>
-              <FileName>finger_ID.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Module\Finger_ID\finger_ID.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -452,6 +489,11 @@
               <FileName>dataTrans_USART.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Module\Transmitter_USART\dataTrans_USART.c</FilePath>
+            </File>
+            <File>
+              <FileName>debugUart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Debug_USART\debugUart.c</FilePath>
             </File>
           </Files>
         </Group>
