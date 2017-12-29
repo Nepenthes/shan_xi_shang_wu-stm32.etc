@@ -6,11 +6,12 @@ void tipsInit(void){
 	GPIO_InitTypeDef GPIO_InitStructure;
 	
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOE,ENABLE);		//使能或者失能APB2外设时钟
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3 | GPIO_Pin_9 | GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15;	//底板指示灯
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3 | GPIO_Pin_6 | GPIO_Pin_9 | GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15;	//底板指示灯
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;			//最高输出速率50MHz
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;			//推挽输出
 	GPIO_Init(GPIOE, &GPIO_InitStructure);						//初始化外设GPIOx寄存器
 	GPIO_WriteBit(GPIOE, GPIO_Pin_3 | GPIO_Pin_9 | GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15, Bit_SET);
+	GPIO_WriteBit(GPIOE, GPIO_Pin_6, Bit_RESET);
 }
 
 osThreadId tid_tips;
@@ -21,13 +22,21 @@ void Task1 (void const *argument);
 osThreadDef(tipsThread,osPriorityNormal,1,512);
 osTimerDef(Tim0,TTask0);
 
-/*
- * main: initialize and start the system
- */
-void tipsLEDActive(void) {
+/****音调，时间，音量(十级)****/
+void tips_beep(u8 tones, u16 time, u8 vol){
 
-	tipsInit();
-	tid_tips = osThreadCreate(osThread(tipsThread), NULL);
+	const u8 vol_fa = 10;	//音量分级
+	u16 tones_base = tones * 50 + 240;  //周期时间 = 音调倍乘 + 音调基数 
+	u16 cycle = time * 1000 / tones_base;	//循环次数 = 总时间 / 频率
+	u16 loop;
+
+	for(loop = 0;loop < cycle;loop ++){
+	
+		PEout(6) = 1;
+		delay_us(tones_base / vol_fa * vol);
+		PEout(6) = 0;
+		delay_us(tones_base / vol_fa * (vol_fa - vol));
+	}
 }
 
 /******呼吸效果：LED对象，周期，呼吸类型（灭亮，亮灭）******/
@@ -231,5 +240,20 @@ void tipsThread(void const *argument){
 void TTask0(void const *argument){
 
 	osDelay(1000);
+}
+
+void tipsLEDActive(void) {
+
+	tipsInit();
+	tid_tips = osThreadCreate(osThread(tipsThread), NULL);
+	tips_beep(1,100,2);
+	tips_beep(2,100,2);
+	tips_beep(3,100,2);
+	tips_beep(4,100,2);
+	tips_beep(5,100,2);
+	tips_beep(6,100,2);
+	tips_beep(7,100,2);
+	tips_beep(8,100,2);
+	tips_beep(9,100,2);
 }
 

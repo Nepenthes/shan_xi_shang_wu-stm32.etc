@@ -33,6 +33,7 @@
 
 #define FID_EXERES_SUCCESS	0x0A
 #define FID_EXERES_FAIL		0x0B
+#define FID_EXERES_TTIT		0xCC
 
 typedef struct{
 

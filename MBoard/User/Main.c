@@ -30,8 +30,5 @@ int main (void const *argument)
 	
 	//tipsLEDActive();
 	
-	
-	
-	
 	osKernelStart ();                         	// start thread execution 
 }

@@ -624,6 +624,10 @@ void keyIFRActive(void) {
 
 	Remote_Init();
 	keyIFR_ADCInit();
+	
+	MsgBox_IFR 	 = osMessageCreate(osMessageQ(MsgBox_IFR), NULL);	//创建消息队列
+	MsgBox_MTIFR = osMessageCreate(osMessageQ(MsgBox_MTIFR), NULL);	//创建消息队列
+	MsgBox_DPIFR = osMessageCreate(osMessageQ(MsgBox_DPIFR), NULL);	//创建消息队列
     tid_keyIFR_Thread = osThreadCreate(osThread(keyIFR_Thread),NULL);
 }
 

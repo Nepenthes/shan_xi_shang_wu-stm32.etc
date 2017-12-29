@@ -1,8 +1,8 @@
 Dependencies for Project 'GTAWZ_JJ_02', Target '山西商务物联网实训台': (DO NOT MODIFY !)
-F (..\User\Main.c)(0x5A3C67FD)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Debug_USART -I ..\Module\Infra_Trans -I ..\Module\Fire_MS -I ..\Module\Gas_MS -I ..\Module\Light_MS -I ..\Module\Pyro_MS -I ..\Module\Simu_MS -I ..\Module\Smoke_MS -I ..\Module\Temp_MS -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (..\User\Main.c)(0x5A446022)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Debug_USART -I ..\Module\Infra_Trans -I ..\Module\Fire_MS -I ..\Module\Gas_MS -I ..\Module\Light_MS -I ..\Module\Pyro_MS -I ..\Module\Simu_MS -I ..\Module\Smoke_MS -I ..\Module\Temp_MS -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (..\User\includes.h)(0x59DE6C24)
 I (..\User\Bsp.h)(0x5A3B4EB1)
-I (..\Module\Tips.h)(0x5A3A37C5)
+I (..\Module\Tips.h)(0x5A445CFF)
 I (D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include\stm32f10x.h)(0x5825386C)
 I (E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\RTE_Components.h)(0x5A2F4A45)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include\core_cm3.h)(0x5A0D5BFA)
@@ -38,7 +38,7 @@ I (..\Module\KEY&TIPS\Key&Tips.h)(0x5A3B3F55)
 I (..\Module\Moudle_DEC.h)(0x5A3C5ACC)
 I (D:\Keil\Software\ARM\ARMCC\include\stdio.h)(0x5A1F6BA0)
 I (..\Module\Infra_Trans\infraTrans.h)(0x5A3E313C)
-I (..\Module\Finger_ID\finger_ID.h)(0x5A3E2ECD)
+I (..\Module\Finger_ID\finger_ID.h)(0x5A42F828)
 I (..\Module\Debug_USART\debugUART.h)(0x5A3C5EAC)
 I (..\Module\Fire_MS\fireMS.h)(0x5A3E2DFA)
 I (..\Module\Gas_MS\gasMS.h)(0x5A3E2F27)
@@ -50,9 +50,9 @@ I (..\Module\Temp_MS\tempMS.h)(0x5A3E3007)
 I (..\Module\LCD(1.44inches)\LCD_1.44.h)(0x5A3E30B5)
 I (D:\Keil\Software\ARM\ARMCC\include\stdlib.h)(0x569DEA3A)
 I (..\Module\LCD(1.44inches)\GUI_1.44.h)(0x5A1FA038)
-F (..\User\Bsp.c)(0x5A3C5EE3)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Debug_USART -I ..\Module\Infra_Trans -I ..\Module\Fire_MS -I ..\Module\Gas_MS -I ..\Module\Light_MS -I ..\Module\Pyro_MS -I ..\Module\Simu_MS -I ..\Module\Smoke_MS -I ..\Module\Temp_MS -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\bsp.o --omf_browse .\objects\bsp.crf --depend .\objects\bsp.d)
+F (..\User\Bsp.c)(0x5A444BD6)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Debug_USART -I ..\Module\Infra_Trans -I ..\Module\Fire_MS -I ..\Module\Gas_MS -I ..\Module\Light_MS -I ..\Module\Pyro_MS -I ..\Module\Simu_MS -I ..\Module\Smoke_MS -I ..\Module\Temp_MS -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\bsp.o --omf_browse .\objects\bsp.crf --depend .\objects\bsp.d)
 I (..\User\Bsp.h)(0x5A3B4EB1)
-I (..\Module\Tips.h)(0x5A3A37C5)
+I (..\Module\Tips.h)(0x5A445CFF)
 I (D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include\stm32f10x.h)(0x5825386C)
 I (E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\RTE_Components.h)(0x5A2F4A45)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include\core_cm3.h)(0x5A0D5BFA)
@@ -88,7 +88,7 @@ I (..\Module\KEY&TIPS\Key&Tips.h)(0x5A3B3F55)
 I (..\Module\Moudle_DEC.h)(0x5A3C5ACC)
 I (D:\Keil\Software\ARM\ARMCC\include\stdio.h)(0x5A1F6BA0)
 I (..\Module\Infra_Trans\infraTrans.h)(0x5A3E313C)
-I (..\Module\Finger_ID\finger_ID.h)(0x5A3E2ECD)
+I (..\Module\Finger_ID\finger_ID.h)(0x5A42F828)
 I (..\Module\Debug_USART\debugUART.h)(0x5A3C5EAC)
 I (..\Module\Fire_MS\fireMS.h)(0x5A3E2DFA)
 I (..\Module\Gas_MS\gasMS.h)(0x5A3E2F27)
@@ -149,8 +149,8 @@ I (D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\in
 I (..\User\osObjects.h)(0x59DE6C24)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC\cmsis_os.h)(0x5983FFB6)
 I (D:\Keil\Software\ARM\ARMCC\include\stddef.h)(0x569DEA3A)
-F (..\Module\Tips.c)(0x5A3BA553)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Debug_USART -I ..\Module\Infra_Trans -I ..\Module\Fire_MS -I ..\Module\Gas_MS -I ..\Module\Light_MS -I ..\Module\Pyro_MS -I ..\Module\Simu_MS -I ..\Module\Smoke_MS -I ..\Module\Temp_MS -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\tips.o --omf_browse .\objects\tips.crf --depend .\objects\tips.d)
-I (..\Module\Tips.h)(0x5A3A37C5)
+F (..\Module\Tips.c)(0x5A446022)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Debug_USART -I ..\Module\Infra_Trans -I ..\Module\Fire_MS -I ..\Module\Gas_MS -I ..\Module\Light_MS -I ..\Module\Pyro_MS -I ..\Module\Simu_MS -I ..\Module\Smoke_MS -I ..\Module\Temp_MS -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\tips.o --omf_browse .\objects\tips.crf --depend .\objects\tips.d)
+I (..\Module\Tips.h)(0x5A445CFF)
 I (D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include\stm32f10x.h)(0x5825386C)
 I (E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\RTE_Components.h)(0x5A2F4A45)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include\core_cm3.h)(0x5A0D5BFA)
@@ -185,7 +185,7 @@ I (D:\Keil\Software\ARM\ARMCC\include\stdio.h)(0x5A1F6BA0)
 I (D:\Keil\Software\ARM\ARMCC\include\string.h)(0x569DEA3A)
 I (..\Module\Infra_Trans\infraTrans.h)(0x5A3E313C)
 I (..\Module\KEY&TIPS\Key&Tips.h)(0x5A3B3F55)
-I (..\Module\Finger_ID\finger_ID.h)(0x5A3E2ECD)
+I (..\Module\Finger_ID\finger_ID.h)(0x5A42F828)
 I (..\Module\Debug_USART\debugUART.h)(0x5A3C5EAC)
 I (..\Module\Transmitter_USART\dataTrans_USART.h)(0x5A3C671A)
 I (..\Module\Fire_MS\fireMS.h)(0x5A3E2DFA)
@@ -230,7 +230,7 @@ I (..\User\osObjects.h)(0x59DE6C24)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC\cmsis_os.h)(0x5983FFB6)
 I (..\Module\Infra_Trans\infraTrans.h)(0x5A3E313C)
 I (..\Module\KEY&TIPS\Key&Tips.h)(0x5A3B3F55)
-I (..\Module\Finger_ID\finger_ID.h)(0x5A3E2ECD)
+I (..\Module\Finger_ID\finger_ID.h)(0x5A42F828)
 I (..\Module\Debug_USART\debugUART.h)(0x5A3C5EAC)
 I (..\Module\Transmitter_USART\dataTrans_USART.h)(0x5A3C671A)
 I (..\Module\Fire_MS\fireMS.h)(0x5A3E2DFA)
@@ -240,7 +240,7 @@ I (..\Module\Pyro_MS\pyroMS.h)(0x5A3E3007)
 I (..\Module\Simu_MS\simuMS.h)(0x5A3E3007)
 I (..\Module\Smoke_MS\smokeMS.h)(0x5A3E3007)
 I (..\Module\Temp_MS\tempMS.h)(0x5A3E3007)
-I (..\Module\Tips.h)(0x5A3A37C5)
+I (..\Module\Tips.h)(0x5A445CFF)
 F (..\Module\Fire_MS\fireMS.c)(0x5A3E2ECD)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Debug_USART -I ..\Module\Infra_Trans -I ..\Module\Fire_MS -I ..\Module\Gas_MS -I ..\Module\Light_MS -I ..\Module\Pyro_MS -I ..\Module\Simu_MS -I ..\Module\Smoke_MS -I ..\Module\Temp_MS -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\firems.o --omf_browse .\objects\firems.crf --depend .\objects\firems.d)
 I (..\Module\Fire_MS\fireMS.h)(0x5A3E2DFA)
 I (..\User\IO_Map.h)(0x5A1DA488)
@@ -279,7 +279,7 @@ I (..\Module\Transmitter_USART\dataTrans_USART.h)(0x5A3C671A)
 I (..\Module\KEY&TIPS\Key&Tips.h)(0x5A3B3F55)
 I (..\Module\Moudle_DEC.h)(0x5A3C5ACC)
 I (..\Module\Infra_Trans\infraTrans.h)(0x5A3E313C)
-I (..\Module\Finger_ID\finger_ID.h)(0x5A3E2ECD)
+I (..\Module\Finger_ID\finger_ID.h)(0x5A42F828)
 I (..\Module\Gas_MS\gasMS.h)(0x5A3E2F27)
 I (..\Module\Light_MS\lightMS.h)(0x5A3E3007)
 I (..\Module\Pyro_MS\pyroMS.h)(0x5A3E3007)
@@ -324,7 +324,7 @@ I (..\Module\Transmitter_USART\dataTrans_USART.h)(0x5A3C671A)
 I (..\Module\KEY&TIPS\Key&Tips.h)(0x5A3B3F55)
 I (..\Module\Moudle_DEC.h)(0x5A3C5ACC)
 I (..\Module\Infra_Trans\infraTrans.h)(0x5A3E313C)
-I (..\Module\Finger_ID\finger_ID.h)(0x5A3E2ECD)
+I (..\Module\Finger_ID\finger_ID.h)(0x5A42F828)
 I (..\Module\Fire_MS\fireMS.h)(0x5A3E2DFA)
 I (..\Module\Light_MS\lightMS.h)(0x5A3E3007)
 I (..\Module\Pyro_MS\pyroMS.h)(0x5A3E3007)
@@ -369,7 +369,7 @@ I (..\Module\Transmitter_USART\dataTrans_USART.h)(0x5A3C671A)
 I (..\Module\KEY&TIPS\Key&Tips.h)(0x5A3B3F55)
 I (..\Module\Moudle_DEC.h)(0x5A3C5ACC)
 I (..\Module\Infra_Trans\infraTrans.h)(0x5A3E313C)
-I (..\Module\Finger_ID\finger_ID.h)(0x5A3E2ECD)
+I (..\Module\Finger_ID\finger_ID.h)(0x5A42F828)
 I (..\Module\Fire_MS\fireMS.h)(0x5A3E2DFA)
 I (..\Module\Gas_MS\gasMS.h)(0x5A3E2F27)
 I (..\Module\Pyro_MS\pyroMS.h)(0x5A3E3007)
@@ -414,7 +414,7 @@ I (..\Module\Transmitter_USART\dataTrans_USART.h)(0x5A3C671A)
 I (..\Module\KEY&TIPS\Key&Tips.h)(0x5A3B3F55)
 I (..\Module\Moudle_DEC.h)(0x5A3C5ACC)
 I (..\Module\Infra_Trans\infraTrans.h)(0x5A3E313C)
-I (..\Module\Finger_ID\finger_ID.h)(0x5A3E2ECD)
+I (..\Module\Finger_ID\finger_ID.h)(0x5A42F828)
 I (..\Module\Fire_MS\fireMS.h)(0x5A3E2DFA)
 I (..\Module\Gas_MS\gasMS.h)(0x5A3E2F27)
 I (..\Module\Light_MS\lightMS.h)(0x5A3E3007)
@@ -459,7 +459,7 @@ I (..\Module\Transmitter_USART\dataTrans_USART.h)(0x5A3C671A)
 I (..\Module\KEY&TIPS\Key&Tips.h)(0x5A3B3F55)
 I (..\Module\Moudle_DEC.h)(0x5A3C5ACC)
 I (..\Module\Infra_Trans\infraTrans.h)(0x5A3E313C)
-I (..\Module\Finger_ID\finger_ID.h)(0x5A3E2ECD)
+I (..\Module\Finger_ID\finger_ID.h)(0x5A42F828)
 I (..\Module\Fire_MS\fireMS.h)(0x5A3E2DFA)
 I (..\Module\Gas_MS\gasMS.h)(0x5A3E2F27)
 I (..\Module\Light_MS\lightMS.h)(0x5A3E3007)
@@ -504,7 +504,7 @@ I (..\Module\Transmitter_USART\dataTrans_USART.h)(0x5A3C671A)
 I (..\Module\KEY&TIPS\Key&Tips.h)(0x5A3B3F55)
 I (..\Module\Moudle_DEC.h)(0x5A3C5ACC)
 I (..\Module\Infra_Trans\infraTrans.h)(0x5A3E313C)
-I (..\Module\Finger_ID\finger_ID.h)(0x5A3E2ECD)
+I (..\Module\Finger_ID\finger_ID.h)(0x5A42F828)
 I (..\Module\Fire_MS\fireMS.h)(0x5A3E2DFA)
 I (..\Module\Gas_MS\gasMS.h)(0x5A3E2F27)
 I (..\Module\Light_MS\lightMS.h)(0x5A3E3007)
@@ -549,15 +549,15 @@ I (..\Module\Transmitter_USART\dataTrans_USART.h)(0x5A3C671A)
 I (..\Module\KEY&TIPS\Key&Tips.h)(0x5A3B3F55)
 I (..\Module\Moudle_DEC.h)(0x5A3C5ACC)
 I (..\Module\Infra_Trans\infraTrans.h)(0x5A3E313C)
-I (..\Module\Finger_ID\finger_ID.h)(0x5A3E2ECD)
+I (..\Module\Finger_ID\finger_ID.h)(0x5A42F828)
 I (..\Module\Fire_MS\fireMS.h)(0x5A3E2DFA)
 I (..\Module\Gas_MS\gasMS.h)(0x5A3E2F27)
 I (..\Module\Light_MS\lightMS.h)(0x5A3E3007)
 I (..\Module\Pyro_MS\pyroMS.h)(0x5A3E3007)
 I (..\Module\Simu_MS\simuMS.h)(0x5A3E3007)
 I (..\Module\Smoke_MS\smokeMS.h)(0x5A3E3007)
-F (..\Module\Finger_ID\finger_ID.c)(0x5A3E2ECD)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Debug_USART -I ..\Module\Infra_Trans -I ..\Module\Fire_MS -I ..\Module\Gas_MS -I ..\Module\Light_MS -I ..\Module\Pyro_MS -I ..\Module\Simu_MS -I ..\Module\Smoke_MS -I ..\Module\Temp_MS -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\finger_id.o --omf_browse .\objects\finger_id.crf --depend .\objects\finger_id.d)
-I (..\Module\Finger_ID\finger_ID.h)(0x5A3E2ECD)
+F (..\Module\Finger_ID\finger_ID.c)(0x5A44609A)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Debug_USART -I ..\Module\Infra_Trans -I ..\Module\Fire_MS -I ..\Module\Gas_MS -I ..\Module\Light_MS -I ..\Module\Pyro_MS -I ..\Module\Simu_MS -I ..\Module\Smoke_MS -I ..\Module\Temp_MS -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\finger_id.o --omf_browse .\objects\finger_id.crf --depend .\objects\finger_id.d)
+I (..\Module\Finger_ID\finger_ID.h)(0x5A42F828)
 I (..\User\IO_Map.h)(0x5A1DA488)
 I (D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include\stm32f10x.h)(0x5825386C)
 I (E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\RTE_Components.h)(0x5A2F4A45)
@@ -627,7 +627,7 @@ I (..\Module\Moudle_DEC.h)(0x5A3C5ACC)
 I (..\User\IO_Map.h)(0x5A1DA488)
 I (..\Module\Infra_Trans\infraTrans.h)(0x5A3E313C)
 I (..\Module\KEY&TIPS\Key&Tips.h)(0x5A3B3F55)
-I (..\Module\Finger_ID\finger_ID.h)(0x5A3E2ECD)
+I (..\Module\Finger_ID\finger_ID.h)(0x5A42F828)
 I (..\Module\Debug_USART\debugUART.h)(0x5A3C5EAC)
 I (..\Module\Transmitter_USART\dataTrans_USART.h)(0x5A3C671A)
 I (..\Module\Fire_MS\fireMS.h)(0x5A3E2DFA)
@@ -675,7 +675,7 @@ I (..\Module\Moudle_DEC.h)(0x5A3C5ACC)
 I (..\User\IO_Map.h)(0x5A1DA488)
 I (..\Module\Infra_Trans\infraTrans.h)(0x5A3E313C)
 I (..\Module\KEY&TIPS\Key&Tips.h)(0x5A3B3F55)
-I (..\Module\Finger_ID\finger_ID.h)(0x5A3E2ECD)
+I (..\Module\Finger_ID\finger_ID.h)(0x5A42F828)
 I (..\Module\Debug_USART\debugUART.h)(0x5A3C5EAC)
 I (..\Module\Transmitter_USART\dataTrans_USART.h)(0x5A3C671A)
 I (..\Module\Fire_MS\fireMS.h)(0x5A3E2DFA)
@@ -718,7 +718,7 @@ I (D:\Keil\Software\ARM\ARMCC\include\stdbool.h)(0x569DEA3A)
 I (D:\Keil\Software\ARM\ARMCC\include\stdio.h)(0x5A1F6BA0)
 I (D:\Keil\Software\ARM\ARMCC\include\string.h)(0x569DEA3A)
 I (D:\Keil\Software\ARM\ARMCC\include\stdlib.h)(0x569DEA3A)
-F (..\Module\Infra_Trans\infraTrans.c)(0x5A3E313C)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Debug_USART -I ..\Module\Infra_Trans -I ..\Module\Fire_MS -I ..\Module\Gas_MS -I ..\Module\Light_MS -I ..\Module\Pyro_MS -I ..\Module\Simu_MS -I ..\Module\Smoke_MS -I ..\Module\Temp_MS -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\infratrans.o --omf_browse .\objects\infratrans.crf --depend .\objects\infratrans.d)
+F (..\Module\Infra_Trans\infraTrans.c)(0x5A406399)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Debug_USART -I ..\Module\Infra_Trans -I ..\Module\Fire_MS -I ..\Module\Gas_MS -I ..\Module\Light_MS -I ..\Module\Pyro_MS -I ..\Module\Simu_MS -I ..\Module\Smoke_MS -I ..\Module\Temp_MS -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\infratrans.o --omf_browse .\objects\infratrans.crf --depend .\objects\infratrans.d)
 I (..\Module\Infra_Trans\infraTrans.h)(0x5A3E313C)
 I (..\User\IO_Map.h)(0x5A1DA488)
 I (D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include\stm32f10x.h)(0x5825386C)
@@ -753,7 +753,7 @@ I (..\User\osObjects.h)(0x59DE6C24)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC\cmsis_os.h)(0x5983FFB6)
 I (..\Module\KEY&TIPS\Key&Tips.h)(0x5A3B3F55)
 I (D:\Keil\Software\ARM\ARMCC\include\stdlib.h)(0x569DEA3A)
-F (..\Module\Transmitter_USART\dataTrans_USART.c)(0x5A3E33F9)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Debug_USART -I ..\Module\Infra_Trans -I ..\Module\Fire_MS -I ..\Module\Gas_MS -I ..\Module\Light_MS -I ..\Module\Pyro_MS -I ..\Module\Simu_MS -I ..\Module\Smoke_MS -I ..\Module\Temp_MS -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\datatrans_usart.o --omf_browse .\objects\datatrans_usart.crf --depend .\objects\datatrans_usart.d)
+F (..\Module\Transmitter_USART\dataTrans_USART.c)(0x5A42F643)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Debug_USART -I ..\Module\Infra_Trans -I ..\Module\Fire_MS -I ..\Module\Gas_MS -I ..\Module\Light_MS -I ..\Module\Pyro_MS -I ..\Module\Simu_MS -I ..\Module\Smoke_MS -I ..\Module\Temp_MS -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\datatrans_usart.o --omf_browse .\objects\datatrans_usart.crf --depend .\objects\datatrans_usart.d)
 I (..\Module\Transmitter_USART\dataTrans_USART.h)(0x5A3C671A)
 I (D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include\stm32f10x.h)(0x5825386C)
 I (E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\RTE_Components.h)(0x5A2F4A45)
@@ -789,7 +789,7 @@ I (..\User\IO_Map.h)(0x5A1DA488)
 I (D:\Keil\Software\ARM\ARMCC\include\stdio.h)(0x5A1F6BA0)
 I (..\User\delay.h)(0x5A2FAD13)
 I (..\Module\Infra_Trans\infraTrans.h)(0x5A3E313C)
-I (..\Module\Finger_ID\finger_ID.h)(0x5A3E2ECD)
+I (..\Module\Finger_ID\finger_ID.h)(0x5A42F828)
 I (..\Module\Debug_USART\debugUART.h)(0x5A3C5EAC)
 I (..\Module\Fire_MS\fireMS.h)(0x5A3E2DFA)
 I (..\Module\Gas_MS\gasMS.h)(0x5A3E2F27)
@@ -835,7 +835,7 @@ I (..\User\IO_Map.h)(0x5A1DA488)
 I (D:\Keil\Software\ARM\ARMCC\include\stdio.h)(0x5A1F6BA0)
 I (..\User\delay.h)(0x5A2FAD13)
 I (..\Module\Infra_Trans\infraTrans.h)(0x5A3E313C)
-I (..\Module\Finger_ID\finger_ID.h)(0x5A3E2ECD)
+I (..\Module\Finger_ID\finger_ID.h)(0x5A42F828)
 I (..\Module\Fire_MS\fireMS.h)(0x5A3E2DFA)
 I (..\Module\Gas_MS\gasMS.h)(0x5A3E2F27)
 I (..\Module\Light_MS\lightMS.h)(0x5A3E3007)
@@ -876,7 +876,7 @@ I (D:\Keil\Software\ARM\ARMCC\include\stddef.h)(0x569DEA3A)
 I (E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC\RTE_Device.h)(0x5A309148)
 F (..\备忘录\备忘录.txt)(0x5A3C8060)()
 F (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\LIB\ARM\RTX_CM3.lib)(0x58AA8AF8)()
-F (RTE\CMSIS\RTX_Conf_CM.c)(0x5A3712B8)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Debug_USART -I ..\Module\Infra_Trans -I ..\Module\Fire_MS -I ..\Module\Gas_MS -I ..\Module\Light_MS -I ..\Module\Pyro_MS -I ..\Module\Simu_MS -I ..\Module\Smoke_MS -I ..\Module\Temp_MS -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\rtx_conf_cm.o --omf_browse .\objects\rtx_conf_cm.crf --depend .\objects\rtx_conf_cm.d)
+F (RTE\CMSIS\RTX_Conf_CM.c)(0x5A41E1D6)(-c --cpu Cortex-M3 -D__RTX -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\User\reWrite -I ..\Module -I ..\Module\LCD(1.44inches) -I ..\Module\KEY&TIPS -I ..\Module\Finger_ID -I ..\Module\Transmitter_USART -I ..\Module\Debug_USART -I ..\Module\Infra_Trans -I ..\Module\Fire_MS -I ..\Module\Gas_MS -I ..\Module\Light_MS -I ..\Module\Pyro_MS -I ..\Module\Simu_MS -I ..\Module\Smoke_MS -I ..\Module\Temp_MS -I ..\备忘录-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE-I E:\My_GTAProject\Project_ShanXiShangWu\Software\MBoard\Project\RTE\Device\STM32F103VC-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Driver\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-I D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc-I D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\RTE_Driver-D__UVISION_VERSION="518" -D_RTE_ -DSTM32F10X_HD-o .\objects\rtx_conf_cm.o --omf_browse .\objects\rtx_conf_cm.crf --depend .\objects\rtx_conf_cm.d)
 I (D:\Keil\Software\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\RTOS\RTX\INC\cmsis_os.h)(0x5983FFB6)
 I (D:\Keil\Software\ARM\ARMCC\include\stdint.h)(0x569DEA3A)
 I (D:\Keil\Software\ARM\ARMCC\include\stddef.h)(0x569DEA3A)

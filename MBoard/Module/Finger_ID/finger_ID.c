@@ -4,12 +4,12 @@ extern ARM_DRIVER_USART Driver_USART1;								//设备驱动库串口一设备声明
 extern osThreadId tid_USARTDebug_Thread;
 
 osThreadId tid_fingerID_Thread;
-osThreadDef(fingerID_Thread,osPriorityNormal,1,512);
+osThreadDef(fingerID_Thread,osPriorityNormal,1,1024);
 
 extern ARM_DRIVER_USART Driver_USART2;
 					 
 osPoolId  FID_pool;								 
-osPoolDef(FID_pool, 10, FID_MEAS);                    // 内存池定义
+osPoolDef(FID_pool, 5, FID_MEAS);                    // 内存池定义
 osMessageQId  MsgBox_FID;		
 osMessageQDef(MsgBox_FID, 1, &FID_MEAS);             // 消息队列定义
 osMessageQId  MsgBox_MTFID;		
@@ -132,11 +132,11 @@ FID_MEAS *fingerID_CMDTX(u8 CMD_ID,u8 rpt_num){	//指令编号，重发次数
 	char  *p_rec;	//接受包缓存指针
 	u16 ADD_RES,RX_num;	
 	u8  TX_CNT = 0;
-	FID_MEAS *result;
+	FID_MEAS *result = NULL;
 	
-	result = osPoolAlloc(FID_pool);	//申请返回数据类型指针
+	do{result = (FID_MEAS *)osPoolCAlloc(FID_pool);}while(result == NULL);	//申请返回数据类型指针
 	
-	osDelay(100);
+	osDelay(50);
 	memset(TX_BUF,0,FRAME_SIZE * sizeof(u8));	//缓存清空
 	memset(datsbuf,0,(FRAME_SIZE - 20) * sizeof(u8));
 	if(CMD_ID != 0xff){		//是否为动态指令
@@ -174,7 +174,7 @@ FID_MEAS *fingerID_CMDTX(u8 CMD_ID,u8 rpt_num){	//指令编号，重发次数
 					
 						result -> CMD = FID_EXERES_SUCCESS;
 						if(RX_num > 3)result -> DAT = p_rec[11];	//数据长度大于3，预设有限命令内应该是ID读取，page内容为2个字节，因为限位到Page1-255而取低字节
-						result -> CMD = FID_EXERES_SUCCESS;
+						else result -> DAT = 0;
 						osDelay(100);
 						return result;
 					}	
@@ -182,26 +182,28 @@ FID_MEAS *fingerID_CMDTX(u8 CMD_ID,u8 rpt_num){	//指令编号，重发次数
 			}
 		}
 		memset(RX_BUF,0,FRAME_SIZE * sizeof(u8));	//数据包缓存清空
-		osDelay(200);	
+		osDelay(100);	
 	}while(TX_CNT < rpt_num);	//重复次数用尽
 	
 	result -> CMD = FID_EXERES_FAIL;	//识别失败
+	result -> DAT = 0;
 	osDelay(100);
 	return result;
 }
 
 void fingerID_Thread(const void *argument){
 	
-	FID_MEAS *mptr;		//发送消息队列缓存
-	FID_MEAS *rptr;		//接收消息队列缓存
-	FID_MEAS *sptr;		//指纹指令缓存
+	FID_MEAS *mptr = NULL;		//发送消息队列缓存
+	FID_MEAS *rptr = NULL;		//接收消息队列缓存
+	FID_MEAS *sptr = NULL;		//指纹指令缓存
 	osEvent   evt;	 	//事件缓存
+	osStatus  status;
 	
 	u8 loop;
 	const u8 cmdQ_fidSave_len = 5;
 	const u8 cmdQ_fidIden_len = 3;
-	const u8 cmdQ_fidSave[cmdQ_fidSave_len] = {0,1,0,2,4};	//指纹存储指令队列，5条静态指令 + 1条动态复合指令
-	const u8 cmdQ_fidIden[cmdQ_fidIden_len] = {0,1,3}; //指纹存储指令队列，3条静态指令
+	const u8 cmdQ_fidSave[cmdQ_fidSave_len] = {0,1,0,2,4};	//指纹存储指令队列，5条静态指令 + 1条动态复合指令，/**指纹删除仅一条动态复合指令，无静态指令表**/
+	const u8 cmdQ_fidIden[cmdQ_fidIden_len] = {0,1,3}; //指纹识别指令队列，3条静态指令
 	const u8 TX_rept = 2;
 	
 	bool cmd_continue = false;
@@ -211,66 +213,87 @@ void fingerID_Thread(const void *argument){
 	
 	for(;;){
 	
-		evt = osMessageGet(MsgBox_MTFID, osWaitForever);
-		if (evt.status == osEventMessage) {		//等待消息指令
+		evt = osMessageGet(MsgBox_MTFID, 200);
+		if (evt.status == osEventMessage){		//等待消息指令
 		 
 			rptr = evt.value.p;
 			switch(rptr -> CMD){
 			
-				case FID_MSGCMD_FIDSAVE:	//执行指纹存储指令队列
+				case FID_MSGCMD_FIDSAVE:	//执行指纹存储指令
 					
-						mptr = osPoolAlloc(FID_pool); 	//外发消息内存申请
-				
-						for(loop = 0;loop < cmdQ_fidSave_len;loop ++){
-						
-							//-----------------------------------------------------------//（按表发送静态指令）
-							sptr = fingerID_CMDTX(cmdQ_fidSave[loop],TX_rept );	//静态指令队列发送
-							if(sptr -> CMD == FID_EXERES_SUCCESS){//取结果
+						do{mptr = (FID_MEAS *)osPoolCAlloc(FID_pool);}while(mptr == NULL); 	//外发消息内存申请
+					
+						osDelay(3000);
+						sptr = fingerID_CMDTX(0,20);
+						if(sptr -> CMD == FID_EXERES_SUCCESS){		//扫描20次是否有手指取结果
+							
+							do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);
+							sptr = NULL;							
+							osDelay(100);
+							for(loop = 0;loop < cmdQ_fidSave_len;loop ++){
+							
+								//-----------------------------------------------------------//（按表发送静态指令）
+								sptr = fingerID_CMDTX(cmdQ_fidSave[loop],TX_rept );	//静态指令队列发送
+								if(sptr -> CMD == FID_EXERES_SUCCESS){		//取结果
+									
+									if(loop == cmdQ_fidSave_len - 1)cmd_continue = true;	//前面四条静态指令都被成功执行，则使能最后一条动态复合指令
+									osDelay(500);
+								}else{
+									
+									osDelay(200);
+									mptr -> CMD = FID_EXERES_FAIL;								
+									mptr -> DAT = 0x00;	
+									osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
+									do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);
+									sptr = NULL;	
+									break;
+								}
+								do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);
+								sptr = NULL;
+							}
+							
+							if(cmd_continue){	//执行最后一条动态复合指令
 								
-								osPoolFree(FID_pool, sptr);	//释放指纹指令包内存
-								if(loop == 4)cmd_continue = true;	//前面四条静态指令都被成功执行，则使能最后一条动态复合指令
-								osDelay(500);
-							}else{
-		
-								mptr -> CMD = FID_EXERES_FAIL;
-								osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
-								break;
-							}osDelay(100);
+								cmd_continue = false;
 							
-							osPoolFree(FID_pool, sptr);	//释放指纹指令包内存
-						}
-						
-						if(cmd_continue){	//执行最后一条动态复合指令
-							
-							cmd_continue = false;
-						
-							//-----------------------------------------------------------//(动态复合指令)
-							memset(FID_CMDusr, 0, FID_CMDlen * sizeof(u8));	//缓存清空
-							memcpy(FID_CMDusr,FID_CMD[5],FID_CMDSIZE[5]);	//指令表指令复制
-							FID_CMDusr[FID_CMDSIZE[5]] = 0x00;	//因为页码数量限制，page页码高八位字节0填充
-							FID_CMDusr[FID_CMDSIZE[5] + 1] = rptr -> DAT;	//上位机只提供单字节低八位
-							FID_CMDptr = FID_CMDSIZE[5] + 2; //指令长度 +2
-							sptr = fingerID_CMDTX(0xff,TX_rept);	//发送自定义动态指令返回结果
-							if(sptr -> CMD == FID_EXERES_SUCCESS){	//取结果，同时整列指令队列成功执行完毕
-							
-								mptr -> CMD = sptr -> CMD;
-								osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
-							
-							}else{
+								//-----------------------------------------------------------//(动态复合指令)
+								memset(FID_CMDusr, 0, FID_CMDlen * sizeof(u8));	//缓存清空
+								memcpy(FID_CMDusr,FID_CMD[5],FID_CMDSIZE[5]);	//指令表指令复制
+								FID_CMDusr[FID_CMDSIZE[5]] = 0x00;	//因为页码数量限制，page页码高八位字节0填充
+								FID_CMDusr[FID_CMDSIZE[5] + 1] = rptr -> DAT;	//上位机只提供单字节低八位
+								FID_CMDptr = FID_CMDSIZE[5] + 2; //指令长度 +2
+								sptr = fingerID_CMDTX(0xff,TX_rept);	//发送自定义动态指令返回结果
+								if(sptr -> CMD == FID_EXERES_SUCCESS){	//取结果，同时整列指令队列成功执行完毕
 								
-								mptr -> CMD = FID_EXERES_FAIL;
-								osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
-								break;
-							}osDelay(100);
+									mptr -> CMD = FID_EXERES_SUCCESS;	//无数据反馈，仅填充结果，数据内容0x00填充
+									mptr -> DAT = 0x00;		
+									osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
+								}else{
+									
+									mptr -> CMD = FID_EXERES_FAIL;
+									mptr -> DAT = 0x00;	
+									osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
+								}osDelay(200);
+								do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);
+								sptr = NULL;
+							}
+						}else{
 							
-							osPoolFree(FID_pool, sptr);	//释放指纹指令包内存
+							osDelay(200);
+							mptr -> CMD = FID_EXERES_FAIL;								
+							mptr -> DAT = 0x00;	
+							osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
+							do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);
+							sptr = NULL;
+							break;
 						}
-						
+						osPoolFree(FID_pool, sptr);	//释放指纹指令包内存
+						sptr = NULL;
 						break;	   
 					
-				case FID_MSGCMD_FIDDELE:		
+				case FID_MSGCMD_FIDDELE:		//执行指纹删除指令
 					
-						//mptr = osPoolAlloc(FID_pool); 	//外发消息内存申请
+						do{mptr = (FID_MEAS *)osPoolCAlloc(FID_pool);}while(mptr == NULL); 	//外发消息内存申请
 					
 						//-----------------------------------------------------------//(动态复合指令)
 						memset(FID_CMDusr, 0, FID_CMDlen * sizeof(u8));	//缓存清空
@@ -283,24 +306,24 @@ void fingerID_Thread(const void *argument){
 						sptr = fingerID_CMDTX(0xff,TX_rept);	//发送自定义动态指令返回结果
 						if(sptr -> CMD == FID_EXERES_SUCCESS){	//取结果，同时整列指令队列成功执行完毕
 						
-							mptr -> CMD = sptr -> CMD;
-							mptr -> DAT = sptr -> DAT;
-							osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
-						
+							mptr -> CMD = FID_EXERES_SUCCESS;	//无数据反馈，仅填充结果，数据内容0x00填充
+							mptr -> DAT = 0x00;				
 						}else{
 							
 							mptr -> CMD = FID_EXERES_FAIL;
-							osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
-							break;
-						}osDelay(100);
-						
-						osPoolFree(FID_pool, sptr);	//释放指纹指令包内存
-				
+							mptr -> DAT = 0x00;								
+						}
+						osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
+						do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);	//释放指纹指令包内存
+						sptr = NULL;
+						sptr = fingerID_CMDTX(0,1);			//二次无意义调用，冲洗脏指针
+						do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);	//释放指纹指令包内存
+						sptr = NULL;
 						break;
 					
-				case FID_MSGCMD_FIDIDEN:		
+				case FID_MSGCMD_FIDIDEN:		//执行指纹识别指令队列
 					
-						mptr = osPoolAlloc(FID_pool); 	//外发消息内存申请
+						do{mptr = (FID_MEAS *)osPoolCAlloc(FID_pool);}while(mptr == NULL); 	//外发消息内存申请
 				
 						for(loop = 0;loop < cmdQ_fidIden_len;loop ++){
 						
@@ -310,28 +333,68 @@ void fingerID_Thread(const void *argument){
 								
 								if(loop == cmdQ_fidIden_len - 1){	//整列指令队列成功执行完毕
 								
-									mptr -> CMD = sptr -> CMD;
+									mptr -> CMD = FID_EXERES_SUCCESS;	//有数据反馈
 									mptr -> DAT = sptr -> DAT;
 									osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
 								}
-								osDelay(500);
+								osDelay(200);
 							}else{
 		
 								mptr -> CMD = FID_EXERES_FAIL;
+								mptr -> DAT = 0x00;	
 								osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
+								do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);	//释放指纹指令包内存
+								sptr = NULL;
 								break;
-							}osDelay(100);
+							}osDelay(500);
 							
-							osPoolFree(FID_pool, sptr);	//释放指纹指令包内存
+							do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);	//释放指纹指令包内存
+							sptr = NULL;
 						}
-				
 						break;
+						
+				default:break;
 			}
-			
-			osPoolFree(FID_pool, sptr);	//释放指纹指令包内存
 			osPoolFree(FID_pool, rptr);	//释放消息队列内存
 		}
-		osDelay(200);
+		/*上位机无主动指令，被动执行周期循环检测*/
+		
+		sptr = fingerID_CMDTX(0,1);
+		if(sptr -> CMD == FID_EXERES_SUCCESS){
+			
+			do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);
+			sptr = NULL;
+	
+			for(loop = 0;loop < cmdQ_fidIden_len;loop ++){
+			
+				//-----------------------------------------------------------//（按表发送静态指令）
+				sptr = fingerID_CMDTX(cmdQ_fidIden[loop],TX_rept );	//静态指令队列发送
+				if(sptr -> CMD == FID_EXERES_SUCCESS){//取结果
+					
+					if(loop == cmdQ_fidIden_len - 1){	//整列指令队列成功执行完毕
+						
+						do{mptr = (FID_MEAS *)osPoolCAlloc(FID_pool);}while(mptr == NULL); 	//外发消息内存申请
+						mptr -> CMD = FID_EXERES_TTIT;	//有数据反馈,主动上传
+						mptr -> DAT = sptr -> DAT;
+						osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
+					}
+					osDelay(200);
+				}else{					//主动周期检测，失败无动作
+					
+//					do{mptr = (FID_MEAS *)osPoolCAlloc(FID_pool);}while(mptr == NULL); 	//外发消息内存申请
+//					mptr -> CMD = FID_EXERES_FAIL;
+//					mptr -> DAT = 0x00;	
+//					osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
+					do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);
+					sptr = NULL;
+					break;
+				}osDelay(500);
+				
+				do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);
+				sptr = NULL;
+			}
+		}else {do{status = osPoolFree(FID_pool, sptr);}while(status != osOK); sptr = NULL;}
+		osDelay(20);
 	}
 }
 

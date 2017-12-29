@@ -18,7 +18,7 @@ const u8 dataTransFrameHead[dataTransFrameHead_size + 1] = {
 const u8 dataTransFrameTail_size = 2;
 const u8 dataTransFrameTail[dataTransFrameTail_size + 1] = {
 
-	0x0d,0x0a
+	0x0D,0x0A
 };
 
 void *memmem(void *start, unsigned int s_len, void *find,unsigned int f_len){
@@ -74,8 +74,9 @@ u16 dataTransFrameLoad_TX(u8 bufs[],u8 cmd,u8 Maddr,u8 dats[],u8 datslen){
 	
 	memcpy(&bufs[memp],dataTransFrameHead,dataTransFrameHead_size); //帧头填充
 	memp += dataTransFrameHead_size;	//指针后推
+	bufs[memp ++] = Moudle_GTA.Wirless_ID;
 	bufs[memp ++] = cmd;
-	bufs[memp ++] = Maddr;
+	bufs[memp ++] = Maddr;;
 	bufs[memp ++] = datslen;
 	memcpy(&bufs[memp],dats,datslen);
 	memp += datslen;
@@ -88,6 +89,7 @@ u16 dataTransFrameLoad_TX(u8 bufs[],u8 cmd,u8 Maddr,u8 dats[],u8 datslen){
 void USARTWireless_Thread(const void *argument){
 	
 	osEvent  evt;
+    osStatus status;
 	
 	bool RX_FLG = false; //有效数据获取标志
 	
@@ -98,7 +100,7 @@ void USARTWireless_Thread(const void *argument){
 	u8 TXdats_BUFtemp[dats_BUFtemp_len] = {0};	//发送核心数据包缓存
 	u8 RXdats_BUFtemp[dats_BUFtemp_len] = {0};	//接收核心数据包缓存
 	u8 memp;
-	char *p;
+	char *p = NULL;
 	
 //	osSignalWait(WIRLESS_THREAD_EN,osWaitForever);		//等待线程使能信号
 //	osSignalClear(tid_USARTWireless_Thread,WIRLESS_THREAD_EN);	
@@ -107,11 +109,7 @@ void USARTWireless_Thread(const void *argument){
 	Moudle_GTA.Wirless_ID = 0xAA;   			/****调试语句*****/
 	
 	for(;;){
-		
-		memset(TXdats_BUFtemp, 0, sizeof(u8) * dats_BUFtemp_len);		//所有缓存清零
-		memset(RXdats_BUFtemp, 0, sizeof(u8) * dats_BUFtemp_len);
-		memset(dataTrans_TXBUF, 0, sizeof(u8) * frameDatatrans_totlen);
-		memset(dataTrans_RXBUF, 0, sizeof(u8) * frameDatatrans_totlen);
+
 		memp = 0;
 		
 		osDelay(20);
@@ -175,9 +173,9 @@ void USARTWireless_Thread(const void *argument){
 				case MID_SENSOR_FID :	
 					
 						{
-							FID_MEAS *mptr;
+							FID_MEAS *mptr = NULL;
 							
-							mptr = osPoolAlloc(FID_pool); 
+							do{mptr = (FID_MEAS *)osPoolCAlloc(FID_pool);}while(mptr == NULL);
 							mptr -> CMD = RXdats_BUFtemp[0];  //下行命令加载
 							mptr -> DAT = RXdats_BUFtemp[1];  //下行数据加载
 							
@@ -192,10 +190,9 @@ void USARTWireless_Thread(const void *argument){
 				
 				default:break;
 			}
-			
-			memset(RXdats_BUFtemp, 0, sizeof(u8) * dats_BUFtemp_len); //数据缓存清零
 		}
 		
+		memset(TXdats_BUFtemp, 0, sizeof(u8) * dats_BUFtemp_len);
 		switch(Moudle_GTA.Extension_ID){	//数据发送
 		
 			case MID_SENSOR_FIRE :	
@@ -257,7 +254,7 @@ void USARTWireless_Thread(const void *argument){
 			case MID_SENSOR_FID :
 
 					{
-						FID_MEAS *rptr;
+						FID_MEAS *rptr = NULL;
 						evt = osMessageGet(MsgBox_FID, 100);
 						if (evt.status == osEventMessage) {		//等待消息指令
 							
@@ -268,15 +265,17 @@ void USARTWireless_Thread(const void *argument){
 								TXdats_BUFtemp[0] = rptr -> CMD;
 								TXdats_BUFtemp[1] = rptr -> DAT;
 								memp = dataTransFrameLoad_TX(dataTrans_TXBUF,datsTransCMD_UPLOAD,Moudle_GTA.Extension_ID,TXdats_BUFtemp,2);
-								Driver_USART2.Send(dataTrans_TXBUF,memp);
-								osDelay(20);
-								
 							}else{
 							
-							
-								
+								TXdats_BUFtemp[0] = rptr -> CMD;
+								TXdats_BUFtemp[1] = rptr -> DAT;
+								memp = dataTransFrameLoad_TX(dataTrans_TXBUF,datsTransCMD_UPLOAD,Moudle_GTA.Extension_ID,TXdats_BUFtemp,2);
+
 							}
-							osPoolFree(FID_pool, rptr); 	//内存释放
+							Driver_USART2.Send(dataTrans_TXBUF,memp);
+							osDelay(20);
+							do{status = osPoolFree(FID_pool, rptr);}while(status != osOK);	//内存释放
+							rptr = NULL;
 						}						
 					}break;			
 			
@@ -290,7 +289,8 @@ void USARTWireless_Thread(const void *argument){
 			
 			
 			default:break;
-		}	
+		}
+		memset(dataTrans_TXBUF, 0, sizeof(u8) * frameDatatrans_totlen);
 	}
 }
 
