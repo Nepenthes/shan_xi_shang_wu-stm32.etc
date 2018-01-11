@@ -1,21 +1,10 @@
-#include "finger_ID.h"
-
-extern ARM_DRIVER_USART Driver_USART1;								//…Ë±∏«˝∂Øø‚¥Æø⁄“ª…Ë±∏…˘√˜
-extern osThreadId tid_USARTDebug_Thread;
+#include "fingerID.h"
 
 osThreadId tid_fingerID_Thread;
 osThreadDef(fingerID_Thread,osPriorityNormal,1,1024);
 
-extern ARM_DRIVER_USART Driver_USART2;
-					 
-osPoolId  FID_pool;								 
-osPoolDef(FID_pool, 5, FID_MEAS);                    // ƒ⁄¥Ê≥ÿ∂®“Â
-osMessageQId  MsgBox_FID;		
-osMessageQDef(MsgBox_FID, 1, &FID_MEAS);             // œ˚œ¢∂”¡–∂®“Â
-osMessageQId  MsgBox_MTFID;		
-osMessageQDef(MsgBox_MTFID, 1, &FID_MEAS);             // œ˚œ¢∂”¡–∂®“Â
-osMessageQId  MsgBox_DPFID;		
-osMessageQDef(MsgBox_DPFID, 1, &FID_MEAS);             // œ˚œ¢∂”¡–∂®“Â
+extern ARM_DRIVER_USART Driver_USART1;								//…Ë±∏«˝∂Øø‚¥Æø⁄“ª…Ë±∏…˘√˜
+extern osThreadId tid_USARTDebug_Thread;
 
 /*******÷∏Œ∆ ∂±ƒ£øÈøÿ÷∆ ˝æ›∞¸ª∫¥Ê∏Ò Ωƒ⁄»›º∞ Ù–‘*******/
 const u8 FID_FrameHead_size = 2;
@@ -123,7 +112,7 @@ u16 FIDframeLoad_TX(u8 bufs[],u8 cmd[],u16 cmdlen){  //Ω´÷∏¡Ó∞¥∏Ò Ω◊∞‘ÿΩ¯ ˝æ›ª∫¥
 
 /******∞¥÷∏¡Ó±‡∫≈∑¢ÀÕ÷∏¡Ó********************/
 /******CMD_IDŒ™0xff ±£¨∑¢ÀÕ∂ØÃ¨∏¥∫œ÷∏¡Ó******/
-FID_MEAS *fingerID_CMDTX(u8 CMD_ID,u8 rpt_num){	//÷∏¡Ó±‡∫≈£¨÷ÿ∑¢¥Œ ˝
+EGUARD_MEAS *fingerID_CMDTX(u8 CMD_ID,u8 rpt_num){	//÷∏¡Ó±‡∫≈£¨÷ÿ∑¢¥Œ ˝
 
 	const u16 FRAME_SIZE = 100; // ˝æ›∞¸ª∫¥Ê≥§∂»
 	u16 TX_num;		// µº ∑¢ÀÕ ˝æ›∞¸≥§∂»
@@ -132,9 +121,9 @@ FID_MEAS *fingerID_CMDTX(u8 CMD_ID,u8 rpt_num){	//÷∏¡Ó±‡∫≈£¨÷ÿ∑¢¥Œ ˝
 	char  *p_rec;	//Ω” ‹∞¸ª∫¥Ê÷∏’Î
 	u16 ADD_RES,RX_num;	
 	u8  TX_CNT = 0;
-	FID_MEAS *result = NULL;
+	EGUARD_MEAS *result = NULL;
 	
-	do{result = (FID_MEAS *)osPoolCAlloc(FID_pool);}while(result == NULL);	//…Í«Î∑µªÿ ˝æ›¿‡–Õ÷∏’Î
+	do{result = (EGUARD_MEAS *)osPoolCAlloc(EGUD_pool);}while(result == NULL);	//…Í«Î∑µªÿ ˝æ›¿‡–Õ÷∏’Î
 	
 	osDelay(50);
 	memset(TX_BUF,0,FRAME_SIZE * sizeof(u8));	//ª∫¥Ê«Âø’
@@ -193,9 +182,9 @@ FID_MEAS *fingerID_CMDTX(u8 CMD_ID,u8 rpt_num){	//÷∏¡Ó±‡∫≈£¨÷ÿ∑¢¥Œ ˝
 
 void fingerID_Thread(const void *argument){
 	
-	FID_MEAS *mptr = NULL;		//∑¢ÀÕœ˚œ¢∂”¡–ª∫¥Ê
-	FID_MEAS *rptr = NULL;		//Ω” ’œ˚œ¢∂”¡–ª∫¥Ê
-	FID_MEAS *sptr = NULL;		//÷∏Œ∆÷∏¡Óª∫¥Ê
+	EGUARD_MEAS *mptr = NULL;		//∑¢ÀÕœ˚œ¢∂”¡–ª∫¥Ê
+	EGUARD_MEAS *rptr = NULL;		//Ω” ’œ˚œ¢∂”¡–ª∫¥Ê
+	EGUARD_MEAS *sptr = NULL;		//÷∏Œ∆÷∏¡Óª∫¥Ê
 	osEvent   evt;	 	// ¬º˛ª∫¥Ê
 	osStatus  status;
 	
@@ -213,7 +202,7 @@ void fingerID_Thread(const void *argument){
 	
 	for(;;){
 	
-		evt = osMessageGet(MsgBox_MTFID, 200);
+		evt = osMessageGet(MsgBox_MTEGUD, 200);
 		if (evt.status == osEventMessage){		//µ»¥˝œ˚œ¢÷∏¡Ó
 		 
 			rptr = evt.value.p;
@@ -221,13 +210,13 @@ void fingerID_Thread(const void *argument){
 			
 				case FID_MSGCMD_FIDSAVE:	//÷¥––÷∏Œ∆¥Ê¥¢÷∏¡Ó
 					
-						do{mptr = (FID_MEAS *)osPoolCAlloc(FID_pool);}while(mptr == NULL); 	//Õ‚∑¢œ˚œ¢ƒ⁄¥Ê…Í«Î
+						do{mptr = (EGUARD_MEAS *)osPoolCAlloc(EGUD_pool);}while(mptr == NULL); 	//Õ‚∑¢œ˚œ¢ƒ⁄¥Ê…Í«Î
 					
 						osDelay(3000);
 						sptr = fingerID_CMDTX(0,20);
 						if(sptr -> CMD == FID_EXERES_SUCCESS){		//…®√Ë20¥Œ «∑Ò”– ÷÷∏»°Ω·π˚
 							
-							do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);
+							do{status = osPoolFree(EGUD_pool, sptr);}while(status != osOK);
 							sptr = NULL;							
 							osDelay(100);
 							for(loop = 0;loop < cmdQ_fidSave_len;loop ++){
@@ -243,12 +232,12 @@ void fingerID_Thread(const void *argument){
 									osDelay(200);
 									mptr -> CMD = FID_EXERES_FAIL;								
 									mptr -> DAT = 0x00;	
-									osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
-									do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);
+									osMessagePut(MsgBox_EGUD_FID, (uint32_t)mptr, 100);
+									do{status = osPoolFree(EGUD_pool, sptr);}while(status != osOK);
 									sptr = NULL;	
 									break;
 								}
-								do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);
+								do{status = osPoolFree(EGUD_pool, sptr);}while(status != osOK);
 								sptr = NULL;
 							}
 							
@@ -267,14 +256,14 @@ void fingerID_Thread(const void *argument){
 								
 									mptr -> CMD = FID_EXERES_SUCCESS;	//Œﬁ ˝æ›∑¥¿°£¨ΩˆÃÓ≥‰Ω·π˚£¨ ˝æ›ƒ⁄»›0x00ÃÓ≥‰
 									mptr -> DAT = 0x00;		
-									osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
+									osMessagePut(MsgBox_EGUD_FID, (uint32_t)mptr, 100);
 								}else{
 									
 									mptr -> CMD = FID_EXERES_FAIL;
 									mptr -> DAT = 0x00;	
-									osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
+									osMessagePut(MsgBox_EGUD_FID, (uint32_t)mptr, 100);
 								}osDelay(200);
-								do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);
+								do{status = osPoolFree(EGUD_pool, sptr);}while(status != osOK);
 								sptr = NULL;
 							}
 						}else{
@@ -282,18 +271,18 @@ void fingerID_Thread(const void *argument){
 							osDelay(200);
 							mptr -> CMD = FID_EXERES_FAIL;								
 							mptr -> DAT = 0x00;	
-							osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
-							do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);
+							osMessagePut(MsgBox_EGUD_FID, (uint32_t)mptr, 100);
+							do{status = osPoolFree(EGUD_pool, sptr);}while(status != osOK);
 							sptr = NULL;
 							break;
 						}
-						osPoolFree(FID_pool, sptr);	// Õ∑≈÷∏Œ∆÷∏¡Ó∞¸ƒ⁄¥Ê
+						osPoolFree(EGUD_pool, sptr);	// Õ∑≈÷∏Œ∆÷∏¡Ó∞¸ƒ⁄¥Ê
 						sptr = NULL;
 						break;	   
 					
 				case FID_MSGCMD_FIDDELE:		//÷¥––÷∏Œ∆…æ≥˝÷∏¡Ó
 					
-						do{mptr = (FID_MEAS *)osPoolCAlloc(FID_pool);}while(mptr == NULL); 	//Õ‚∑¢œ˚œ¢ƒ⁄¥Ê…Í«Î
+						do{mptr = (EGUARD_MEAS *)osPoolCAlloc(EGUD_pool);}while(mptr == NULL); 	//Õ‚∑¢œ˚œ¢ƒ⁄¥Ê…Í«Î
 					
 						//-----------------------------------------------------------//(∂ØÃ¨∏¥∫œ÷∏¡Ó)
 						memset(FID_CMDusr, 0, FID_CMDlen * sizeof(u8));	//ª∫¥Ê«Âø’
@@ -313,17 +302,17 @@ void fingerID_Thread(const void *argument){
 							mptr -> CMD = FID_EXERES_FAIL;
 							mptr -> DAT = 0x00;								
 						}
-						osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
-						do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);	// Õ∑≈÷∏Œ∆÷∏¡Ó∞¸ƒ⁄¥Ê
+						osMessagePut(MsgBox_EGUD_FID, (uint32_t)mptr, 100);
+						do{status = osPoolFree(EGUD_pool, sptr);}while(status != osOK);	// Õ∑≈÷∏Œ∆÷∏¡Ó∞¸ƒ⁄¥Ê
 						sptr = NULL;
 						sptr = fingerID_CMDTX(0,1);			//∂˛¥ŒŒﬁ“‚“Âµ˜”√£¨≥Âœ¥‘‡÷∏’Î
-						do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);	// Õ∑≈÷∏Œ∆÷∏¡Ó∞¸ƒ⁄¥Ê
+						do{status = osPoolFree(EGUD_pool, sptr);}while(status != osOK);	// Õ∑≈÷∏Œ∆÷∏¡Ó∞¸ƒ⁄¥Ê
 						sptr = NULL;
 						break;
 					
 				case FID_MSGCMD_FIDIDEN:		//÷¥––÷∏Œ∆ ∂±÷∏¡Ó∂”¡–
 					
-						do{mptr = (FID_MEAS *)osPoolCAlloc(FID_pool);}while(mptr == NULL); 	//Õ‚∑¢œ˚œ¢ƒ⁄¥Ê…Í«Î
+						do{mptr = (EGUARD_MEAS *)osPoolCAlloc(EGUD_pool);}while(mptr == NULL); 	//Õ‚∑¢œ˚œ¢ƒ⁄¥Ê…Í«Î
 				
 						for(loop = 0;loop < cmdQ_fidIden_len;loop ++){
 						
@@ -335,34 +324,34 @@ void fingerID_Thread(const void *argument){
 								
 									mptr -> CMD = FID_EXERES_SUCCESS;	//”– ˝æ›∑¥¿°
 									mptr -> DAT = sptr -> DAT;
-									osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
+									osMessagePut(MsgBox_EGUD_FID, (uint32_t)mptr, 100);
 								}
 								osDelay(200);
 							}else{
 		
 								mptr -> CMD = FID_EXERES_FAIL;
 								mptr -> DAT = 0x00;	
-								osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
-								do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);	// Õ∑≈÷∏Œ∆÷∏¡Ó∞¸ƒ⁄¥Ê
+								osMessagePut(MsgBox_EGUD_FID, (uint32_t)mptr, 100);
+								do{status = osPoolFree(EGUD_pool, sptr);}while(status != osOK);	// Õ∑≈÷∏Œ∆÷∏¡Ó∞¸ƒ⁄¥Ê
 								sptr = NULL;
 								break;
 							}osDelay(500);
 							
-							do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);	// Õ∑≈÷∏Œ∆÷∏¡Ó∞¸ƒ⁄¥Ê
+							do{status = osPoolFree(EGUD_pool, sptr);}while(status != osOK);	// Õ∑≈÷∏Œ∆÷∏¡Ó∞¸ƒ⁄¥Ê
 							sptr = NULL;
 						}
 						break;
 						
 				default:break;
 			}
-			osPoolFree(FID_pool, rptr);	// Õ∑≈œ˚œ¢∂”¡–ƒ⁄¥Ê
+			osPoolFree(EGUD_pool, rptr);	// Õ∑≈œ˚œ¢∂”¡–ƒ⁄¥Ê
 		}
 		/*…œŒªª˙Œﬁ÷˜∂Ø÷∏¡Ó£¨±ª∂Ø÷¥––÷‹∆⁄—≠ª∑ºÏ≤‚*/
 		
 		sptr = fingerID_CMDTX(0,1);
 		if(sptr -> CMD == FID_EXERES_SUCCESS){
 			
-			do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);
+			do{status = osPoolFree(EGUD_pool, sptr);}while(status != osOK);
 			sptr = NULL;
 	
 			for(loop = 0;loop < cmdQ_fidIden_len;loop ++){
@@ -373,37 +362,37 @@ void fingerID_Thread(const void *argument){
 					
 					if(loop == cmdQ_fidIden_len - 1){	//’˚¡–÷∏¡Ó∂”¡–≥…π¶÷¥––ÕÍ±œ
 						
-						do{mptr = (FID_MEAS *)osPoolCAlloc(FID_pool);}while(mptr == NULL); 	//Õ‚∑¢œ˚œ¢ƒ⁄¥Ê…Í«Î
+						do{mptr = (EGUARD_MEAS *)osPoolCAlloc(EGUD_pool);}while(mptr == NULL); 	//Õ‚∑¢œ˚œ¢ƒ⁄¥Ê…Í«Î
 						mptr -> CMD = FID_EXERES_TTIT;	//”– ˝æ›∑¥¿°,÷˜∂Ø…œ¥´
 						mptr -> DAT = sptr -> DAT;
-						osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
+						osMessagePut(MsgBox_EGUD_FID, (uint32_t)mptr, 100);
+						
+						do{mptr = (EGUARD_MEAS *)osPoolCAlloc(EGUD_pool);}while(mptr == NULL); 	//1.44LCDÀÕœ‘
+						mptr -> CMD = FID_EXERES_TTIT;	
+						mptr -> DAT = sptr -> DAT;
+						osMessagePut(MsgBox_DPEGUD, (uint32_t)mptr, 100);
 					}
 					osDelay(200);
 				}else{					//÷˜∂Ø÷‹∆⁄ºÏ≤‚£¨ ß∞‹Œﬁ∂Ø◊˜
 					
-//					do{mptr = (FID_MEAS *)osPoolCAlloc(FID_pool);}while(mptr == NULL); 	//Õ‚∑¢œ˚œ¢ƒ⁄¥Ê…Í«Î
+//					do{mptr = (EGUARD_MEAS *)osPoolCAlloc(EGUD_pool);}while(mptr == NULL); 	//Õ‚∑¢œ˚œ¢ƒ⁄¥Ê…Í«Î
 //					mptr -> CMD = FID_EXERES_FAIL;
 //					mptr -> DAT = 0x00;	
-//					osMessagePut(MsgBox_FID, (uint32_t)mptr, 100);
-					do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);
+//					osMessagePut(MsgBox_EGUD_FID, (uint32_t)mptr, 100);
+					do{status = osPoolFree(EGUD_pool, sptr);}while(status != osOK);
 					sptr = NULL;
 					break;
 				}osDelay(500);
 				
-				do{status = osPoolFree(FID_pool, sptr);}while(status != osOK);
+				do{status = osPoolFree(EGUD_pool, sptr);}while(status != osOK);
 				sptr = NULL;
 			}
-		}else {do{status = osPoolFree(FID_pool, sptr);}while(status != osOK); sptr = NULL;}
+		}else {do{status = osPoolFree(EGUD_pool, sptr);}while(status != osOK); sptr = NULL;}
 		osDelay(20);
 	}
 }
 
-void fingerID_Active(void){
-
-	FID_pool = osPoolCreate(osPool(FID_pool));	//¥¥Ω®ƒ⁄¥Ê≥ÿ
-	MsgBox_FID = osMessageCreate(osMessageQ(MsgBox_FID), NULL);	//¥¥Ω®œ˚œ¢∂”¡–
-	MsgBox_MTFID = osMessageCreate(osMessageQ(MsgBox_MTFID), NULL);	//¥¥Ω®œ˚œ¢∂”¡–
-	MsgBox_DPFID = osMessageCreate(osMessageQ(MsgBox_DPFID), NULL);	//¥¥Ω®œ˚œ¢∂”¡–
+void fingerIDThread_Active(void){
 	
 	tid_fingerID_Thread	= osThreadCreate(osThread(fingerID_Thread),NULL);
 }

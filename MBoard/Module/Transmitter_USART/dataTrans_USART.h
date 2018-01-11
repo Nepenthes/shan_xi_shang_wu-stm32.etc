@@ -12,12 +12,12 @@
 #include <Key&Tips.h>
 #include "Moudle_DEC.h"
 
-#include "finger_ID.h"
+#include "Eguard.h"
 #include "fireMS.h"
 #include "gasMS.h"
 #include "lightMS.h"
 #include "pyroMS.h"
-#include "simuMS.h"
+#include "analogMS.h"
 #include "smokeMS.h"
 #include "tempMS.h"
 
@@ -27,6 +27,8 @@
 
 #define  datsTransCMD_UPLOAD	0x10
 #define  datsTransCMD_DOWNLOAD	0x20
+
+#define	 ABNORMAL_DAT	0xfe
 
 extern osThreadId tid_USARTWireless_Thread;
 	

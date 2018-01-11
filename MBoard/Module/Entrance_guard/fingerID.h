@@ -1,13 +1,7 @@
-#ifndef	_FINGERID_H_
-#define	_FINGERID_H_
+#ifndef _FINGERID_H_
+#define _FINGERID_H_
 
-#include "IO_Map.h"
-#include "stm32f10x.h"
-
-#include "stdio.h"
-#include "string.h"
-#include "Driver_USART.h"
-#include "delay.h"
+#include "Eguard.h"
 
 #define FID_IDENT_CMD	0x01
 #define FID_IDENT_NXT	0x02
@@ -35,22 +29,8 @@
 #define FID_EXERES_FAIL		0x0B
 #define FID_EXERES_TTIT		0xCC
 
-typedef struct{
-
-	u8 CMD;
-	u8 DAT;
-}FID_MEAS;
-
-extern osThreadId  tid_fingerID_Thread;
-
-extern osPoolId  	 FID_pool;	
-extern osMessageQId  MsgBox_FID;							 
-extern osMessageQId  MsgBox_MTFID;
-extern osMessageQId  MsgBox_DPFID;
-
 void fingerID_Thread(const void *argument);
-
-void fingerID_Active(void);
+void fingerIDThread_Active(void);
 
 #endif
 

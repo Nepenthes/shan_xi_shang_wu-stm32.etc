@@ -11,9 +11,12 @@
 
 #include "debugUart.h"
 
+#define PYRO_DATA	PAin(0);
+
 typedef struct{
 
-	bool VAL;
+	bool 	 VAL;
+	uint16_t anaDAT;
 }pyroMS_MEAS;
 
 extern osThreadId 	 tid_pyroMS_Thread;

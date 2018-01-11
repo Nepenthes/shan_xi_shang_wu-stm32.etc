@@ -11,9 +11,12 @@
 
 #include "debugUart.h"
 
+#define SMOKE_DATA	PAin(0);
+
 typedef struct{
 
-	bool VAL;
+	bool 	 VAL;
+	uint16_t anaDAT;
 }smokeMS_MEAS;
 
 extern osThreadId 	 tid_smokeMS_Thread;

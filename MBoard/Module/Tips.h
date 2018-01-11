@@ -39,6 +39,7 @@ void tipsBoardActive(void);
 void tipsThread(void const *argument);
 
 void tips_beep(u8 tones, u16 time, u8 vol);
+void beeps(u8 num);
 
 void TTask0(void const *argument);
 

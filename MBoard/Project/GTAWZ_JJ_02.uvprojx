@@ -110,12 +110,12 @@
         <DllOption>
           <SimDllName>SARMCM3.DLL</SimDllName>
           <SimDllArguments>-REMAP</SimDllArguments>
-          <SimDlgDll>DCM.DLL</SimDlgDll>
-          <SimDlgDllArguments>-pCM3</SimDlgDllArguments>
+          <SimDlgDll>DARMSTM.DLL</SimDlgDll>
+          <SimDlgDllArguments>-pSTM32F103VC</SimDlgDllArguments>
           <TargetDllName>SARMCM3.DLL</TargetDllName>
           <TargetDllArguments></TargetDllArguments>
-          <TargetDlgDll>TCM.DLL</TargetDlgDll>
-          <TargetDlgDllArguments>-pCM3</TargetDlgDllArguments>
+          <TargetDlgDll>TARMSTM.DLL</TargetDlgDll>
+          <TargetDlgDllArguments>-pSTM32F103VC</TargetDlgDllArguments>
         </DllOption>
         <DebugOption>
           <OPTHX>
@@ -332,7 +332,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\User;..\User\reWrite;..\Module;..\Module\LCD(1.44inches);..\Module\KEY&amp;TIPS;..\Module\Finger_ID;..\Module\Transmitter_USART;..\Module\Debug_USART;..\Module\Infra_Trans;..\Module\Fire_MS;..\Module\Gas_MS;..\Module\Light_MS;..\Module\Pyro_MS;..\Module\Simu_MS;..\Module\Smoke_MS;..\Module\Temp_MS;..\备忘录</IncludePath>
+              <IncludePath>..\User;..\Module;..\User\reWrite;..\User\FlashOP;..\Module\LCD(1.44inches);..\Module\KEY&amp;TIPS;..\Module\Debug_USART;..\Module\Transmitter_USART;..\Module\Entrance_guard;..\Module\Fire_MS;..\Module\Gas_MS;..\Module\Light_MS;..\Module\Pyro_MS;..\Module\Simu_MS;..\Module\Smoke_MS;..\Module\Temp_MS;..\Module\AnalogMS;..\Module\Infra_Trans;..\Module\Pwm_CM;..\Module\Source_CM;..\Module\Curtain_CM;..\Module\Speak_CM;..\备忘录</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -405,6 +405,46 @@
               <FileType>1</FileType>
               <FilePath>..\Module\Moudle_DEC.c</FilePath>
             </File>
+            <File>
+              <FileName>intrrupt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\intrrupt.c</FilePath>
+            </File>
+            <File>
+              <FileName>stmflash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\FlashOP\stmflash.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>门禁</GroupName>
+          <Files>
+            <File>
+              <FileName>Eguard.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Entrance_guard\Eguard.c</FilePath>
+            </File>
+            <File>
+              <FileName>fingerID.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Entrance_guard\fingerID.c</FilePath>
+            </File>
+            <File>
+              <FileName>rfID.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Entrance_guard\rfID.c</FilePath>
+            </File>
+            <File>
+              <FileName>kBoard.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Entrance_guard\kBoard.c</FilePath>
+            </File>
+            <File>
+              <FileName>rc522_config.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Entrance_guard\rc522_config.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -416,24 +456,14 @@
               <FilePath>..\Module\Fire_MS\fireMS.c</FilePath>
             </File>
             <File>
-              <FileName>gasMS.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Module\Gas_MS\gasMS.c</FilePath>
-            </File>
-            <File>
-              <FileName>lightMS.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Module\Light_MS\lightMS.c</FilePath>
-            </File>
-            <File>
               <FileName>pyroMS.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Module\Pyro_MS\pyroMS.c</FilePath>
             </File>
             <File>
-              <FileName>simuMS.c</FileName>
+              <FileName>gasMS.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Module\Simu_MS\simuMS.c</FilePath>
+              <FilePath>..\Module\Gas_MS\gasMS.c</FilePath>
             </File>
             <File>
               <FileName>smokeMS.c</FileName>
@@ -441,14 +471,19 @@
               <FilePath>..\Module\Smoke_MS\smokeMS.c</FilePath>
             </File>
             <File>
+              <FileName>lightMS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Light_MS\lightMS.c</FilePath>
+            </File>
+            <File>
               <FileName>tempMS.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Module\Temp_MS\tempMS.c</FilePath>
             </File>
             <File>
-              <FileName>finger_ID.c</FileName>
+              <FileName>analogMS.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Module\Finger_ID\finger_ID.c</FilePath>
+              <FilePath>..\Module\AnalogMS\analogMS.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -479,6 +514,26 @@
               <FileName>infraTrans.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Module\Infra_Trans\infraTrans.c</FilePath>
+            </File>
+            <File>
+              <FileName>pwmCM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Pwm_CM\pwmCM.c</FilePath>
+            </File>
+            <File>
+              <FileName>curtainCM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Curtain_CM\curtainCM.c</FilePath>
+            </File>
+            <File>
+              <FileName>sourceCM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Source_CM\sourceCM.c</FilePath>
+            </File>
+            <File>
+              <FileName>speakCM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Speak_CM\speakCM.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -538,6 +593,12 @@
           <targetInfo name="山西商务物联网实训台"/>
         </targetInfos>
       </api>
+      <api Capiversion="2.3.0" Cclass="CMSIS Driver" Cgroup="I2C" exclusive="0">
+        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.2.0"/>
+        <targetInfos>
+          <targetInfo name="山西商务物联网实训台"/>
+        </targetInfos>
+      </api>
       <api Capiversion="1.0.0" Cclass="CMSIS" Cgroup="RTOS" exclusive="1">
         <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.2.0"/>
         <targetInfos>
@@ -559,6 +620,18 @@
         </targetInfos>
       </component>
       <component Capiversion="1.0" Cclass="CMSIS Driver" Cgroup="CAN" Cvendor="Keil" Cversion="1.6" condition="STM32F1xx CMSIS GPIO">
+        <package name="STM32F1xx_DFP" schemaVersion="1.4.0" url="http://www.keil.com/pack/" vendor="Keil" version="2.2.0"/>
+        <targetInfos>
+          <targetInfo name="山西商务物联网实训台"/>
+        </targetInfos>
+      </component>
+      <component Capiversion="2.2" Cclass="CMSIS Driver" Cgroup="I2C" Cvendor="Keil" Cversion="2.1" condition="STM32F1xx CMSIS GPIO DMA">
+        <package name="STM32F1xx_DFP" schemaVersion="1.4.0" url="http://www.keil.com/pack/" vendor="Keil" version="2.2.0"/>
+        <targetInfos>
+          <targetInfo name="山西商务物联网实训台"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="DMA" Cvendor="Keil" Cversion="1.2" condition="STM32F1xx CMSIS">
         <package name="STM32F1xx_DFP" schemaVersion="1.4.0" url="http://www.keil.com/pack/" vendor="Keil" version="2.2.0"/>
         <targetInfos>
           <targetInfo name="山西商务物联网实训台"/>

@@ -32,5 +32,7 @@
 #define RTE_DEVICE_STDPERIPH_USART
 #define RTE_Drivers_CAN1                /* Driver CAN1 */
         #define RTE_Drivers_CAN2                /* Driver CAN2 */
+#define RTE_Drivers_I2C1                /* Driver I2C1 */
+        #define RTE_Drivers_I2C2                /* Driver I2C2 */
 
 #endif /* RTE_COMPONENTS_H */

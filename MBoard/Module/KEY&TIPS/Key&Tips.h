@@ -8,6 +8,9 @@
 #include "osObjects.h"                      // RTOS object definitions
 #include "Driver_USART.h"
 
+#include "pwmCM.h"
+#include "infraTrans.h"
+
 #define KEY_DEBUG_ON		0x00000004		//开启按键调试信息输出信号（串口1反馈调试信息）
 #define KEY_DEBUG_OFF		0x00000005		//关闭按键调试信息输出信号（串口1反馈调试信息）
 
@@ -85,7 +88,24 @@ typedef struct keyEvent {		//创建一个按键检测线程对象封装
     funEventKey funKeyKEEP[16][8];	//连按事件
 } Obj_eventKey;
 
-void key_Thread(funKeyInit key_Init,Obj_keyStatus *orgKeyStatus,funKeyScan key_Scan,Obj_eventKey keyEvent,const char *Tips_head);
+//typedef struct kmBAttr{
+
+//	funKeyInit 		key_Init;
+//	Obj_keyStatus 	*orgKeyStatus;
+//	funKeyScan 		key_Scan;
+//	Obj_eventKey 	keyEvent;
+//	const char 		*Tips_head;
+//}keyMBAttr;
+
+void eventK23(void);
+void eventK24(void);
+void eventK25(void);
+
+void key_Thread(	funKeyInit 		key_Init,		
+					Obj_keyStatus 	*orgKeyStatus,
+					funKeyScan 		key_Scan,		
+					Obj_eventKey 	keyEvent,		
+					const char 		*Tips_head	);
 
 void keyInit(void);
 void keyMboard_Thread(const void *argument);

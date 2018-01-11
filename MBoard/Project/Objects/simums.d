@@ -39,11 +39,12 @@
 .\objects\simums.o: ..\Module\Moudle_DEC.h
 .\objects\simums.o: ..\Module\Infra_Trans\infraTrans.h
 .\objects\simums.o: ..\Module\Finger_ID\finger_ID.h
-.\objects\simums.o: ..\Module\Debug_USART\debugUART.h
 .\objects\simums.o: ..\Module\Fire_MS\fireMS.h
+.\objects\simums.o: ..\Module\Debug_USART\debugUart.h
 .\objects\simums.o: ..\Module\Gas_MS\gasMS.h
 .\objects\simums.o: ..\Module\Light_MS\lightMS.h
 .\objects\simums.o: ..\Module\Pyro_MS\pyroMS.h
 .\objects\simums.o: ..\Module\Simu_MS\simuMS.h
 .\objects\simums.o: ..\Module\Smoke_MS\smokeMS.h
 .\objects\simums.o: ..\Module\Temp_MS\tempMS.h
+.\objects\simums.o: ..\Module\Light_CM\lightCM.h

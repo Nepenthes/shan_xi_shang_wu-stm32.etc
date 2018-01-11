@@ -11,9 +11,12 @@
 
 #include "debugUart.h"
 
+#define GAS_DATA	PAin(0);
+
 typedef struct{
 	
-	bool VAL;
+	bool 	 VAL;
+	uint16_t anaDAT;	
 }gasMS_MEAS;
 
 extern osThreadId 	 tid_gasMS_Thread;

@@ -8,6 +8,17 @@ osThreadDef(MBDEC_Thread,osPriorityNormal,1,512);
 
 extern ARM_DRIVER_USART Driver_USART1;		//设备驱动库串口一设备声明
 
+void stdDeInit(void){
+
+	GPIO_DeInit(GPIOA);
+
+	GPIO_AFIODeInit();
+
+	EXTI_DeInit();
+
+	ADC_DeInit(ADC1);
+}
+
 void MoudleDEC_ioInit(void){		//模块检测脚初始化
 
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -114,8 +125,6 @@ void MBDEC_Thread(const void *argument){	//循环检测
 							
 						default:break;
 					}
-					
-					osThreadTerminate(tid_keyIFR_Thread);  //无线传输线程终止
 				}
 			}
 			
@@ -128,42 +137,79 @@ void MBDEC_Thread(const void *argument){	//循环检测
 					
 					osSignalSet (tid_tips, EVTSIG_EXT_A);
 					osDelay(signel_waitTime);
-
-					osDelay(100);
+					
 					memset(disp,0,disp_size * sizeof(char));
 					sprintf(disp,"扩展模块：0x%02X(ID)已被安装并激活\r\n",Moudle_GTA.Extension_ID);
 					Driver_USART1.Send(disp,strlen(disp));
+					osDelay(20);
 					
 					switch(Moudle_GTA.Extension_ID){	//卡槽一，扩展模块驱动激活
 					
-						case MID_SENSOR_FIRE :	break;
-						
-						case MID_SENSOR_PYRO :	break;
-						
-						case MID_SENSOR_SMOKE :	break;
-						
-						case MID_SENSOR_GAS  :	break;
-						
-						case MID_SENSOR_TEMP :	break;
-						
-						case MID_SENSOR_LIGHT:	break;
-						
-						case MID_SENSOR_SIMU :	break;
-						
-						case MID_SENSOR_FID :	
+						case MID_SENSOR_FIRE :	
 							
-								fingerID_Active();
+								fireMSThread_Active();
 								break;
 						
-						case MID_EXEC_IFR	 :	
+						case MID_SENSOR_PYRO :	
+							
+								pyroMSThread_Active();
+								break;
+						
+						case MID_SENSOR_SMOKE :	
+							
+								smokeMSThread_Active();
+								break;
+						
+						case MID_SENSOR_GAS  :	
+							
+								gasMSThread_Active();
+								break;
+						
+						case MID_SENSOR_TEMP :	
+							
+								tempMSThread_Active();
+								break;
+						
+						case MID_SENSOR_LIGHT:	
+							
+								lightMSThread_Active();
+								break;
+						
+						case MID_SENSOR_ANALOG :	
+							
+								analogMSThread_Active();
+								break;
+						
+						case MID_EGUARD :	
+							
+								Eguard_Active();
+								break;
+						
+						case MID_EXEC_DEVIFR	 :	
 							
 								keyIFRActive();
 								osSignalSet (tid_USARTDebug_Thread, USARTDEBUG_THREAD_EN);
 								break;
 						
-						case MID_EXEC_SOURCE :  break;
+						case MID_EXEC_SOURCE :  
+							
+								sourceCMThread_Active();
+								break;
 						
+						case MID_EXEC_CURTAIN:
+							
+								curtainCMThread_Active();
+								break;
 						
+						case MID_EXEC_DEVPWM	 :	
+							
+								pwmCMThread_Active();
+								break;
+						
+						case MID_EXEC_SPEAK:
+								speakCMThread_Active();
+								break;
+							
 						default:break;
 					}
 					
@@ -174,41 +220,82 @@ void MBDEC_Thread(const void *argument){	//循环检测
 					osSignalSet (tid_tips, EVTSIG_EXT_B);
 					osDelay(signel_waitTime);
 					
-					memset(disp,0,disp_size * sizeof(char));
-					sprintf(disp,"扩展模块：0x%02X(ID)已被拔除\r\n",Moudle_GTA.Extension_ID);
-					Driver_USART1.Send(disp,strlen(disp));
-					
 					switch(Moudle_GTA.Extension_ID){	//卡槽一，扩展模块驱动中止
 					
-						case MID_SENSOR_FIRE :	break;
-						
-						case MID_SENSOR_PYRO :	break;
-						
-						case MID_SENSOR_SMOKE :	break;
-						
-						case MID_SENSOR_GAS  :	break;
-						
-						case MID_SENSOR_TEMP :	break;
-						
-						case MID_SENSOR_LIGHT:	break;
-						
-						case MID_SENSOR_SIMU :	break;
-						
-						case MID_SENSOR_FID :	
+						case MID_SENSOR_FIRE :	
 							
-								osThreadTerminate(tid_fingerID_Thread); 
+								osThreadTerminate(tid_fireMS_Thread);
 								break;
 						
-						case MID_EXEC_IFR	 :	
+						case MID_SENSOR_PYRO :	
 							
-								osThreadTerminate(tid_keyIFR_Thread); 
+								osThreadTerminate(tid_pyroMS_Thread);
 								break;
 						
-						case MID_EXEC_SOURCE :  break;
+						case MID_SENSOR_SMOKE :	
+							
+								osThreadTerminate(tid_smokeMS_Thread);
+								break;
 						
+						case MID_SENSOR_GAS  :	
+							
+								osThreadTerminate(tid_gasMS_Thread);
+								break;
+						
+						case MID_SENSOR_TEMP :	
+							
+								osThreadTerminate(tid_tempMS_Thread);
+								break;
+						
+						case MID_SENSOR_LIGHT:	
+							
+								osThreadTerminate(tid_lightMS_Thread);
+								break;
+						
+						case MID_SENSOR_ANALOG :	
+							
+								osThreadTerminate(tid_analogMS_Thread);
+								break;
+						
+						case MID_EGUARD :	
+							
+								Eguard_Terminate();
+								break;
+						
+						case MID_EXEC_DEVIFR	 :	
+							
+								keyIFR_Terminate();
+								break;
+						
+						case MID_EXEC_SOURCE :  
+								
+								osThreadTerminate(tid_sourceCM_Thread); 
+								break;
+						
+						case MID_EXEC_CURTAIN:
+							
+								pwmCM_Terminate();
+								break;
+						
+						case MID_EXEC_DEVPWM:	
+							
+								osThreadTerminate(tid_pwmCM_Thread); 
+								break;
+						
+						case MID_EXEC_SPEAK:
+							
+								osThreadTerminate(tid_speakCM_Thread); 
+								break;
 						
 						default:break;
 					}
+					
+					memset(disp,0,disp_size * sizeof(char));
+					sprintf(disp,"扩展模块：0x%02X(ID)已被拔除\r\n",Moudle_GTA.Extension_ID);
+					Driver_USART1.Send(disp,strlen(disp));
+					osDelay(20);
+					
+					Moudle_GTA.Extension_ID = 0;
 				}
 			}
 			

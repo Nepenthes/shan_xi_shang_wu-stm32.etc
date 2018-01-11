@@ -11,11 +11,13 @@
 
 #include <Key&Tips.h>
 
-#include "finger_ID.h"
+#include "Eguard.h"
 
 #define	USARTDEBUG_THREAD_EN	123
 
 typedef void (*funDebug)(void);
+
+void USART1Debug_Init(void);
 
 extern osThreadId tid_USARTDebug_Thread;
 

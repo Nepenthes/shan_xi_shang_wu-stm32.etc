@@ -6,7 +6,7 @@ _lcd144_dev lcd144dev;
 
 osThreadId tid_LCD144Test_Thread;
 
-osThreadDef(LCD144Disp_Thread,osPriorityNormal,1,1024);
+osThreadDef(LCD144Disp_Thread,osPriorityNormal,1,2048);
 
 //画笔颜色,背景颜色
 uint16_t LCD144POINT_COLOR = 0x0000,LCD144BACK_COLOR = 0xFFFF;  
@@ -510,6 +510,7 @@ void LCD144Disp_Thread(const void *argument){
 
 	static char EXT_ID,MSG_ID,ZW_ADDR;
 	u8 EXTID_Disp[5],MSGID_Disp[5],WZADDR_Disp[10];
+	osStatus status;
 	
 	LCD_1_44_Clear(BLACK); //清屏
 	
@@ -521,6 +522,9 @@ void LCD144Disp_Thread(const void *argument){
 	
 	Show_Str(3,13,LGRAYBLUE,BLACK,"W/Z_ADDR:",12,1);
 	Show_Str(56,14,YELLOW,BLACK,"unknown",12,1);
+	
+	Show_Str(5,50,YELLOW,BLACK,"未检测到",24,1);
+	Show_Str(25,75,YELLOW,BLACK,"扩展模块",24,1);
 	
 	for(;;){
 		
@@ -552,9 +556,19 @@ void LCD144Disp_Thread(const void *argument){
 		if(EXT_ID != Moudle_GTA.Extension_ID){		//检测到模块更改，基层界面更新
 		
 			EXT_ID = Moudle_GTA.Extension_ID;
-			sprintf((char *)EXTID_Disp,"0x%02X",Moudle_GTA.Extension_ID);
-			LCD_1_44_ClearS(BLACK,43,0,70,13);
-			Show_Str(44,3,BRRED,BLACK,EXTID_Disp,12,1);
+			if(!EXT_ID){
+			
+				sprintf((char *)EXTID_Disp,"NONE");
+				LCD_1_44_ClearS(BLACK,43,0,70,13);
+				Show_Str(44,3,BRRED,BLACK,EXTID_Disp,12,1);
+			}else{
+				
+				sprintf((char *)EXTID_Disp,"0x%02X",Moudle_GTA.Extension_ID);
+				LCD_1_44_ClearS(BLACK,43,0,70,13);
+				Show_Str(44,3,BRRED,BLACK,EXTID_Disp,12,1);
+			}
+		
+			LCD_1_44_ClearS(BLACK,5,25,127,127);
 			
 			osDelay(500);
 			
@@ -587,9 +601,9 @@ void LCD144Disp_Thread(const void *argument){
 				case MID_SENSOR_TEMP:	
 
 						Show_Str(5,25,WHITE,BLACK,"温度鑞",24,1);
-						Show_Str(50,50,GREEN,BLACK,"X X",24,1);
+						Show_Str(50,50,WHITE,BLACK,"X X",24,1);
 						Show_Str(5,75,WHITE,BLACK,"湿度鑞",24,1);
-						Show_Str(50,100,GREEN,BLACK,"X X",24,1);	
+						Show_Str(50,100,WHITE,BLACK,"X X",24,1);	
 						break;
 				
 				case MID_SENSOR_LIGHT:	
@@ -598,15 +612,22 @@ void LCD144Disp_Thread(const void *argument){
 						Show_Str(50,75,WHITE,BLACK,"X X",24,1);
 						break;	
 				
-				case MID_SENSOR_SIMU:
+				case MID_SENSOR_ANALOG:
 				
-						Show_Str(5,25,WHITE,BLACK,"模拟量通道鑞",24,1);
-						Show_Str(50,50,GREEN,BLACK,"X X",24,1);
-						Show_Str(5,75,WHITE,BLACK,"模拟值鑞",24,1);
-						Show_Str(50,100,GREEN,BLACK,"X X",24,1);
+						Show_Str(5,25,WHITE,BLACK,"anaIch1:",24,1);
+						Show_Str(5,45,GREEN,BLACK,"anaIch2:",24,1);
+						Show_Str(5,65,WHITE,BLACK,"anaVch1:",24,1);
+						Show_Str(5,85,GREEN,BLACK,"anaVch2:",24,1);
 						break;
 				
-				case MID_EXEC_IFR:		
+				case MID_EGUARD:
+					
+						Show_Str(5,25,WHITE,BLACK,"figID is:",24,1);
+						Show_Str(5,55,WHITE,BLACK,"rfID is:",24,1);
+						Show_Str(5,85,WHITE,BLACK,"Password is:",24,1);
+						break;
+				
+				case MID_EXEC_DEVIFR:		
 					
 						Show_Str(5,25,WHITE,BLACK,"键值鑞",24,1);
 						Show_Str(50,50,GREEN,BLACK,"X X",24,1);
@@ -614,66 +635,516 @@ void LCD144Disp_Thread(const void *argument){
 						Show_Str(50,100,GREEN,BLACK,"X X",24,1);
 						break;
 				
+				case MID_EXEC_DEVPWM:
+					
+						Show_Str(5,25,WHITE,BLACK,"开关状态鑞",24,1);
+						Show_Str(50,50,GREEN,BLACK,"X X",24,1);
+						Show_Str(5,75,WHITE,BLACK,"亮度鑞",24,1);
+						Show_Str(50,100,GREEN,BLACK,"X X",24,1);
+						break;
+				
+				case MID_EXEC_CURTAIN:
+					
+						Show_Str(5,50,WHITE,BLACK,"窗帘状态鑞",24,1);
+						Show_Str(50,75,WHITE,BLACK,"X X",24,1);
+						break;	
+				
 				case MID_EXEC_SOURCE:
 					
-						Show_Str(5,25,WHITE,BLACK,"电源编号鑞",24,1);
+						Show_Str(5,25,WHITE,BLACK,"电源状态鑞",24,1);
 						Show_Str(50,50,GREEN,BLACK,"X X",24,1);
-						Show_Str(5,75,WHITE,BLACK,"电源状态鑞",24,1);
+						Show_Str(5,75,WHITE,BLACK,"模拟值鑞",24,1);
 						Show_Str(50,100,GREEN,BLACK,"X X",24,1);	
 						break;
+				
+				case MID_EXEC_SPEAK:
+					
+						Show_Str(5,50,WHITE,BLACK,"报警状态鑞",24,1);
+						Show_Str(50,75,WHITE,BLACK,"X X",24,1);
+						break;	
 
-				default:break;
+				default:
+						
+						Show_Str(5,50,YELLOW,BLACK,"未检测到",24,1);
+						Show_Str(25,75,YELLOW,BLACK,"扩展模块",24,1);
+						break;
 			}
 		}
 		
 		switch(Moudle_GTA.Extension_ID){		
 
-			case MID_SENSOR_FIRE:	
+			case MID_SENSOR_FIRE:{
+				
+						fireMS_MEAS *rptr;
+						osEvent  evt;
+						char disp[30];
+				
+						evt = osMessageGet(MsgBox_DPfireMS, 10);
+						if (evt.status == osEventMessage){
+							
+							rptr = evt.value.p;
+							/*显示部分程序↓↓↓↓↓↓↓*/
+							
+							LCD_1_44_ClearS(BLACK,0,75,127,127);
+							if(rptr->VAL){
+							
+								sprintf(disp,"有火");
+								Show_Str(40,85,GREEN,BLACK,(uint8_t *)disp,24,1);
+							}else{
+							
+								sprintf(disp,"没火");
+								Show_Str(40,85,GREEN,BLACK,(uint8_t *)disp,24,1);
+							}
 
-					{
-					
-						;
+							do{status = osPoolFree(fireMS_pool, rptr);}while(status != osOK);	//内存释放
+							rptr = NULL;
+						}
 					}break;
 			
-			case MID_SENSOR_PYRO:		
-				
-
-			
-			case MID_SENSOR_SMOKE:
-
-
+			case MID_SENSOR_PYRO:{
 					
-			case MID_SENSOR_GAS:	
-						
-
-			
-			case MID_SENSOR_TEMP:	
-
-
-			
-			case MID_SENSOR_LIGHT:	
+						pyroMS_MEAS *rptr;
+						osEvent  evt;
+						char disp[30];
 				
-
+						evt = osMessageGet(MsgBox_DPpyroMS, 10);
+						if (evt.status == osEventMessage){
+							
+							rptr = evt.value.p;
+							/*显示部分程序↓↓↓↓↓↓↓*/
+							
+							LCD_1_44_ClearS(BLACK,0,75,127,127);
+							if(rptr->VAL){
+							
+								sprintf(disp,"有人");
+								Show_Str(40,85,GREEN,BLACK,(uint8_t *)disp,24,1);
+							}else{
+							
+								sprintf(disp,"无人");
+								Show_Str(40,85,GREEN,BLACK,(uint8_t *)disp,24,1);
+							}
+							
+							do{status = osPoolFree(pyroMS_pool, rptr);}while(status != osOK);	//内存释放
+							rptr = NULL;
+						}
+					}break;
 			
-			case MID_SENSOR_SIMU:
+			case MID_SENSOR_SMOKE:{
+					
+						smokeMS_MEAS *rptr;
+						osEvent  evt;
+						char disp[30];
+				
+						evt = osMessageGet(MsgBox_DPsmokeMS, 10);
+						if (evt.status == osEventMessage){
+							
+							rptr = evt.value.p;
+							/*显示部分程序↓↓↓↓↓↓↓*/
+							
+							LCD_1_44_ClearS(BLACK,0,75,127,127);
+							if(rptr->VAL){
+							
+								sprintf(disp,"报警");
+								Show_Str(40,85,GREEN,BLACK,(uint8_t *)disp,24,1);
+							}else{
+							
+								sprintf(disp,"正常");
+								Show_Str(40,85,GREEN,BLACK,(uint8_t *)disp,24,1);
+							}
+							
+							sprintf(disp,"anaVAL:%d",rptr->anaDAT);
+							Show_Str(10,105,BLUE,BLACK,(uint8_t *)disp,24,1);
+							
+							do{status = osPoolFree(smokeMS_pool, rptr);}while(status != osOK);	//内存释放
+							rptr = NULL;
+						}
+					}break;
+					
+			case MID_SENSOR_GAS:{
+					
+						gasMS_MEAS *rptr;
+						osEvent  evt;
+						char disp[30];
+				
+						evt = osMessageGet(MsgBox_DPgasMS, 10);
+						if (evt.status == osEventMessage){
+							
+							rptr = evt.value.p;
+							/*显示部分程序↓↓↓↓↓↓↓*/
+							
+							LCD_1_44_ClearS(BLACK,0,75,127,127);
+							if(rptr->VAL){
+							
+								sprintf(disp,"报警");
+								Show_Str(40,85,GREEN,BLACK,(uint8_t *)disp,24,1);
+							}else{
+							
+								sprintf(disp,"正常");
+								Show_Str(40,85,GREEN,BLACK,(uint8_t *)disp,24,1);
+							}
+							
+							sprintf(disp,"anaVAL:%d",rptr->anaDAT);
+							Show_Str(10,105,BLUE,BLACK,(uint8_t *)disp,24,1);
+							
+							do{status = osPoolFree(gasMS_pool, rptr);}while(status != osOK);	//内存释放
+							rptr = NULL;
+						}
+					}break;
 			
-
+			case MID_SENSOR_TEMP:{
+					
+						tempMS_MEAS *rptr;
+						osEvent  evt;
+						char disp[30];
+				
+						evt = osMessageGet(MsgBox_DPtempMS, 10);
+						if (evt.status == osEventMessage){
+							
+							rptr = evt.value.p;
+							/*显示部分程序↓↓↓↓↓↓↓*/
+							
+							LCD_1_44_ClearS(BLACK,0,50,127,75);
+							LCD_1_44_ClearS(BLACK,0,100,127,125);
+							
+							sprintf(disp,"%.2f",rptr->temp);
+							LCD_1_44_ShowNum2412(20,50,BLUE,BLACK,(uint8_t *)disp,24,1);
+							Show_Str(20 + strlen(disp) * 24,50,GREEN,BLACK,"℃",24,1);
+							sprintf(disp,"%.2f",rptr->hum);
+							LCD_1_44_ShowNum2412(20,100,BLUE,BLACK,(uint8_t *)disp,24,1);
+							Show_Str(20 + strlen(disp) * 24,100,GREEN,BLACK,"％",24,1);
+							
+							do{status = osPoolFree(tempMS_pool, rptr);}while(status != osOK);	//内存释放
+							rptr = NULL;
+						}
+					}break;
 			
-			case MID_EXEC_IFR:		
+			case MID_SENSOR_LIGHT:{
+				
+						lightMS_MEAS *rptr;
+						osEvent  evt;
+						char disp[30];
+						
+						evt = osMessageGet(MsgBox_DPlightMS, 10);
+						if (evt.status == osEventMessage){
+							
+							rptr = evt.value.p;
+							/*显示部分程序↓↓↓↓↓↓↓*/
+							
+							LCD_1_44_ClearS(BLACK,0,75,127,127);
+							sprintf(disp,"%d Lux",rptr->illumination);
+							Show_Str(20 + 8*(8 - strlen(disp)),85,GREEN,BLACK,(uint8_t *)disp,24,1);
+							
+							do{status = osPoolFree(lightMS_pool, rptr);}while(status != osOK);	//内存释放
+							rptr = NULL;
+						}
+					}break;
 			
-					{
+			case MID_SENSOR_ANALOG:{
+					
+						analogMS_MEAS *rptr;
+						osEvent  evt;
+						char disp[30];
+				
+						evt = osMessageGet(MsgBox_DPanalogMS, 10);
+						if (evt.status == osEventMessage){
+							
+							rptr = evt.value.p;
+							/*显示部分程序↓↓↓↓↓↓↓*/
+							
+							LCD_1_44_ClearS(BLACK,0,25,127,45);
+							sprintf(disp,"anaIch1:%d",rptr->Ich1);
+							Show_Str(50,25,GREEN,BLACK,(uint8_t *)disp,24,1);
+							
+							LCD_1_44_ClearS(BLACK,0,25,127,45);
+							sprintf(disp,"anaIch2:%d",rptr->Ich2);
+							Show_Str(50,45,GREEN,BLACK,(uint8_t *)disp,24,1);
+							
+							LCD_1_44_ClearS(BLACK,0,45,127,65);
+							sprintf(disp,"anaVch1:%d",rptr->Vch1);
+							Show_Str(50,65,GREEN,BLACK,(uint8_t *)disp,24,1);
+							
+							LCD_1_44_ClearS(BLACK,0,65,127,85);
+							sprintf(disp,"anaVch2:%d",rptr->Vch2);
+							Show_Str(50,85,GREEN,BLACK,(uint8_t *)disp,24,1);
+							
+							do{status = osPoolFree(analogMS_pool, rptr);}while(status != osOK);	//内存释放
+							rptr = NULL;
+						}
+					}break;
+			
+			case MID_EGUARD:{
+					
+						EGUARD_MEAS *rptr;
+						osEvent  evt;
+						char disp[30];
+				
+						static uint8_t DP_cnt;
+						static bool DP_FLG = true;
+				
+						if(DP_FLG){
+						
+							if(DP_cnt)DP_cnt --;
+							else{
+							
+								DP_FLG = false;
+								LCD_1_44_ClearS(BLACK,0,40,127,55);
+								LCD_1_44_ClearS(BLACK,0,70,127,85);
+								LCD_1_44_ClearS(BLACK,0,100,127,115);
+								
+								Show_Str(40,40,GREEN,BLACK,"NULL",24,1);
+								Show_Str(40,70,GREEN,BLACK,"NULL",24,1);
+								Show_Str(40,100,GREEN,BLACK,"NULL",24,1);
+							}
+						}
+				
+						evt = osMessageGet(MsgBox_DPEGUD, 10);
+						if (evt.status == osEventMessage){
+							
+							rptr = evt.value.p;
+							/*显示部分程序↓↓↓↓↓↓↓*/
+							
+							DP_FLG = true;
+							DP_cnt = 100;
+							
+							switch(rptr->CMD){
+								
+								case FID_EXERES_TTIT:
+									
+										LCD_1_44_ClearS(BLACK,0,40,127,85);
+										memset(disp,0,30 * sizeof(char));
+										sprintf(disp,"%d",rptr->DAT);			
+										Show_Str(25,40,GREEN,BLACK,(uint8_t *)disp,24,1);
+										break;
+							
+								case RFID_EXERES_TTIT:
+										
+										LCD_1_44_ClearS(BLACK,0,70,127,85);
+										memset(disp,0,30 * sizeof(char));
+										sprintf(disp,"%02X%02X%02X%02X",rptr->rfidDAT[0],rptr->rfidDAT[1],rptr->rfidDAT[2],rptr->rfidDAT[3]);			
+										Show_Str(25,70,GREEN,BLACK,(uint8_t *)disp,24,1);
+										break;
+								
+								case PSD_EXERES_TTIT:
+									
+										LCD_1_44_ClearS(BLACK,0,70,127,85);
+										
+										Show_Str(25,70,GREEN,BLACK,(uint8_t *)disp,24,1);
+										break;
+								
+								default:break;
+							}
+							
+							do{status = osPoolFree(EGUD_pool, rptr);}while(status != osOK);	//内存释放
+							rptr = NULL;
+						}
+					}break;
+			
+			case MID_EXEC_DEVIFR:{
+					
 						IFR_MEAS *rptr;
 						osEvent  evt;
-						
-						evt = osMessageGet(MsgBox_DPFID, osWaitForever);
+						char disp[30];
+				
+						evt = osMessageGet(MsgBox_DPIFR, 10);
+						if (evt.status == osEventMessage){
+							
+							rptr = evt.value.p;
+							/*显示部分程序↓↓↓↓↓↓↓*/
+							
+							switch(rptr->speDPCMD){
+							
+								case SPECMD_pwmDevModADDR_CHG:{
+								
+									;
+								}break;
+								
+								case SPECMD_pwmDevDATS_CHG:{
+								
+									LCD_1_44_ClearS(BLACK,0,50,127,75);
+									sprintf(disp,"%d",rptr->VAL_KEY);
+									LCD_1_44_ShowNum2412(50,50,GREEN,BLACK,(uint8_t *)disp,24,1);
+									
+									LCD_1_44_ClearS(BLACK,0,100,127,125);
+									switch(rptr->STATUS){
+									
+										case kifrSTATUS_NONLRN:sprintf(disp,"NULL");break;
+											
+										case kifrSTATUS_WAITK:sprintf(disp,"按键等待");break;
+											
+										case kifrSTATUS_WAITSG:sprintf(disp,"等待遥控");break;
+											
+										case kifrSTATUS_LRNOVR:sprintf(disp,"学习完毕");break;
+											
+										case kifrSTATUS_SGOUT:sprintf(disp,"信号输出");break;
+										
+										default:sprintf(disp,"NULL");break;
+									}
+									Show_Str(10,100,GREEN,BLACK,(uint8_t *)disp,24,1);									
+								}break;
+								
+								default:break;
+							}
+							
+							do{status = osPoolFree(IFR_pool, rptr);}while(status != osOK);	//内存释放
+							rptr = NULL;
+						}
 					}break;
 			
-			case MID_EXEC_SOURCE:
+			case MID_EXEC_DEVPWM:{
+			
+						pwmCM_MEAS *rptr;
+						osEvent  evt;
+						char disp[30];
 				
-
+						evt = osMessageGet(MsgBox_DPpwmCM, 10);
+						if (evt.status == osEventMessage){
+							
+							rptr = evt.value.p;
+							/*显示部分程序↓↓↓↓↓↓↓*/
+							
+							switch(rptr->speDPCMD){
+							
+								case SPECMD_ifrDevModADDR_CHG:{
+								
+									;
+								}break;
+								
+								case SPECMD_ifrDevDATS_CHG:{
+								
+									LCD_1_44_ClearS(BLACK,0,50,127,75);
+									switch(rptr->Switch){
+									
+										case true:	sprintf(disp,"开启"); break;
+												
+										case false:	sprintf(disp,"关闭"); break;
+									}
+									Show_Str(25,50,GREEN,BLACK,(uint8_t *)disp,24,1);
+									
+									LCD_1_44_ClearS(BLACK,0,100,127,125);
+									sprintf(disp,"%d",rptr->pwmVAL);
+									Show_Str(25,100,GREEN,BLACK,(uint8_t *)disp,24,1);
+								}break;
+							}
+							
+							do{status = osPoolFree(pwmCM_pool, rptr);}while(status != osOK);	//内存释放
+							rptr = NULL;
+						}
+					}break;
+			
+			case MID_EXEC_CURTAIN:{
+					
+						curtainCM_MEAS *rptr;
+						osEvent  evt;
+						char disp[30];
+				
+						evt = osMessageGet(MsgBox_DPcurtainCM, 10);
+						if (evt.status == osEventMessage){
+							
+							rptr = evt.value.p;
+							/*显示部分程序↓↓↓↓↓↓↓*/
+							
+							LCD_1_44_ClearS(BLACK,0,75,127,100);
+							switch(rptr->valACT){
+							
+								case CMD_CURTUP:	sprintf(disp,"开启");break;
+								
+								case CMD_CURTSTP:	sprintf(disp,"关闭");break;
+								
+								case CMD_CURTDN:	sprintf(disp,"停止");break;
+							}
+							Show_Str(25,75,GREEN,BLACK,(uint8_t *)disp,24,1);
+							
+							do{status = osPoolFree(curtainCM_pool, rptr);}while(status != osOK);	//内存释放
+							rptr = NULL;
+						}
+					}break;
+			
+			case MID_EXEC_SOURCE:{
+					
+						sourceCM_MEAS *rptr;
+						osEvent  evt;
+						char disp[30];
+				
+						evt = osMessageGet(MsgBox_DPsourceCM, 10);
+						if (evt.status == osEventMessage){
+							
+							rptr = evt.value.p;
+							/*显示部分程序↓↓↓↓↓↓↓*/
+							
+							LCD_1_44_ClearS(BLACK,0,75,127,100);
+							switch(rptr->Switch){
+							
+								case true:	sprintf(disp,"开启"); break;
+										
+								case false:	sprintf(disp,"关闭"); break;
+							}
+							Show_Str(25,50,GREEN,BLACK,(uint8_t *)disp,24,1);
+							
+							LCD_1_44_ClearS(BLACK,0,100,127,125);
+							sprintf(disp,"%d",rptr->anaVal);
+							Show_Str(25,100,GREEN,BLACK,(uint8_t *)disp,24,1);
+							
+							do{status = osPoolFree(sourceCM_pool, rptr);}while(status != osOK);	//内存释放
+							rptr = NULL;
+						}
+					}break;
+			
+			case MID_EXEC_SPEAK:{
+			
+						speakCM_MEAS *rptr;
+						osEvent  evt;
+						char disp[30];
+				
+						evt = osMessageGet(MsgBox_DPspeakCM, 10);
+						if (evt.status == osEventMessage){
+							
+							rptr = evt.value.p;
+							/*显示部分程序↓↓↓↓↓↓↓*/
+							
+							LCD_1_44_ClearS(BLACK,0,75,127,100);
+							switch(rptr->spk_num){
+							
+								case 1:	sprintf(disp,"烟雾报警");break;
+									
+								case 2:	sprintf(disp,"燃气报警");break;
+									
+								case 3:	sprintf(disp,"火焰报警");break;
+									
+								case 4:	sprintf(disp,"插座报警");break;
+									
+								case 5:	sprintf(disp,"窗帘开");break;
+								
+								case 6:	sprintf(disp,"窗帘关");break;
+								
+								case 7:	sprintf(disp,"灯光");break;
+								
+								case 8:	sprintf(disp,"灯光关");break;
+								
+								case 9:	sprintf(disp,"灯光调亮");break;
+							
+								case 10:sprintf(disp,"灯光调暗");break;
+								
+								case 11:sprintf(disp,"灯光最亮");break;
+								
+								case 12:sprintf(disp,"灯光最暗");break;
+								
+								case 13:sprintf(disp,"电视开");break;
+								
+								case 14:sprintf(disp,"电视关");break;
+								
+								default:sprintf(disp,"一切正常");break;
+							}
+							
+							Show_Str(10,75,GREEN,BLACK,(uint8_t *)disp,24,1);
+							
+							do{status = osPoolFree(speakCM_pool, rptr);}while(status != osOK);	//内存释放
+							rptr = NULL;
+						}
+					}break;
 
 			default:break;
 		}
+		osDelay(20);
 	}
 }
 

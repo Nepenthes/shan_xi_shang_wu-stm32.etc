@@ -11,6 +11,8 @@
 
 #include "debugUart.h"
 
+#define FIRE_DATA	PAin(0);
+
 typedef struct{
 
 	bool VAL;

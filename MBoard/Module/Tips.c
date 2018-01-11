@@ -1,6 +1,48 @@
 #include "Tips.h"
 #include "Moudle_DEC.h"
 
+const u8 spect_size = 15;
+const u8 spect_len[spect_size] = {2,2,2,4,4,4,7,7,7,6,5};
+const u8 spect[spect_size][8] = {
+
+	{1,2},
+	{1,4},
+	{1,7},
+	{3,3,4,5},
+	{5,4,3,2},
+	{7,2,3,1},
+	{5,5,6,4,3,1,5},
+	{7,7,5,6,1,2,4},
+	{6,6,2,3,1,4,7},
+	{1,2,5,6,3,4},
+	{1,2,1,2,6},
+};
+
+/****音调，时间，音量(十级)****/
+void tips_beep(u8 tones, u16 time, u8 vol){
+
+	const u8 vol_fa = 10;	//音量分级
+	u16 tones_base = tones * 50 + 240;  //周期时间 = 音调倍乘 + 音调基数 
+	u16 cycle = time * 1000 / tones_base;	//循环次数 = 总时间 / 频率
+	u16 loop;
+
+	for(loop = 0;loop < cycle;loop ++){
+	
+		PEout(6) = 1;
+		delay_us(tones_base / vol_fa * vol);
+		PEout(6) = 0;
+		delay_us(tones_base / vol_fa * (vol_fa - vol));
+	}
+}
+
+void beeps(u8 num){
+
+	u8 loop;
+	
+	for(loop = 0;loop < spect_len[num];loop ++)
+		tips_beep(spect[num][loop],150,3);
+}
+
 void tipsInit(void){
 
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -21,23 +63,6 @@ void Task1 (void const *argument);
 
 osThreadDef(tipsThread,osPriorityNormal,1,512);
 osTimerDef(Tim0,TTask0);
-
-/****音调，时间，音量(十级)****/
-void tips_beep(u8 tones, u16 time, u8 vol){
-
-	const u8 vol_fa = 10;	//音量分级
-	u16 tones_base = tones * 50 + 240;  //周期时间 = 音调倍乘 + 音调基数 
-	u16 cycle = time * 1000 / tones_base;	//循环次数 = 总时间 / 频率
-	u16 loop;
-
-	for(loop = 0;loop < cycle;loop ++){
-	
-		PEout(6) = 1;
-		delay_us(tones_base / vol_fa * vol);
-		PEout(6) = 0;
-		delay_us(tones_base / vol_fa * (vol_fa - vol));
-	}
-}
 
 /******呼吸效果：LED对象，周期，呼吸类型（灭亮，亮灭）******/
 void LED_Breath(u8 Obj,u16 cycle,bool type){
@@ -166,13 +191,12 @@ void tipsThread(void const *argument){
 	osTimerId Tim_id0;
 	osEvent evt;
 	
-	Tim_id0 = osTimerCreate(osTimer(Tim0), osTimerPeriodic, &TTask0);
+	Tim_id0 = osTimerCreate(osTimer(Tim0), osTimerPeriodic, NULL);
+	osTimerStart(Tim_id0,3000);
 	
 	//tipsBoardActive();
 	
 	osSignalSet(tid_MBDEC_Thread, EVTSIG_MDEC_EN);
-	
-	osTimerStart(Tim_id0,3000);
 	
 	for(;;){
 	
@@ -246,14 +270,6 @@ void tipsLEDActive(void) {
 
 	tipsInit();
 	tid_tips = osThreadCreate(osThread(tipsThread), NULL);
-	tips_beep(1,100,2);
-	tips_beep(2,100,2);
-	tips_beep(3,100,2);
-	tips_beep(4,100,2);
-	tips_beep(5,100,2);
-	tips_beep(6,100,2);
-	tips_beep(7,100,2);
-	tips_beep(8,100,2);
-	tips_beep(9,100,2);
+	//beeps(9);
 }
 

@@ -10,7 +10,20 @@
 #include "delay.h"
 
 #include "infraTrans.h"
-#include "finger_ID.h"
+#include "Eguard.h"
+
+#include "fireMS.h"
+#include "gasMS.h"
+#include "lightMS.h"
+#include "pyroMS.h"
+#include "analogMS.h"
+#include "smokeMS.h"
+#include "tempMS.h"
+
+#include "pwmCM.h"
+#include "curtainCM.h"
+#include "sourceCM.h"
+#include "speakCM.h"
 
 #include "debugUART.h"
 #include <dataTrans_USART.h>
@@ -18,8 +31,10 @@
 #define 	MID_TRANS_Zigbee	0x01
 #define		MID_TRANS_Wifi		0x02
 	
-#define 	MID_EXEC_IFR		0x81
+#define		MID_EXEC_DEVPWM		0x83
+#define		MID_EXEC_CURTAIN	0x42
 #define 	MID_EXEC_SOURCE		0x82
+#define		MID_EXEC_SPEAK		0x41
 
 #define 	MID_SENSOR_FIRE		0x01
 #define 	MID_SENSOR_PYRO		0x02
@@ -27,8 +42,10 @@
 #define 	MID_SENSOR_GAS		0x04
 #define 	MID_SENSOR_TEMP		0x05
 #define 	MID_SENSOR_LIGHT	0x06
-#define 	MID_SENSOR_SIMU		0x08
-#define 	MID_SENSOR_FID		0x0A
+#define 	MID_SENSOR_ANALOG	0x08
+
+#define 	MID_EXEC_DEVIFR		0x81
+#define 	MID_EGUARD			0x0A
 
 #define		extension_FLG	0x80	//扩展模块是否在线标志位
 #define		wireless_FLG	0x40	//无线通讯模块是否在线标志位

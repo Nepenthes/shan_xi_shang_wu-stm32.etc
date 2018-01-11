@@ -6,7 +6,7 @@
 extern ARM_DRIVER_USART Driver_USART1;								//设备驱动库串口一设备声明
 
 osThreadId tid_keyMboard_Thread;										//按键监测主线程ID
-osThreadDef(keyMboard_Thread,osPriorityAboveNormal,1,1536);	//按键监测主线程定义
+osThreadDef(keyMboard_Thread,osPriorityAboveNormal,1,2048);	//按键监测主线程定义
 
 typedef void (* funkeyThread)(funKeyInit key_Init,Obj_keyStatus *orgKeyStatus,funKeyScan key_Scan,Obj_eventKey keyEvent,const char *Tips_head);
 
@@ -156,10 +156,11 @@ static uint16_t getKey(Obj_keyStatus *orgKeyStatus,funKeyScan keyScan){
 }
 
 /*按键初始化函数，按键状态缓存结构体，按键扫描函数，按键触发事件函数表，按键提示信息头*/
-void key_Thread(funKeyInit key_Init,
-					 Obj_keyStatus *orgKeyStatus,
-					 funKeyScan key_Scan,Obj_eventKey keyEvent,
-					 const char *Tips_head){
+void key_Thread(	funKeyInit 		key_Init,		
+					Obj_keyStatus 	*orgKeyStatus,
+					funKeyScan 		key_Scan,		
+					Obj_eventKey 	keyEvent,		
+					const char 		*Tips_head	){
 	
 /***按键调试（串口1反馈调试信息）****/
 	static uint16_t keyVal;						//按键状态事件
@@ -331,21 +332,107 @@ if(KEY_DEBUG_FLG){/*Debug_log输出使能*/
 	}
 }
 
-void abc(void){
+void eventK23(void){
+	
+	switch(Moudle_GTA.Extension_ID){
+	
+		case MID_EXEC_DEVPWM:{
+		
+			pwmCM_kMSG *mptr = NULL;
+			
+			do{mptr = (pwmCM_kMSG *)osPoolCAlloc(memID_pwmCMsigK_pool);}while(mptr == NULL);
+			/*自定义数据处理↓↓↓↓↓↓↓↓↓↓↓↓*/
+			
+				mptr->mADDR = pwmDevMID_unvarLight;
+			
+			osMessagePut(MsgBox_pwmCMsigK, (uint32_t)mptr, osWaitForever);	//指令推送至模块驱动，更改分址
+			osDelay(100);
+		}break;
+		
+		case MID_EXEC_DEVIFR:{
+		
+			IFR_kMSG *mptr = NULL;
+			
+			do{mptr = (IFR_kMSG *)osPoolCAlloc(memID_IFRsigK_pool);}while(mptr == NULL);
+			/*自定义数据处理↓↓↓↓↓↓↓↓↓↓↓↓*/
+			
+				mptr->mADDR = ifrDevMID_video;
+			
+			osMessagePut(MsgBox_IFRsigK, (uint32_t)mptr, osWaitForever);	//指令推送至模块驱动，更改分址
+			osDelay(100);
+		}break;
+		
+		default:break;
+	}
+}
 
-	Driver_USART1.Send("abcd",4);
-	osDelay(20);
+void eventK24(void){
+
+	switch(Moudle_GTA.Extension_ID){
+	
+		case MID_EXEC_DEVPWM:{
+		
+			pwmCM_kMSG *mptr = NULL;
+			
+			do{mptr = (pwmCM_kMSG *)osPoolCAlloc(memID_pwmCMsigK_pool);}while(mptr == NULL);
+			/*自定义数据处理↓↓↓↓↓↓↓↓↓↓↓↓*/
+			
+				mptr->mADDR = pwmDevMID_varLight;
+			
+			osMessagePut(MsgBox_pwmCMsigK, (uint32_t)mptr, osWaitForever);	//指令推送至模块驱动
+			osDelay(100);
+		}break;
+		
+		case MID_EXEC_DEVIFR:{
+		
+			IFR_kMSG *mptr = NULL;
+			
+			do{mptr = (IFR_kMSG *)osPoolCAlloc(memID_IFRsigK_pool);}while(mptr == NULL);
+			/*自定义数据处理↓↓↓↓↓↓↓↓↓↓↓↓*/
+			
+				mptr->mADDR = ifrDevMID_audio;
+			
+			osMessagePut(MsgBox_IFRsigK, (uint32_t)mptr, osWaitForever);	//指令推送至模块驱动
+			osDelay(100);
+		}break;
+		
+		default:break;
+	}
+}
+
+void eventK25(void){
+
+	switch(Moudle_GTA.Extension_ID){
+	
+		case MID_EXEC_DEVPWM:{
+		
+			pwmCM_kMSG *mptr = NULL;
+			
+			do{mptr = (pwmCM_kMSG *)osPoolCAlloc(memID_pwmCMsigK_pool);}while(mptr == NULL);
+			/*自定义数据处理↓↓↓↓↓↓↓↓↓↓↓↓*/
+			
+				mptr->mADDR = pwmDevMID_varFan;
+			
+			osMessagePut(MsgBox_pwmCMsigK, (uint32_t)mptr, osWaitForever);	//指令推送至模块驱动
+			osDelay(100);
+		}break;
+		
+		default:break;
+	}
 }
 
 /***按键监测主线程***/
 void keyMboard_Thread(const void *argument){
 	
 	const char *Tips_Head = "底板按键";
-	static Obj_eventKey myKeyEvent = {0};					//按键触发事件表，先建立空表，需要哪种触发事件，直接创建对应函数即可，空白处自动判断不会触发
+	static Obj_eventKey myKeyEvent = {0};		//按键触发事件表，先建立空表，需要哪种触发事件，直接创建对应函数即可，空白处自动判断不会触发
 	static Obj_keyStatus myKeyStatus = {0};		//按键判断所需标志初始化
 	static funkeyThread key_ThreadMB = key_Thread;
 	
-	myKeyEvent.funKeyCONTINUE[2][6] = abc;			//设定按键二连按6次触发事件
+	myKeyEvent.funKeyCONTINUE[2][3] = eventK23;			//设定按键二连按3次触发事件
+	myKeyEvent.funKeyCONTINUE[2][4] = eventK24;			//设定按键二连按4次触发事件
+	myKeyEvent.funKeyCONTINUE[2][5] = eventK25;			//设定按键二连按5次触发事件
+
 
 	key_ThreadMB(keyInit,&myKeyStatus,keyScan,myKeyEvent,Tips_Head);	
 }
