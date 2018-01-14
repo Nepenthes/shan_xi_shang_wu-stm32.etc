@@ -86,7 +86,7 @@ typedef  u32 uint32;
 
 typedef struct{
 
-	u32 illumination;
+	u8 illumination;
 }lightMS_MEAS;
 
 extern osThreadId 	 tid_lightMS_Thread;

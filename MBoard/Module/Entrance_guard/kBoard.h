@@ -4,9 +4,14 @@
 #include "stm32f10x.h"
 #include "Eguard.h"
 
-#define valKB_NULL	0
+#define valKB_NULL	255
 
 #define	PSD_EXERES_TTIT	0xEE
+
+#define	PSD_EXERES_LVMSG_DN	0xE0
+#define	PSD_EXERES_LVMSG_UP	0xE1
+
+#define	PSD_EXERES_CALL	0xE3
 
 #define ROW1  GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_6)//读取
 #define ROW2  GPIO_ReadInputDataBit(GPIOB,GPIO_Pin_8)//读取 
@@ -44,6 +49,18 @@
 #define K_FUN_ESC	16
 #define K_FUN_PGUP	15
 #define K_FUN_PGDN	14
+
+#define K_FUN_PGUP_LONG	0xD1	//上翻键长按
+
+#define K_FUN_LONG_relase	0xFE	//长按释放（用于所有长按）
+
+/*********************键值二次矫正**********************/
+
+#define KBFUN_CLR	10
+#define KBFUN_ENT	11
+#define KBFUN_ESC	12
+#define KBFUN_PGUP	13
+#define KBFUN_PGDN	14
 
 uint8_t valKB_get(void);
 

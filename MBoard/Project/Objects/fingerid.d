@@ -28,6 +28,7 @@
 .\objects\fingerid.o: D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\stm32f10x_usart.h
 .\objects\fingerid.o: D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\misc.h
 .\objects\fingerid.o: ..\Module\Entrance_guard\kBoard.h
+.\objects\fingerid.o: ..\Module\Entrance_guard\doorLock.h
 .\objects\fingerid.o: ..\User\IO_Map.h
 .\objects\fingerid.o: ..\Module\Tips.h
 .\objects\fingerid.o: ..\User\osObjects.h

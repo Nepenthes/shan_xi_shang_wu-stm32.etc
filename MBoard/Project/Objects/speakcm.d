@@ -49,6 +49,7 @@
 .\objects\speakcm.o: ..\Module\Entrance_guard\rfID.h
 .\objects\speakcm.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\speakcm.o: ..\Module\Entrance_guard\kBoard.h
+.\objects\speakcm.o: ..\Module\Entrance_guard\doorLock.h
 .\objects\speakcm.o: ..\Module\Fire_MS\fireMS.h
 .\objects\speakcm.o: ..\Module\Gas_MS\gasMS.h
 .\objects\speakcm.o: ..\Module\Light_MS\lightMS.h

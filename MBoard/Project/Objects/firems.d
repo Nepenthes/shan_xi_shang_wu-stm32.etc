@@ -49,6 +49,7 @@
 .\objects\firems.o: ..\Module\Entrance_guard\rfID.h
 .\objects\firems.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\firems.o: ..\Module\Entrance_guard\kBoard.h
+.\objects\firems.o: ..\Module\Entrance_guard\doorLock.h
 .\objects\firems.o: ..\Module\Fire_MS\fireMS.h
 .\objects\firems.o: ..\Module\Gas_MS\gasMS.h
 .\objects\firems.o: ..\Module\Light_MS\lightMS.h

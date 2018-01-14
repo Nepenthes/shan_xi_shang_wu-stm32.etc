@@ -99,6 +99,13 @@ void DC11detectA_Thread(const void *argument){	//主检测线程
 	   (pwmDevMOUDLE_ID != pwmDevMID_varLight)&&\
 	   (pwmDevMOUDLE_ID != pwmDevMID_varFan))pwmDevMOUDLE_ID= pwmDevMID_varLight;
 	
+	osDelay(500);
+	
+	do{mptr = (pwmCM_MEAS *)osPoolCAlloc(pwmCM_pool);}while(mptr == NULL);	//底板按键事件送显,提示通信分址更改
+	mptr->speDPCMD = SPECMD_pwmDevModADDR_CHG;
+	mptr->Mod_addr = pwmDevMOUDLE_ID;
+	osMessagePut(MsgBox_DPpwmCM, (uint32_t)mptr, 100);
+	
 	for(;;){
 		
 	/***********************本地线程数据接收***************************************************/
@@ -142,6 +149,7 @@ void DC11detectA_Thread(const void *argument){	//主检测线程
 			do{mptr = (pwmCM_MEAS *)osPoolCAlloc(pwmCM_pool);}while(mptr == NULL);	//无线数据传输消息推送
 			mptr->Mod_addr = pwmDevMOUDLE_ID;
 			mptr->Switch   = pwmDevAttr.Switch;
+			mptr->pwmVAL   = pwmDevAttr.pwmVAL;
 			osMessagePut(MsgBox_pwmCM, (uint32_t)mptr, 100);
 			
 			osDelay(10);
@@ -164,44 +172,122 @@ void DC11detectA_Thread(const void *argument){	//主检测线程
 	}
 }
 
+u8 scan_encoder(void){
+
+	static  bool  Curr_encoder_b; 
+	static  bool  Last_encoder_b;  
+	static  bool  updata = 0; 	
+	static	u8	  counter;
+	
+	if(PBout(13) && PBout(14)){
+
+		updata = 0;       
+		return 0;    
+	}
+
+	Last_encoder_b = PBout(14); 
+	while(!PBout(13)){
+
+		Curr_encoder_b = PBout(14);
+		updata = 1;
+	}
+	
+	if(updata){
+
+		updata = 0;
+		if((Last_encoder_b == 0)&&(Curr_encoder_b == 1)){
+
+//				if(counter == 255)        
+//				return;         
+//				counter++;  
+
+				return 1;
+		}else	
+		if((Last_encoder_b == 1)&&(Curr_encoder_b == 0)){
+
+//				if(counter == 0)return;         
+//				counter--; 
+			
+				return 2;
+		}
+	} 
+	
+	return 4;
+	
+}
+
+
 void DC11detectB_Thread(const void *argument){	//占空比调制线程
 
 	pwmCM_MEAS *mptr = NULL;
+	u8 temp;
+	char disp[30];
 	
 	for(;;){
-	
-		if(PBin(14)){
 		
-			if(PBin(13)){
-			
-				while(PBin(13));
-				//Driver_USART1.Send("b",1);
-				if(pwmDevAttr.pwmVAL > 60)pwmDevAttr.pwmVAL -= 4;else
-				if(pwmDevAttr.pwmVAL > 20)pwmDevAttr.pwmVAL -= 2;else
-				if(pwmDevAttr.pwmVAL > 1)pwmDevAttr.pwmVAL -= 1;
-				osDelay(5);
-			}
-		}
+		temp = scan_encoder();
 		
-		if(!PBin(14)){
-			
-			if(PBin(13)){
-			
-				while(PBin(13));
-				//Driver_USART1.Send("a",1);
-				if(pwmDevAttr.pwmVAL < 20)pwmDevAttr.pwmVAL += 1;else
-				if(pwmDevAttr.pwmVAL < 60)pwmDevAttr.pwmVAL += 2;else
-				if(pwmDevAttr.pwmVAL < 100)pwmDevAttr.pwmVAL += 4;
-				osDelay(5);
-			}
-		}
+		temp = 100;
+
+		sprintf(disp,"%d",temp);
 		
+		Driver_USART1.Send(disp,strlen(disp));
+		osDelay(20);
+		
+//		if(PBin(14)){
+//		
+//			if(PBin(13)){
+//			
+//				while(PBin(13));
+//				//Driver_USART1.Send("b",1);
+//				if(pwmDevAttr.pwmVAL > 60)pwmDevAttr.pwmVAL -= 4;else
+//				if(pwmDevAttr.pwmVAL > 20)pwmDevAttr.pwmVAL -= 2;else
+//				if(pwmDevAttr.pwmVAL > 1)pwmDevAttr.pwmVAL -= 1;
+//				osDelay(5);
+//			}
+//		}
+//		
+//		if(!PBin(14)){
+//			
+//			if(PBin(13)){
+//			
+//				while(PBin(13));
+//				//Driver_USART1.Send("a",1);
+//				if(pwmDevAttr.pwmVAL < 20)pwmDevAttr.pwmVAL += 1;else
+//				if(pwmDevAttr.pwmVAL < 60)pwmDevAttr.pwmVAL += 2;else
+//				if(pwmDevAttr.pwmVAL < 100)pwmDevAttr.pwmVAL += 4;
+//				osDelay(5);
+//			}
+//		}
+		
+//		if(temp){
+//		
+//			if(1 == temp){
+//			
+//				Driver_USART1.Send("b",1);
+//				if(pwmDevAttr.pwmVAL > 60)pwmDevAttr.pwmVAL -= 4;else
+//				if(pwmDevAttr.pwmVAL > 20)pwmDevAttr.pwmVAL -= 2;else
+//				if(pwmDevAttr.pwmVAL > 1)pwmDevAttr.pwmVAL -= 1;
+//				osDelay(5);
+//			}
+
+//			if(2 == temp){
+//			
+//				Driver_USART1.Send("a",1);
+//				if(pwmDevAttr.pwmVAL < 20)pwmDevAttr.pwmVAL += 1;else
+//				if(pwmDevAttr.pwmVAL < 60)pwmDevAttr.pwmVAL += 2;else
+//				if(pwmDevAttr.pwmVAL < 100)pwmDevAttr.pwmVAL += 4;
+//				osDelay(5);
+//			}
+//		}	
+
 		if(pwmDevAttr_temp.pwmVAL != pwmDevAttr.pwmVAL){
 			
 			pwmDevAttr_temp.pwmVAL = pwmDevAttr.pwmVAL;
 		
 			do{mptr = (pwmCM_MEAS *)osPoolCAlloc(pwmCM_pool);}while(mptr == NULL);	//无线数据传输消息推送
 			mptr->Mod_addr = pwmDevMOUDLE_ID;
+			mptr->Switch   = pwmDevAttr.Switch;
 			mptr->pwmVAL   = pwmDevAttr.pwmVAL;
 			osMessagePut(MsgBox_pwmCM, (uint32_t)mptr, 100);
 		}
@@ -238,6 +324,7 @@ void pwmCM_Thread(const void *argument){	//主线程(仅做显示)
 			
 			do{mptr = (pwmCM_MEAS *)osPoolCAlloc(pwmCM_pool);}while(mptr == NULL);	//底板按键事件送显,提示通信分址更改
 			mptr->speDPCMD = SPECMD_pwmDevModADDR_CHG;
+			mptr->Mod_addr = pwmDevMOUDLE_ID;
 			osMessagePut(MsgBox_DPpwmCM, (uint32_t)mptr, 100);
 			beeps(9);
 			
@@ -245,15 +332,15 @@ void pwmCM_Thread(const void *argument){	//主线程(仅做显示)
 			rptr_sigK = NULL;
 		}
 
-		if(Pcnt < dpPeriod){osDelay(10);Pcnt ++;}
-		else{
-		
-			Pcnt = 0;
-			memset(disp,0,dpSize * sizeof(char));
-			sprintf(disp,"灯光是否开启：%d\n当前亮度：%d%%\n\n",pwmDevAttr.Switch,pwmDevAttr.pwmVAL);
-			Driver_USART1.Send(disp,strlen(disp));
-			osDelay(20);
-		}
+//		if(Pcnt < dpPeriod){osDelay(10);Pcnt ++;}
+//		else{
+//		
+//			Pcnt = 0;
+//			memset(disp,0,dpSize * sizeof(char));
+//			sprintf(disp,"灯光是否开启：%d\n当前亮度：%d%%\n\n",pwmDevAttr.Switch,pwmDevAttr.pwmVAL);
+//			Driver_USART1.Send(disp,strlen(disp));
+//			osDelay(20);
+//		}
 		
 		osDelay(10);
 	}
@@ -284,6 +371,6 @@ void pwmCMThread_Active(void){
 	}
 	
 	pwmCM_Init();
-	tid_pwmCM_Thread 	= osThreadCreate(osThread(pwmCM_Thread),NULL);
+	tid_pwmCM_Thread 		= osThreadCreate(osThread(pwmCM_Thread),NULL);
 	tid_DC11detectA_Thread	= osThreadCreate(osThread(DC11detectA_Thread),NULL);
 }

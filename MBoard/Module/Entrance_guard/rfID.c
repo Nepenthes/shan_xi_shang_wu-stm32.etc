@@ -805,7 +805,7 @@ void rfID_Thread(const void *argument){
 				do{mptr = (EGUARD_MEAS *)osPoolCAlloc(EGUD_pool);}while(mptr == NULL);	//无线数据传输消息推送
 				mptr->CMD = RFID_EXERES_TTIT;
 				memcpy(mptr->rfidDAT,ucArray_ID,4);
-				osMessagePut(MsgBox_EGUD_FID, (uint32_t)mptr, osWaitForever);
+				osMessagePut(MsgBox_EGUD, (uint32_t)mptr, osWaitForever);
 
 				do{mptr = (EGUARD_MEAS *)osPoolCAlloc(EGUD_pool);}while(mptr == NULL);	//1.44寸液晶显示消息推送
 				mptr->CMD = RFID_EXERES_TTIT;

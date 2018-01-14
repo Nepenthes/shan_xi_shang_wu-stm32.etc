@@ -51,6 +51,7 @@
 .\objects\lcd_1.44.o: ..\Module\Entrance_guard\rfID.h
 .\objects\lcd_1.44.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\lcd_1.44.o: ..\Module\Entrance_guard\kBoard.h
+.\objects\lcd_1.44.o: ..\Module\Entrance_guard\doorLock.h
 .\objects\lcd_1.44.o: ..\Module\Fire_MS\fireMS.h
 .\objects\lcd_1.44.o: ..\Module\Debug_USART\debugUart.h
 .\objects\lcd_1.44.o: ..\Module\Gas_MS\gasMS.h

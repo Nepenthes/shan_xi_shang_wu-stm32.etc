@@ -105,11 +105,11 @@ void curtainCM_Thread(const void *argument){
 		
 			switch(actuatorData.valACT){
 			
-				case CMD_CURTUP:	curtconUP  = 1;	osDelay(10);	curtconUP = 0;	break;
+				case CMD_CURTUP:	curtconUP  = 1;	osDelay(100);	curtconUP = 0;	break;
 				
-				case CMD_CURTSTP:	curtconSTP = 1;	osDelay(10);	curtconSTP = 0;	break;
+				case CMD_CURTSTP:	curtconSTP = 1;	osDelay(100);	curtconSTP = 0;	break;
 					
-				case CMD_CURTDN:	curtconDN  = 1;	osDelay(10);	curtconDN = 0;	break;
+				case CMD_CURTDN:	curtconDN  = 1;	osDelay(100);	curtconDN = 0;	break;
 			}
 			
 			actuatorData.valACT = valACT_NULL;

@@ -49,6 +49,7 @@
 .\objects\analogms.o: ..\Module\Entrance_guard\rfID.h
 .\objects\analogms.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\analogms.o: ..\Module\Entrance_guard\kBoard.h
+.\objects\analogms.o: ..\Module\Entrance_guard\doorLock.h
 .\objects\analogms.o: ..\Module\Fire_MS\fireMS.h
 .\objects\analogms.o: ..\Module\Gas_MS\gasMS.h
 .\objects\analogms.o: ..\Module\Light_MS\lightMS.h

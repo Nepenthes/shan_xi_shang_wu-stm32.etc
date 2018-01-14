@@ -12,6 +12,7 @@
 ".\objects\rfid.o"
 ".\objects\kboard.o"
 ".\objects\rc522_config.o"
+".\objects\doorlock.o"
 ".\objects\firems.o"
 ".\objects\pyroms.o"
 ".\objects\gasms.o"

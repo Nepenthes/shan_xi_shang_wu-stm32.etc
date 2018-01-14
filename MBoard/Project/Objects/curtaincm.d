@@ -49,6 +49,7 @@
 .\objects\curtaincm.o: ..\Module\Entrance_guard\rfID.h
 .\objects\curtaincm.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\curtaincm.o: ..\Module\Entrance_guard\kBoard.h
+.\objects\curtaincm.o: ..\Module\Entrance_guard\doorLock.h
 .\objects\curtaincm.o: ..\Module\Fire_MS\fireMS.h
 .\objects\curtaincm.o: ..\Module\Gas_MS\gasMS.h
 .\objects\curtaincm.o: ..\Module\Light_MS\lightMS.h

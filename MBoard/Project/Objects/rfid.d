@@ -27,6 +27,7 @@
 .\objects\rfid.o: D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\stm32f10x_tim.h
 .\objects\rfid.o: D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\stm32f10x_usart.h
 .\objects\rfid.o: D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\misc.h
+.\objects\rfid.o: ..\Module\Entrance_guard\doorLock.h
 .\objects\rfid.o: ..\User\IO_Map.h
 .\objects\rfid.o: ..\Module\Tips.h
 .\objects\rfid.o: ..\User\osObjects.h

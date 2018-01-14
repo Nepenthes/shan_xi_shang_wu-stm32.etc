@@ -47,6 +47,7 @@
 .\objects\key&tips.o: ..\Module\Entrance_guard\rfID.h
 .\objects\key&tips.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\key&tips.o: ..\Module\Entrance_guard\kBoard.h
+.\objects\key&tips.o: ..\Module\Entrance_guard\doorLock.h
 .\objects\key&tips.o: ..\Module\Fire_MS\fireMS.h
 .\objects\key&tips.o: ..\Module\Debug_USART\debugUart.h
 .\objects\key&tips.o: ..\Module\Gas_MS\gasMS.h

@@ -52,18 +52,20 @@ void keyIFR_ADCInit(void)
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;		//模拟输入引脚
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;		//模拟输入引脚
     GPIO_Init(GPIOA, &GPIO_InitStructure);
 
     ADC_DeInit(ADC1);  //复位ADC1,将外设 ADC1 的全部寄存器重设为缺省值
 
     ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;	//ADC工作模式:ADC1和ADC2工作在独立模式
-    ADC_InitStructure.ADC_ScanConvMode = DISABLE;	//模数转换工作在单通道模式
+    ADC_InitStructure.ADC_ScanConvMode = ENABLE;	//模数转换工作在单通道模式
     ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;	//模数转换工作在单次转换模式
     ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;	//转换由软件而不是外部触发启动
     ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;	//ADC数据右对齐
     ADC_InitStructure.ADC_NbrOfChannel = 1;	//顺序进行规则转换的ADC通道的数目
     ADC_Init(ADC1, &ADC_InitStructure);	//根据ADC_InitStruct中指定的参数初始化外设ADCx的寄存器
+
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_4, 1, ADC_SampleTime_13Cycles5);
 
     ADC_Cmd(ADC1, ENABLE);	//使能指定的ADC1
 
@@ -222,13 +224,28 @@ uint16_t keyIFRGet_Adc_Average(uint8_t ch,uint8_t times)
 
 uint8_t keyIFR_Scan(void) {
 
-    uint16_t keyAnalog =  keyIFRGet_Adc_Average(4,3);
+    uint16_t keyAnalog =  keyIFRGet_Adc_Average(4,10);
 	
-	if(keyAnalog < 200)return ifrvalK_NULL;
-	else return (uint8_t)(10 - (keyAnalog / 400));
+	if(keyAnalog < 180)return ifrvalK_NULL;
+//	else return (uint8_t)(10 - ((keyAnalog + 100) / 400));
+	else{
+	
+		if(keyAnalog > 100 && keyAnalog < 300)return 10;
+		if(keyAnalog > 500 && keyAnalog < 700)return 9;
+		if(keyAnalog > 900 && keyAnalog <1100)return 8;
+		if(keyAnalog >1300 && keyAnalog <1500)return 7;
+		if(keyAnalog >1700 && keyAnalog <1900)return 6;
+		if(keyAnalog >2100 && keyAnalog <2300)return 5;
+		if(keyAnalog >2500 && keyAnalog <2700)return 4;
+		if(keyAnalog >2900 && keyAnalog <3100)return 3;
+		if(keyAnalog >3300 && keyAnalog <3500)return 2;
+		if(keyAnalog >3700 && keyAnalog <3900)return 1;
+	}
+	
+	return ifrvalK_NULL;
 }
 
-void keyAnalog_Test(void) {
+void keyAnalog_Test(void){
 
     char disp[30];
     uint16_t keyAnalog;
@@ -269,11 +286,15 @@ void usr_sigin(void){
 	
 	beeps(2);
 	
+	osDelay(500);
+	
+	Remote_Init();
+	
 	cnt = 5;
 	while(cnt --){	//tips 开始学习
 	
 		IFRLRN_STATUS = !IFRLRN_STATUS;
-		osDelay(150);
+		osDelay(100);
 	}IFRLRN_STATUS = 0;
 	
 	ifrCM_Attr.VAL_KEY = ifrvalK_NULL;
@@ -298,8 +319,9 @@ void usr_sigin(void){
 	
 	while(measure_en){	//等待遥控信号
 	
+		Ktemp = ifrCM_Attr.VAL_KEY;
 		IFRLRN_STATUS = !IFRLRN_STATUS;
-		osDelay(500);
+		osDelay(300);
 	}IFRLRN_STATUS = 1;
 	
 	KB_ifrDats_Save(Ktemp);	//目标按键存储ifr载波信息
@@ -308,10 +330,12 @@ void usr_sigin(void){
 	while(cnt --){	//tips	存储学习完毕
 	
 		IFRLRN_STATUS = !IFRLRN_STATUS;
-		osDelay(150);
+		osDelay(100);
 	}IFRLRN_STATUS = 1;
 	
 	beeps(0);
+	
+	EXTI_DeInit();		//关闭中断
 	
 	ifrCM_Attr.STATUS = kifrSTATUS_LRNOVR;
 	osDelay(500);
@@ -372,6 +396,7 @@ void keyIFR_Thread(const void *argument){
 	
 //	char disp[30];
 	pwmCM_kMSG *rptr_sigK = NULL;
+	IFR_MEAS   *mptr 	  = NULL;
 	
 	ifrCM_Attr.VAL_KEY = ifrvalK_NULL;
 	
@@ -379,13 +404,18 @@ void keyIFR_Thread(const void *argument){
 	if((ifrDevMOUDLE_ID != ifrDevMID_video)&&\
 	   (ifrDevMOUDLE_ID != ifrDevMID_audio))ifrDevMOUDLE_ID = ifrDevMID_audio;
 	
+	osDelay(500);	//必需延时
+	
+	do{mptr = (IFR_MEAS *)osPoolCAlloc(IFR_pool);}while(mptr == NULL);	//底板按键事件送显
+	mptr->speDPCMD = SPECMD_ifrDevModADDR_CHG;
+	mptr->Mod_addr = ifrDevMOUDLE_ID;
+	osMessagePut(MsgBox_DPIFR, (uint32_t)mptr, 100);
+	
 	for(;;){
 		
 	/********************************底板按键线程数据接收******************************************/
 		evt = osMessageGet(MsgBox_IFRsigK, 100);
 		if (evt.status == osEventMessage){
-			
-			IFR_MEAS *mptr = NULL;
 		
 			rptr_sigK = evt.value.p;
 			/*底板按键消息处理↓↓↓↓↓↓↓↓↓↓↓↓*/
@@ -395,6 +425,7 @@ void keyIFR_Thread(const void *argument){
 			
 			do{mptr = (IFR_MEAS *)osPoolCAlloc(IFR_pool);}while(mptr == NULL);	//底板按键事件送显
 			mptr->speDPCMD = SPECMD_ifrDevModADDR_CHG;
+			mptr->Mod_addr = ifrDevMOUDLE_ID;
 			osMessagePut(MsgBox_DPIFR, (uint32_t)mptr, 100);
 			beeps(9);
 			
@@ -411,6 +442,7 @@ void keyIFR_Thread(const void *argument){
 			else{
 					
 				ifrCM_Attr.STATUS = kifrSTATUS_SGOUT;
+				osDelay(300);
 			
 				memset(HTtab, 0, Tab_size * sizeof(uint16_t));
 				memset(LTtab, 0, Tab_size * sizeof(uint16_t));
@@ -418,10 +450,10 @@ void keyIFR_Thread(const void *argument){
 				STMFLASH_Read(MODULE_IFRdatsHpn_DATADDR + ifrCM_Attr.VAL_KEY,(uint16_t *)&tabHp,1);
 				STMFLASH_Read(MODULE_IFRdatsLpn_DATADDR + ifrCM_Attr.VAL_KEY,(uint16_t *)&tabLp,1);
 				
-				STMFLASH_Read(MODULE_IFRdatsHp_DATADDR + (ifrCM_Attr.VAL_KEY * 256),(uint16_t *)HTtab,tabHp);
-				STMFLASH_Read(MODULE_IFRdatsLp_DATADDR + (ifrCM_Attr.VAL_KEY * 256),(uint16_t *)LTtab,tabLp);
+				STMFLASH_Read(MODULE_IFRdatsHp_DATADDR + (ifrCM_Attr.VAL_KEY * 255),(uint16_t *)HTtab,tabHp);
+				STMFLASH_Read(MODULE_IFRdatsLp_DATADDR + (ifrCM_Attr.VAL_KEY * 255),(uint16_t *)LTtab,tabLp);
 				
-				if((HTtab[0] + HTtab[1] + HTtab[2] + LTtab[0] + LTtab[1] + LTtab[2]) > 65000){tips_beep(6,100,1); ifrCM_Attr.VAL_KEY = ifrvalK_NULL; continue;} //取样，读到非法溢出值（未经存储过的值），无法使用
+				if((HTtab[0] + HTtab[1] + HTtab[2] + LTtab[0] + LTtab[1] + LTtab[2]) > 65000){tips_beep(1,100,1); ifrCM_Attr.VAL_KEY = ifrvalK_NULL;osDelay(300); continue;} //取样，读到非法溢出值（未经存储过的值），无法使用
 
 				IFR_Send(HTtab,tabHp,LTtab,tabLp);
 				osDelay(20);
@@ -431,8 +463,8 @@ void keyIFR_Thread(const void *argument){
 //				osDelay(20);
 //				IFR_Send((uint16_t *)ifrKB_HTtab[ifrCM_Attr.VAL_KEY],ifrKB_tabHp[ifrCM_Attr.VAL_KEY],(uint16_t *)ifrKB_LTtab[ifrCM_Attr.VAL_KEY],ifrKB_tabLp[ifrCM_Attr.VAL_KEY]);				
 				
-				tips_beep(1,100,5);
-				osDelay(100);
+				tips_beep(5,100,5);
+				osDelay(300);
 				ifrCM_Attr.VAL_KEY = ifrvalK_NULL;
 			}
 		}
@@ -462,6 +494,7 @@ void keyIFRActive(void){
 	
 	Remote_Init();
 	keyIFR_ADCInit();
+	EXTI_DeInit();
 	
 	tid_keyIFR_Thread = osThreadCreate(osThread(keyIFR_Thread),NULL);
 	tid_keyIFR_Thread_umdScan = osThreadCreate(osThread(keyIFR_Thread_umdScan),NULL);

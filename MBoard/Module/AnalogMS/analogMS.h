@@ -11,7 +11,8 @@
 
 #include "debugUart.h"
 
-typedef struct{
+/****暂时只用电流通道，电表买的是电流输出型*****/
+typedef struct{				
 
 	uint16_t Ich1;
 	uint16_t Ich2;

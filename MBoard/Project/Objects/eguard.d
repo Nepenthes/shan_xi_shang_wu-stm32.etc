@@ -27,6 +27,7 @@
 .\objects\eguard.o: D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\stm32f10x_usart.h
 .\objects\eguard.o: D:\Keil\Software\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\misc.h
 .\objects\eguard.o: ..\Module\Entrance_guard\kBoard.h
+.\objects\eguard.o: ..\Module\Entrance_guard\doorLock.h
 .\objects\eguard.o: ..\User\IO_Map.h
 .\objects\eguard.o: ..\Module\Tips.h
 .\objects\eguard.o: ..\User\osObjects.h

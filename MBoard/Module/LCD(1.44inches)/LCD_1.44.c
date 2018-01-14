@@ -520,8 +520,8 @@ void LCD144Disp_Thread(const void *argument){
 	Show_Str(3,3,LGRAYBLUE,BLACK,"EXT_ID:",12,1);
 	Show_Str(44,3,YELLOW,BLACK,"xxxx",12,1);
 	
-	Show_Str(3,13,LGRAYBLUE,BLACK,"W/Z_ADDR:",12,1);
-	Show_Str(56,14,YELLOW,BLACK,"unknown",12,1);
+	Show_Str(3,13,LGRAYBLUE,BLACK,"EXD_ADDR:",12,1);
+	Show_Str(56,14,YELLOW,BLACK,"independent",12,1);
 	
 	Show_Str(5,50,YELLOW,BLACK,"未检测到",24,1);
 	Show_Str(25,75,YELLOW,BLACK,"扩展模块",24,1);
@@ -567,6 +567,9 @@ void LCD144Disp_Thread(const void *argument){
 				LCD_1_44_ClearS(BLACK,43,0,70,13);
 				Show_Str(44,3,BRRED,BLACK,EXTID_Disp,12,1);
 			}
+			
+			LCD_1_44_ClearS(BLACK,56,14,128,25);
+			Show_Str(56,14,YELLOW,BLACK,"independent",12,1);
 		
 			LCD_1_44_ClearS(BLACK,5,25,127,127);
 			
@@ -614,17 +617,16 @@ void LCD144Disp_Thread(const void *argument){
 				
 				case MID_SENSOR_ANALOG:
 				
-						Show_Str(5,25,WHITE,BLACK,"anaIch1:",24,1);
-						Show_Str(5,45,GREEN,BLACK,"anaIch2:",24,1);
-						Show_Str(5,65,WHITE,BLACK,"anaVch1:",24,1);
-						Show_Str(5,85,GREEN,BLACK,"anaVch2:",24,1);
+						Show_Str(5,25,WHITE,BLACK,"当前电压鑞",24,1);
+						Show_Str(50,50,WHITE,BLACK,"X X",24,1);
+						Show_Str(5,75,WHITE,BLACK,"当前电流鑞",24,1);
+						Show_Str(50,100,WHITE,BLACK,"X X",24,1);	
 						break;
 				
 				case MID_EGUARD:
 					
-						Show_Str(5,25,WHITE,BLACK,"figID is:",24,1);
-						Show_Str(5,55,WHITE,BLACK,"rfID is:",24,1);
-						Show_Str(5,85,WHITE,BLACK,"Password is:",24,1);
+						Show_Str(5,50,WHITE,BLACK,"密码输入",24,1);
+						Show_Str(50,80,WHITE,BLACK,"X X",24,1);
 						break;
 				
 				case MID_EXEC_DEVIFR:		
@@ -639,7 +641,7 @@ void LCD144Disp_Thread(const void *argument){
 					
 						Show_Str(5,25,WHITE,BLACK,"开关状态鑞",24,1);
 						Show_Str(50,50,GREEN,BLACK,"X X",24,1);
-						Show_Str(5,75,WHITE,BLACK,"亮度鑞",24,1);
+						Show_Str(5,75,WHITE,BLACK,"占空比值鑞",24,1);
 						Show_Str(50,100,GREEN,BLACK,"X X",24,1);
 						break;
 				
@@ -653,7 +655,7 @@ void LCD144Disp_Thread(const void *argument){
 					
 						Show_Str(5,25,WHITE,BLACK,"电源状态鑞",24,1);
 						Show_Str(50,50,GREEN,BLACK,"X X",24,1);
-						Show_Str(5,75,WHITE,BLACK,"模拟值鑞",24,1);
+						Show_Str(5,75,WHITE,BLACK,"当前电流鑞",24,1);
 						Show_Str(50,100,GREEN,BLACK,"X X",24,1);	
 						break;
 				
@@ -689,11 +691,11 @@ void LCD144Disp_Thread(const void *argument){
 							if(rptr->VAL){
 							
 								sprintf(disp,"有火");
-								Show_Str(40,85,GREEN,BLACK,(uint8_t *)disp,24,1);
+								Show_Str(40,75,GREEN,BLACK,(uint8_t *)disp,24,1);
 							}else{
 							
 								sprintf(disp,"没火");
-								Show_Str(40,85,GREEN,BLACK,(uint8_t *)disp,24,1);
+								Show_Str(40,75,GREEN,BLACK,(uint8_t *)disp,24,1);
 							}
 
 							do{status = osPoolFree(fireMS_pool, rptr);}while(status != osOK);	//内存释放
@@ -717,11 +719,11 @@ void LCD144Disp_Thread(const void *argument){
 							if(rptr->VAL){
 							
 								sprintf(disp,"有人");
-								Show_Str(40,85,GREEN,BLACK,(uint8_t *)disp,24,1);
+								Show_Str(40,75,GREEN,BLACK,(uint8_t *)disp,24,1);
 							}else{
 							
 								sprintf(disp,"无人");
-								Show_Str(40,85,GREEN,BLACK,(uint8_t *)disp,24,1);
+								Show_Str(40,75,GREEN,BLACK,(uint8_t *)disp,24,1);
 							}
 							
 							do{status = osPoolFree(pyroMS_pool, rptr);}while(status != osOK);	//内存释放
@@ -745,14 +747,14 @@ void LCD144Disp_Thread(const void *argument){
 							if(rptr->VAL){
 							
 								sprintf(disp,"报警");
-								Show_Str(40,85,GREEN,BLACK,(uint8_t *)disp,24,1);
+								Show_Str(40,75,GREEN,BLACK,(uint8_t *)disp,24,1);
 							}else{
 							
 								sprintf(disp,"正常");
-								Show_Str(40,85,GREEN,BLACK,(uint8_t *)disp,24,1);
+								Show_Str(40,75,GREEN,BLACK,(uint8_t *)disp,24,1);
 							}
 							
-							sprintf(disp,"anaVAL:%d",rptr->anaDAT);
+							sprintf(disp,"anaVAL:%d%%",rptr->anaDAT);
 							Show_Str(10,105,BLUE,BLACK,(uint8_t *)disp,24,1);
 							
 							do{status = osPoolFree(smokeMS_pool, rptr);}while(status != osOK);	//内存释放
@@ -776,14 +778,14 @@ void LCD144Disp_Thread(const void *argument){
 							if(rptr->VAL){
 							
 								sprintf(disp,"报警");
-								Show_Str(40,85,GREEN,BLACK,(uint8_t *)disp,24,1);
+								Show_Str(40,75,GREEN,BLACK,(uint8_t *)disp,24,1);
 							}else{
 							
 								sprintf(disp,"正常");
-								Show_Str(40,85,GREEN,BLACK,(uint8_t *)disp,24,1);
+								Show_Str(40,75,GREEN,BLACK,(uint8_t *)disp,24,1);
 							}
 							
-							sprintf(disp,"anaVAL:%d",rptr->anaDAT);
+							sprintf(disp,"anaVAL:%d%%",rptr->anaDAT);
 							Show_Str(10,105,BLUE,BLACK,(uint8_t *)disp,24,1);
 							
 							do{status = osPoolFree(gasMS_pool, rptr);}while(status != osOK);	//内存释放
@@ -807,10 +809,10 @@ void LCD144Disp_Thread(const void *argument){
 							LCD_1_44_ClearS(BLACK,0,100,127,125);
 							
 							sprintf(disp,"%.2f",rptr->temp);
-							LCD_1_44_ShowNum2412(20,50,BLUE,BLACK,(uint8_t *)disp,24,1);
+							LCD_1_44_ShowNum2412(20,50,GREEN,BLACK,(uint8_t *)disp,24,1);
 							Show_Str(20 + strlen(disp) * 24,50,GREEN,BLACK,"℃",24,1);
 							sprintf(disp,"%.2f",rptr->hum);
-							LCD_1_44_ShowNum2412(20,100,BLUE,BLACK,(uint8_t *)disp,24,1);
+							LCD_1_44_ShowNum2412(20,100,GREEN,BLACK,(uint8_t *)disp,24,1);
 							Show_Str(20 + strlen(disp) * 24,100,GREEN,BLACK,"％",24,1);
 							
 							do{status = osPoolFree(tempMS_pool, rptr);}while(status != osOK);	//内存释放
@@ -831,7 +833,7 @@ void LCD144Disp_Thread(const void *argument){
 							/*显示部分程序↓↓↓↓↓↓↓*/
 							
 							LCD_1_44_ClearS(BLACK,0,75,127,127);
-							sprintf(disp,"%d Lux",rptr->illumination);
+							sprintf(disp,"%d %%",rptr->illumination);
 							Show_Str(20 + 8*(8 - strlen(disp)),85,GREEN,BLACK,(uint8_t *)disp,24,1);
 							
 							do{status = osPoolFree(lightMS_pool, rptr);}while(status != osOK);	//内存释放
@@ -845,27 +847,26 @@ void LCD144Disp_Thread(const void *argument){
 						osEvent  evt;
 						char disp[30];
 				
+						float CUR = 0.0;
+						float VOL = 0.0;
+				
 						evt = osMessageGet(MsgBox_DPanalogMS, 10);
 						if (evt.status == osEventMessage){
 							
 							rptr = evt.value.p;
 							/*显示部分程序↓↓↓↓↓↓↓*/
 							
-							LCD_1_44_ClearS(BLACK,0,25,127,45);
-							sprintf(disp,"anaIch1:%d",rptr->Ich1);
-							Show_Str(50,25,GREEN,BLACK,(uint8_t *)disp,24,1);
+							VOL = 420.0 / 4096.0 * (float)rptr->Ich1;		//电压
+							CUR = 6.1 / 4096.0 * (float)rptr->Ich2;			//电流
+
+							LCD_1_44_ClearS(BLACK,0,50,127,75);
+							LCD_1_44_ClearS(BLACK,0,100,127,125);
 							
-							LCD_1_44_ClearS(BLACK,0,25,127,45);
-							sprintf(disp,"anaIch2:%d",rptr->Ich2);
-							Show_Str(50,45,GREEN,BLACK,(uint8_t *)disp,24,1);
+							sprintf(disp,"%.2f V",VOL);
+							Show_Str(35,55,GREEN,BLACK,(uint8_t *)disp,24,1);
 							
-							LCD_1_44_ClearS(BLACK,0,45,127,65);
-							sprintf(disp,"anaVch1:%d",rptr->Vch1);
-							Show_Str(50,65,GREEN,BLACK,(uint8_t *)disp,24,1);
-							
-							LCD_1_44_ClearS(BLACK,0,65,127,85);
-							sprintf(disp,"anaVch2:%d",rptr->Vch2);
-							Show_Str(50,85,GREEN,BLACK,(uint8_t *)disp,24,1);
+							sprintf(disp,"%.2f A",CUR);
+							Show_Str(35,105,GREEN,BLACK,(uint8_t *)disp,24,1);
 							
 							do{status = osPoolFree(analogMS_pool, rptr);}while(status != osOK);	//内存释放
 							rptr = NULL;
@@ -875,25 +876,25 @@ void LCD144Disp_Thread(const void *argument){
 			case MID_EGUARD:{
 					
 						EGUARD_MEAS *rptr;
+						EGUARD_MEAS	data_old;
 						osEvent  evt;
 						char disp[30];
 				
 						static uint8_t DP_cnt;
-						static bool DP_FLG = true;
+						static bool DP_FLG = false;
 				
-						if(DP_FLG){
+						if(DP_FLG){		//是否界面自恢复
 						
 							if(DP_cnt)DP_cnt --;
 							else{
 							
 								DP_FLG = false;
-								LCD_1_44_ClearS(BLACK,0,40,127,55);
-								LCD_1_44_ClearS(BLACK,0,70,127,85);
-								LCD_1_44_ClearS(BLACK,0,100,127,115);
+								LCD_1_44_ClearS(BLACK,0,40,128,128);
 								
-								Show_Str(40,40,GREEN,BLACK,"NULL",24,1);
-								Show_Str(40,70,GREEN,BLACK,"NULL",24,1);
-								Show_Str(40,100,GREEN,BLACK,"NULL",24,1);
+								Show_Str(5,50,WHITE,BLACK,"密码输入",24,1);
+								
+								if(!data_old.Psd[0])Show_Str(50,80,WHITE,BLACK,"X X",24,1);
+								else Show_Str(64 - strlen((const char*)data_old.Psd) * 4,80,GREEN,BLACK,(uint8_t *)data_old.Psd,24,1);
 							}
 						}
 				
@@ -903,32 +904,86 @@ void LCD144Disp_Thread(const void *argument){
 							rptr = evt.value.p;
 							/*显示部分程序↓↓↓↓↓↓↓*/
 							
-							DP_FLG = true;
-							DP_cnt = 100;
-							
 							switch(rptr->CMD){
 								
 								case FID_EXERES_TTIT:
 									
-										LCD_1_44_ClearS(BLACK,0,40,127,85);
+										DP_FLG = true;
+										DP_cnt = 50;
+								
+										LCD_1_44_ClearS(BLACK,0,40,128,128);
+										Show_Str(5,50,WHITE,BLACK,"指纹输入",24,1);
 										memset(disp,0,30 * sizeof(char));
-										sprintf(disp,"%d",rptr->DAT);			
-										Show_Str(25,40,GREEN,BLACK,(uint8_t *)disp,24,1);
+										sprintf(disp,"ID: %d",rptr->DAT);			
+										Show_Str(25,80,GREEN,BLACK,(uint8_t *)disp,24,1);
 										break;
 							
 								case RFID_EXERES_TTIT:
 										
-										LCD_1_44_ClearS(BLACK,0,70,127,85);
+										DP_FLG = true;
+										DP_cnt = 50;
+								
+										LCD_1_44_ClearS(BLACK,0,40,128,128);
+										Show_Str(5,50,WHITE,BLACK,"RFID输入",24,1);
 										memset(disp,0,30 * sizeof(char));
 										sprintf(disp,"%02X%02X%02X%02X",rptr->rfidDAT[0],rptr->rfidDAT[1],rptr->rfidDAT[2],rptr->rfidDAT[3]);			
-										Show_Str(25,70,GREEN,BLACK,(uint8_t *)disp,24,1);
+										Show_Str(25,80,GREEN,BLACK,(uint8_t *)disp,24,1);
 										break;
 								
 								case PSD_EXERES_TTIT:
 									
-										LCD_1_44_ClearS(BLACK,0,70,127,85);
+										memcpy(data_old.Psd, rptr->Psd, 9);
+										LCD_1_44_ClearS(BLACK,0,80,127,128);
+										memset(disp,0,30 * sizeof(char));
+										if(!rptr->Psd[0])Show_Str(50,80,WHITE,BLACK,"X X",24,1);
+										else Show_Str(64 - strlen((const char*)rptr->Psd) * 4,80,GREEN,BLACK,(uint8_t *)rptr->Psd,24,1);
+										break;
+									
+								case PSD_EXERES_LVMSG_DN:
+									
+										LCD_1_44_ClearS(BLACK,0,40,128,128);
+										Show_Str(20,60,YELLOW,BLACK,"开始留言",24,1);
+										break;
+									
+								case PSD_EXERES_LVMSG_UP:
+									
+										DP_FLG = true;
+										DP_cnt = 20;
+									
+										LCD_1_44_ClearS(BLACK,0,40,128,128);
+										Show_Str(20,60,YELLOW,BLACK,"留言完毕",24,1);
+										break;
+								
+								case PSD_EXERES_CALL:
+									
+										DP_FLG = true;
+										DP_cnt = 20;
+								
+										LCD_1_44_ClearS(BLACK,0,40,128,128);
+										Show_Str(20,60,YELLOW,BLACK,"呼叫请求",24,1);
+										break;
+								
+								case DLOCK_MSGCMD_LOCK:
 										
-										Show_Str(25,70,GREEN,BLACK,(uint8_t *)disp,24,1);
+										DP_FLG = true;
+										DP_cnt = 20;
+								
+										switch(rptr->DAT){
+										
+											case CMD_DOOROPEN:
+												
+													LCD_1_44_ClearS(BLACK,0,40,128,128);
+													Show_Str(20,60,YELLOW,BLACK,"门锁已开",24,1);
+													break;
+												
+											case CMD_DOORCLOSE:
+												
+													LCD_1_44_ClearS(BLACK,0,40,128,128);
+													Show_Str(20,60,YELLOW,BLACK,"门锁已关",24,1);
+													break;
+												
+											default:break;
+										}
 										break;
 								
 								default:break;
@@ -942,8 +997,46 @@ void LCD144Disp_Thread(const void *argument){
 			case MID_EXEC_DEVIFR:{
 					
 						IFR_MEAS *rptr;
+						IFR_MEAS data_old;
 						osEvent  evt;
 						char disp[30];
+				
+						static uint8_t DP_cnt;
+						static bool DP_FLG = false;
+				
+						if(DP_FLG){		//是否界面自恢复
+						
+							if(DP_cnt)DP_cnt --;
+							else{
+							
+								DP_FLG = false;
+								LCD_1_44_ClearS(BLACK,5,25,128,128);
+								
+								Show_Str(5,25,WHITE,BLACK,"键值鑞",24,1);
+								Show_Str(5,75,WHITE,BLACK,"按键状态鑞",24,1);
+								
+								LCD_1_44_ClearS(BLACK,0,50,127,75);
+								sprintf(disp,"%d",data_old.VAL_KEY);
+								LCD_1_44_ShowNum2412(50,50,GREEN,BLACK,(uint8_t *)disp,24,1);
+								
+								LCD_1_44_ClearS(BLACK,0,100,127,125);
+								switch(data_old.STATUS){
+								
+									case kifrSTATUS_NONLRN:sprintf(disp,"   NULL");break;
+										
+									case kifrSTATUS_WAITK:sprintf(disp,"按键等待");break;
+										
+									case kifrSTATUS_WAITSG:sprintf(disp,"等待遥控");break;
+										
+									case kifrSTATUS_LRNOVR:sprintf(disp,"学习完毕");break;
+										
+									case kifrSTATUS_SGOUT:sprintf(disp,"信号输出");break;
+									
+									default:sprintf(disp,"   NULL");break;
+								}
+								Show_Str(20,100,GREEN,BLACK,(uint8_t *)disp,24,1);	
+							}
+						}
 				
 						evt = osMessageGet(MsgBox_DPIFR, 10);
 						if (evt.status == osEventMessage){
@@ -951,35 +1044,58 @@ void LCD144Disp_Thread(const void *argument){
 							rptr = evt.value.p;
 							/*显示部分程序↓↓↓↓↓↓↓*/
 							
+							data_old.speDPCMD = rptr->speDPCMD;
+							data_old.STATUS	  = rptr->STATUS;
+							
 							switch(rptr->speDPCMD){
 							
 								case SPECMD_pwmDevModADDR_CHG:{
 								
-									;
+									DP_FLG = true;
+									DP_cnt = 50;
+									
+									LCD_1_44_ClearS(BLACK,0,25,128,128);
+									Show_Str(10,60,YELLOW,BLACK,"WIFI_EXD_ADDR",24,1);
+									Show_Str(30,80,YELLOW,BLACK,"IS SETTING",24,1);
+									
+									LCD_1_44_ClearS(BLACK,56,14,128,25);
+									switch(rptr->Mod_addr){
+									
+										case ifrDevMID_video:	Show_Str(56,14,YELLOW,BLACK,"ifr-video",12,1); 
+																break;
+											
+										case ifrDevMID_audio:	Show_Str(56,14,YELLOW,BLACK,"ifr-audio",12,1); 
+																break;
+											
+										default:break;
+									}
 								}break;
 								
 								case SPECMD_pwmDevDATS_CHG:{
 								
-									LCD_1_44_ClearS(BLACK,0,50,127,75);
-									sprintf(disp,"%d",rptr->VAL_KEY);
-									LCD_1_44_ShowNum2412(50,50,GREEN,BLACK,(uint8_t *)disp,24,1);
+									if(!DP_FLG){	//禁止本显示信号成为干扰项
 									
-									LCD_1_44_ClearS(BLACK,0,100,127,125);
-									switch(rptr->STATUS){
-									
-										case kifrSTATUS_NONLRN:sprintf(disp,"NULL");break;
-											
-										case kifrSTATUS_WAITK:sprintf(disp,"按键等待");break;
-											
-										case kifrSTATUS_WAITSG:sprintf(disp,"等待遥控");break;
-											
-										case kifrSTATUS_LRNOVR:sprintf(disp,"学习完毕");break;
-											
-										case kifrSTATUS_SGOUT:sprintf(disp,"信号输出");break;
+										LCD_1_44_ClearS(BLACK,0,50,127,75);
+										sprintf(disp,"%d",rptr->VAL_KEY);
+										LCD_1_44_ShowNum2412(50,50,GREEN,BLACK,(uint8_t *)disp,24,1);
 										
-										default:sprintf(disp,"NULL");break;
+										LCD_1_44_ClearS(BLACK,0,100,127,125);
+										switch(rptr->STATUS){
+										
+											case kifrSTATUS_NONLRN:sprintf(disp,"   NULL");break;
+												
+											case kifrSTATUS_WAITK:sprintf(disp,"按键等待");break;
+												
+											case kifrSTATUS_WAITSG:sprintf(disp,"等待遥控");break;
+												
+											case kifrSTATUS_LRNOVR:sprintf(disp,"学习完毕");break;
+												
+											case kifrSTATUS_SGOUT:sprintf(disp,"信号输出");break;
+											
+											default:sprintf(disp,"   NULL");break;
+										}
+										Show_Str(20,100,GREEN,BLACK,(uint8_t *)disp,24,1);	
 									}
-									Show_Str(10,100,GREEN,BLACK,(uint8_t *)disp,24,1);									
 								}break;
 								
 								default:break;
@@ -993,8 +1109,39 @@ void LCD144Disp_Thread(const void *argument){
 			case MID_EXEC_DEVPWM:{
 			
 						pwmCM_MEAS *rptr;
+						pwmCM_MEAS	data_old;
 						osEvent  evt;
 						char disp[30];
+				
+						static uint8_t DP_cnt;
+						static bool DP_FLG = false;
+				
+						if(DP_FLG){		//是否界面自恢复
+						
+							if(DP_cnt)DP_cnt --;
+							else{
+							
+								DP_FLG = false;
+								
+								LCD_1_44_ClearS(BLACK,5,25,128,128);
+								
+								Show_Str(5,25,WHITE,BLACK,"开关状态鑞",24,1);
+								Show_Str(5,75,WHITE,BLACK,"占空比值鑞",24,1);
+								
+								LCD_1_44_ClearS(BLACK,0,50,127,75);
+								switch(data_old.Switch){
+								
+									case true:	sprintf(disp,"开启"); break;
+											
+									case false:	sprintf(disp,"关闭"); break;
+								}
+								Show_Str(40,50,GREEN,BLACK,(uint8_t *)disp,24,1);
+								
+								LCD_1_44_ClearS(BLACK,0,100,127,125);
+								sprintf(disp,"%d%%",data_old.pwmVAL);
+								Show_Str(50,100,GREEN,BLACK,(uint8_t *)disp,24,1);
+							}
+						}
 				
 						evt = osMessageGet(MsgBox_DPpwmCM, 10);
 						if (evt.status == osEventMessage){
@@ -1006,23 +1153,49 @@ void LCD144Disp_Thread(const void *argument){
 							
 								case SPECMD_ifrDevModADDR_CHG:{
 								
-									;
+									DP_FLG = true;
+									DP_cnt = 50;
+									
+									LCD_1_44_ClearS(BLACK,0,25,128,128);
+									Show_Str(10,60,YELLOW,BLACK,"WIFI_EXD_ADDR",24,1);
+									Show_Str(30,80,YELLOW,BLACK,"IS SETTING",24,1);
+									
+									LCD_1_44_ClearS(BLACK,56,14,128,25);
+									switch(rptr->Mod_addr){
+									
+										case pwmDevMID_unvarLight:	Show_Str(56,14,YELLOW,BLACK,"sw-Light",12,1); 
+																	break;
+											
+										case pwmDevMID_varLight:	Show_Str(56,14,YELLOW,BLACK,"pwm-Light",12,1); 
+																	break;
+										
+										case pwmDevMID_varFan:		Show_Str(56,14,YELLOW,BLACK,"pwm-Fan",12,1); 
+																	break;
+											
+										default:break;
+									}
 								}break;
 								
 								case SPECMD_ifrDevDATS_CHG:{
 								
-									LCD_1_44_ClearS(BLACK,0,50,127,75);
-									switch(rptr->Switch){
+									if(!DP_FLG){	//禁止本显示信号成为干扰项
 									
-										case true:	sprintf(disp,"开启"); break;
-												
-										case false:	sprintf(disp,"关闭"); break;
+										data_old.Switch = rptr->Switch;
+										data_old.pwmVAL = rptr->pwmVAL;
+										
+										LCD_1_44_ClearS(BLACK,0,50,127,75);
+										switch(rptr->Switch){
+										
+											case true:	sprintf(disp,"开启"); break;
+													
+											case false:	sprintf(disp,"关闭"); break;
+										}
+										Show_Str(40,50,GREEN,BLACK,(uint8_t *)disp,24,1);
+										
+										LCD_1_44_ClearS(BLACK,0,100,127,125);
+										sprintf(disp,"%d%%",rptr->pwmVAL);
+										Show_Str(50,100,GREEN,BLACK,(uint8_t *)disp,24,1);
 									}
-									Show_Str(25,50,GREEN,BLACK,(uint8_t *)disp,24,1);
-									
-									LCD_1_44_ClearS(BLACK,0,100,127,125);
-									sprintf(disp,"%d",rptr->pwmVAL);
-									Show_Str(25,100,GREEN,BLACK,(uint8_t *)disp,24,1);
 								}break;
 							}
 							
@@ -1043,16 +1216,16 @@ void LCD144Disp_Thread(const void *argument){
 							rptr = evt.value.p;
 							/*显示部分程序↓↓↓↓↓↓↓*/
 							
-							LCD_1_44_ClearS(BLACK,0,75,127,100);
+							LCD_1_44_ClearS(BLACK,0,75,127,127);
 							switch(rptr->valACT){
 							
-								case CMD_CURTUP:	sprintf(disp,"开启");break;
+								case CMD_CURTUP:	sprintf(disp,"上升");break;
 								
-								case CMD_CURTSTP:	sprintf(disp,"关闭");break;
+								case CMD_CURTSTP:	sprintf(disp,"停止");break;
 								
-								case CMD_CURTDN:	sprintf(disp,"停止");break;
+								case CMD_CURTDN:	sprintf(disp,"下降");break;
 							}
-							Show_Str(25,75,GREEN,BLACK,(uint8_t *)disp,24,1);
+							Show_Str(30,85,GREEN,BLACK,(uint8_t *)disp,24,1);
 							
 							do{status = osPoolFree(curtainCM_pool, rptr);}while(status != osOK);	//内存释放
 							rptr = NULL;
@@ -1065,11 +1238,15 @@ void LCD144Disp_Thread(const void *argument){
 						osEvent  evt;
 						char disp[30];
 				
+						float CUR;
+				
 						evt = osMessageGet(MsgBox_DPsourceCM, 10);
 						if (evt.status == osEventMessage){
 							
 							rptr = evt.value.p;
 							/*显示部分程序↓↓↓↓↓↓↓*/
+							
+							CUR = 6.75 / 4096.0 * (float)rptr->anaVal;
 							
 							LCD_1_44_ClearS(BLACK,0,75,127,100);
 							switch(rptr->Switch){
@@ -1078,11 +1255,11 @@ void LCD144Disp_Thread(const void *argument){
 										
 								case false:	sprintf(disp,"关闭"); break;
 							}
-							Show_Str(25,50,GREEN,BLACK,(uint8_t *)disp,24,1);
+							Show_Str(40,50,GREEN,BLACK,(uint8_t *)disp,24,1);
 							
-							LCD_1_44_ClearS(BLACK,0,100,127,125);
-							sprintf(disp,"%d",rptr->anaVal);
-							Show_Str(25,100,GREEN,BLACK,(uint8_t *)disp,24,1);
+							LCD_1_44_ClearS(BLACK,0,100,127,127);
+							sprintf(disp,"%.2f A",CUR);
+							Show_Str(60,100,GREEN,BLACK,(uint8_t *)disp,24,1);
 							
 							do{status = osPoolFree(sourceCM_pool, rptr);}while(status != osOK);	//内存释放
 							rptr = NULL;
@@ -1104,33 +1281,33 @@ void LCD144Disp_Thread(const void *argument){
 							LCD_1_44_ClearS(BLACK,0,75,127,100);
 							switch(rptr->spk_num){
 							
-								case 1:	sprintf(disp,"烟雾报警");break;
+								case 0:	sprintf(disp,"烟雾报警");break;
 									
-								case 2:	sprintf(disp,"燃气报警");break;
+								case 1:	sprintf(disp,"燃气报警");break;
 									
-								case 3:	sprintf(disp,"火焰报警");break;
+								case 2:	sprintf(disp,"火焰报警");break;
 									
-								case 4:	sprintf(disp,"插座报警");break;
+								case 3:	sprintf(disp,"插座报警");break;
 									
-								case 5:	sprintf(disp,"窗帘开");break;
+								case 4:	sprintf(disp,"窗帘开");break;
 								
-								case 6:	sprintf(disp,"窗帘关");break;
+								case 5:	sprintf(disp,"窗帘关");break;
 								
-								case 7:	sprintf(disp,"灯光");break;
+								case 6:	sprintf(disp,"灯光");break;
 								
-								case 8:	sprintf(disp,"灯光关");break;
+								case 7:	sprintf(disp,"灯光关");break;
 								
-								case 9:	sprintf(disp,"灯光调亮");break;
+								case 8:	sprintf(disp,"灯光调亮");break;
 							
-								case 10:sprintf(disp,"灯光调暗");break;
+								case 9:sprintf(disp,"灯光调暗");break;
 								
-								case 11:sprintf(disp,"灯光最亮");break;
+								case 10:sprintf(disp,"灯光最亮");break;
 								
-								case 12:sprintf(disp,"灯光最暗");break;
+								case 11:sprintf(disp,"灯光最暗");break;
 								
-								case 13:sprintf(disp,"电视开");break;
+								case 12:sprintf(disp,"电视开");break;
 								
-								case 14:sprintf(disp,"电视关");break;
+								case 13:sprintf(disp,"电视关");break;
 								
 								default:sprintf(disp,"一切正常");break;
 							}

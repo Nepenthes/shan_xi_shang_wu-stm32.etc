@@ -22,7 +22,7 @@ const u8 spect[spect_size][8] = {
 void tips_beep(u8 tones, u16 time, u8 vol){
 
 	const u8 vol_fa = 10;	//音量分级
-	u16 tones_base = tones * 50 + 240;  //周期时间 = 音调倍乘 + 音调基数 
+	u16 tones_base = tones * 50 + 100;  //周期时间 = 音调倍乘 + 音调基数 
 	u16 cycle = time * 1000 / tones_base;	//循环次数 = 总时间 / 频率
 	u16 loop;
 
@@ -40,7 +40,7 @@ void beeps(u8 num){
 	u8 loop;
 	
 	for(loop = 0;loop < spect_len[num];loop ++)
-		tips_beep(spect[num][loop],150,3);
+		tips_beep(spect[num][loop],50,3);
 }
 
 void tipsInit(void){

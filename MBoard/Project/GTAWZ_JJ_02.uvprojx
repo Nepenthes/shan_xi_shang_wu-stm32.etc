@@ -445,6 +445,11 @@
               <FileType>1</FileType>
               <FilePath>..\Module\Entrance_guard\rc522_config.c</FilePath>
             </File>
+            <File>
+              <FileName>doorLock.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Entrance_guard\doorLock.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

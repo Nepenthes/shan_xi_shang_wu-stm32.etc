@@ -202,7 +202,7 @@ void fingerID_Thread(const void *argument){
 	
 	for(;;){
 	
-		evt = osMessageGet(MsgBox_MTEGUD, 200);
+		evt = osMessageGet(MsgBox_MTEGUD_FID, 200);
 		if (evt.status == osEventMessage){		//等待消息指令
 		 
 			rptr = evt.value.p;
@@ -232,7 +232,7 @@ void fingerID_Thread(const void *argument){
 									osDelay(200);
 									mptr -> CMD = FID_EXERES_FAIL;								
 									mptr -> DAT = 0x00;	
-									osMessagePut(MsgBox_EGUD_FID, (uint32_t)mptr, 100);
+									osMessagePut(MsgBox_EGUD, (uint32_t)mptr, 100);
 									do{status = osPoolFree(EGUD_pool, sptr);}while(status != osOK);
 									sptr = NULL;	
 									break;
@@ -256,12 +256,12 @@ void fingerID_Thread(const void *argument){
 								
 									mptr -> CMD = FID_EXERES_SUCCESS;	//无数据反馈，仅填充结果，数据内容0x00填充
 									mptr -> DAT = 0x00;		
-									osMessagePut(MsgBox_EGUD_FID, (uint32_t)mptr, 100);
+									osMessagePut(MsgBox_EGUD, (uint32_t)mptr, 100);
 								}else{
 									
 									mptr -> CMD = FID_EXERES_FAIL;
 									mptr -> DAT = 0x00;	
-									osMessagePut(MsgBox_EGUD_FID, (uint32_t)mptr, 100);
+									osMessagePut(MsgBox_EGUD, (uint32_t)mptr, 100);
 								}osDelay(200);
 								do{status = osPoolFree(EGUD_pool, sptr);}while(status != osOK);
 								sptr = NULL;
@@ -271,7 +271,7 @@ void fingerID_Thread(const void *argument){
 							osDelay(200);
 							mptr -> CMD = FID_EXERES_FAIL;								
 							mptr -> DAT = 0x00;	
-							osMessagePut(MsgBox_EGUD_FID, (uint32_t)mptr, 100);
+							osMessagePut(MsgBox_EGUD, (uint32_t)mptr, 100);
 							do{status = osPoolFree(EGUD_pool, sptr);}while(status != osOK);
 							sptr = NULL;
 							break;
@@ -302,7 +302,7 @@ void fingerID_Thread(const void *argument){
 							mptr -> CMD = FID_EXERES_FAIL;
 							mptr -> DAT = 0x00;								
 						}
-						osMessagePut(MsgBox_EGUD_FID, (uint32_t)mptr, 100);
+						osMessagePut(MsgBox_EGUD, (uint32_t)mptr, 100);
 						do{status = osPoolFree(EGUD_pool, sptr);}while(status != osOK);	//释放指纹指令包内存
 						sptr = NULL;
 						sptr = fingerID_CMDTX(0,1);			//二次无意义调用，冲洗脏指针
@@ -324,14 +324,14 @@ void fingerID_Thread(const void *argument){
 								
 									mptr -> CMD = FID_EXERES_SUCCESS;	//有数据反馈
 									mptr -> DAT = sptr -> DAT;
-									osMessagePut(MsgBox_EGUD_FID, (uint32_t)mptr, 100);
+									osMessagePut(MsgBox_EGUD, (uint32_t)mptr, 100);
 								}
 								osDelay(200);
 							}else{
 		
 								mptr -> CMD = FID_EXERES_FAIL;
 								mptr -> DAT = 0x00;	
-								osMessagePut(MsgBox_EGUD_FID, (uint32_t)mptr, 100);
+								osMessagePut(MsgBox_EGUD, (uint32_t)mptr, 100);
 								do{status = osPoolFree(EGUD_pool, sptr);}while(status != osOK);	//释放指纹指令包内存
 								sptr = NULL;
 								break;
@@ -365,12 +365,14 @@ void fingerID_Thread(const void *argument){
 						do{mptr = (EGUARD_MEAS *)osPoolCAlloc(EGUD_pool);}while(mptr == NULL); 	//外发消息内存申请
 						mptr -> CMD = FID_EXERES_TTIT;	//有数据反馈,主动上传
 						mptr -> DAT = sptr -> DAT;
-						osMessagePut(MsgBox_EGUD_FID, (uint32_t)mptr, 100);
+						osMessagePut(MsgBox_EGUD, (uint32_t)mptr, 100);
 						
 						do{mptr = (EGUARD_MEAS *)osPoolCAlloc(EGUD_pool);}while(mptr == NULL); 	//1.44LCD送显
 						mptr -> CMD = FID_EXERES_TTIT;	
 						mptr -> DAT = sptr -> DAT;
 						osMessagePut(MsgBox_DPEGUD, (uint32_t)mptr, 100);
+						
+						beeps(2);
 					}
 					osDelay(200);
 				}else{					//主动周期检测，失败无动作
@@ -378,7 +380,7 @@ void fingerID_Thread(const void *argument){
 //					do{mptr = (EGUARD_MEAS *)osPoolCAlloc(EGUD_pool);}while(mptr == NULL); 	//外发消息内存申请
 //					mptr -> CMD = FID_EXERES_FAIL;
 //					mptr -> DAT = 0x00;	
-//					osMessagePut(MsgBox_EGUD_FID, (uint32_t)mptr, 100);
+//					osMessagePut(MsgBox_EGUD, (uint32_t)mptr, 100);
 					do{status = osPoolFree(EGUD_pool, sptr);}while(status != osOK);
 					sptr = NULL;
 					break;

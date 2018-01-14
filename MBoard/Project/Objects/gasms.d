@@ -49,6 +49,7 @@
 .\objects\gasms.o: ..\Module\Entrance_guard\rfID.h
 .\objects\gasms.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\gasms.o: ..\Module\Entrance_guard\kBoard.h
+.\objects\gasms.o: ..\Module\Entrance_guard\doorLock.h
 .\objects\gasms.o: ..\Module\Fire_MS\fireMS.h
 .\objects\gasms.o: ..\Module\Gas_MS\gasMS.h
 .\objects\gasms.o: ..\Module\Light_MS\lightMS.h

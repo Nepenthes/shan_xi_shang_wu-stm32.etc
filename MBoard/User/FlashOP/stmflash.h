@@ -14,16 +14,15 @@
 //FLASH起始地址
 #define  STM32_FLASH_BASE         0x08030000 	//STM32 FLASH的起始地址
 
-#define  MODULE_IFRid_DATADDR	  	  0x08030010
-#define	 MODULE_IFRdatsLpn_DATADDR	  0x08030100
-#define	 MODULE_IFRdatsHpn_DATADDR	  0x08030300
-#define  MODULE_IFRdatsLp_DATADDR	  0x08031000
-#define  MODULE_IFRdatsHp_DATADDR	  0x08032000
+#define  MODULE_IFRid_DATADDR	  	  0x0803F010
+#define	 MODULE_IFRdatsLpn_DATADDR	  0x0803F100
+#define	 MODULE_IFRdatsHpn_DATADDR	  0x0803F300
+#define  MODULE_IFRdatsLp_DATADDR	  0x0803E000
+#define  MODULE_IFRdatsHp_DATADDR	  0x0803D000
 
-#define  MODULE_PWMid_DATADDR		  0x08033010
+#define  MODULE_PWMid_DATADDR		  0x0803C010
 
 //FLASH解锁键值
- 
 
 u16 STMFLASH_ReadHalfWord(u32 faddr);		  //读出半字  
 void STMFLASH_WriteLenByte(u32 WriteAddr,u32 DataToWrite,u16 Len);	//指定地址开始写入指定长度的数据

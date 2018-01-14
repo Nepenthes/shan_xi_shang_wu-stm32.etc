@@ -28,11 +28,11 @@
 #include "debugUART.h"
 #include <dataTrans_USART.h>
 
-#define 	MID_TRANS_Zigbee	0x01
 #define		MID_TRANS_Wifi		0x02
+#define 	MID_TRANS_Zigbee	0x01
 	
 #define		MID_EXEC_DEVPWM		0x83
-#define		MID_EXEC_CURTAIN	0x42
+#define		MID_EXEC_CURTAIN	0x43
 #define 	MID_EXEC_SOURCE		0x82
 #define		MID_EXEC_SPEAK		0x41
 
@@ -41,7 +41,7 @@
 #define 	MID_SENSOR_SMOKE	0x03
 #define 	MID_SENSOR_GAS		0x04
 #define 	MID_SENSOR_TEMP		0x05
-#define 	MID_SENSOR_LIGHT	0x06
+#define 	MID_SENSOR_LIGHT	0x09
 #define 	MID_SENSOR_ANALOG	0x08
 
 #define 	MID_EXEC_DEVIFR		0x81

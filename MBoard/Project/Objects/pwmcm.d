@@ -48,6 +48,7 @@
 .\objects\pwmcm.o: ..\Module\Entrance_guard\rfID.h
 .\objects\pwmcm.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\pwmcm.o: ..\Module\Entrance_guard\kBoard.h
+.\objects\pwmcm.o: ..\Module\Entrance_guard\doorLock.h
 .\objects\pwmcm.o: ..\Module\Fire_MS\fireMS.h
 .\objects\pwmcm.o: ..\Module\Debug_USART\debugUart.h
 .\objects\pwmcm.o: ..\Module\Gas_MS\gasMS.h

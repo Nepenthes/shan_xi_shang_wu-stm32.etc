@@ -48,6 +48,7 @@
 .\objects\debuguart.o: ..\Module\Entrance_guard\rfID.h
 .\objects\debuguart.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\debuguart.o: ..\Module\Entrance_guard\kBoard.h
+.\objects\debuguart.o: ..\Module\Entrance_guard\doorLock.h
 .\objects\debuguart.o: ..\Module\Fire_MS\fireMS.h
 .\objects\debuguart.o: ..\Module\Gas_MS\gasMS.h
 .\objects\debuguart.o: ..\Module\Light_MS\lightMS.h

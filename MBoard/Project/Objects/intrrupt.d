@@ -49,6 +49,7 @@
 .\objects\intrrupt.o: ..\Module\Entrance_guard\rfID.h
 .\objects\intrrupt.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\intrrupt.o: ..\Module\Entrance_guard\kBoard.h
+.\objects\intrrupt.o: ..\Module\Entrance_guard\doorLock.h
 .\objects\intrrupt.o: ..\Module\Fire_MS\fireMS.h
 .\objects\intrrupt.o: ..\Module\Debug_USART\debugUart.h
 .\objects\intrrupt.o: ..\Module\Gas_MS\gasMS.h

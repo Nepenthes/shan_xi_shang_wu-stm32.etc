@@ -46,6 +46,7 @@
 .\objects\bsp.o: ..\Module\Entrance_guard\rfID.h
 .\objects\bsp.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\bsp.o: ..\Module\Entrance_guard\kBoard.h
+.\objects\bsp.o: ..\Module\Entrance_guard\doorLock.h
 .\objects\bsp.o: ..\Module\Infra_Trans\infraTrans.h
 .\objects\bsp.o: ..\Module\Moudle_DEC.h
 .\objects\bsp.o: ..\Module\Fire_MS\fireMS.h

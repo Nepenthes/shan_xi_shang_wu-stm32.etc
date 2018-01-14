@@ -35,6 +35,13 @@ void fireMS_Thread(const void *argument){
 
 	osEvent  evt;
     osStatus status;	
+	
+	const bool UPLOAD_MODE = false;	//1：数据变化时才上传 0：周期定时上传
+	
+	const uint8_t upldPeriod = 10;	//数据上传周期因数（UPLOAD_MODE = false 时有效）
+	
+	uint8_t UPLDcnt = 0;
+	bool UPLD_EN = false;
 
 	const uint8_t dpSize = 30;
 	const uint8_t dpPeriod = 40;
@@ -44,6 +51,7 @@ void fireMS_Thread(const void *argument){
 	
 	fireMS_MEAS	sensorData;
 	static fireMS_MEAS Data_temp = {1};
+	static fireMS_MEAS Data_tempDP = {1};
 	
 	fireMS_MEAS *mptr = NULL;
 	fireMS_MEAS *rptr = NULL;
@@ -65,15 +73,38 @@ void fireMS_Thread(const void *argument){
 
 	/***********************驱动数据采集*****************************************************/
 		sensorData.VAL = FIRE_DATA;		//数据采集
+		
+		if(!UPLOAD_MODE){	//选择上传触发模式
+		
+			if(UPLDcnt < upldPeriod)UPLDcnt ++;
+			else{
+			
+				UPLDcnt = 0;
+				UPLD_EN = true;
+			}
+		}else{
+		
+			if(Data_temp.VAL != sensorData.VAL){	//数据推送（数据更替时才触发）
+				
+				Data_temp.VAL = sensorData.VAL;
+				UPLD_EN = true;
+			}
+		}
 
 	/***********************线程数据推送*****************************************************/		
-		if(Data_temp.VAL != sensorData.VAL){	//数据推送（数据更替时才触发）
-		
-			Data_temp.VAL = sensorData.VAL;
+		if(UPLD_EN){
+			
+			UPLD_EN = false;
 			
 			do{mptr = (fireMS_MEAS *)osPoolCAlloc(fireMS_pool);}while(mptr == NULL);	//无线数据传输消息推送
 			mptr->VAL = sensorData.VAL;
 			osMessagePut(MsgBox_fireMS, (uint32_t)mptr, 100);
+			osDelay(500);
+		}
+		
+		if(Data_tempDP.VAL != sensorData.VAL){	//数据推送（数据更替时才触发）
+		
+			Data_tempDP.VAL = sensorData.VAL;
 			
 			do{mptr = (fireMS_MEAS *)osPoolCAlloc(fireMS_pool);}while(mptr == NULL);	//1.44寸液晶显示消息推送
 			mptr->VAL = sensorData.VAL;

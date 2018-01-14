@@ -29,8 +29,8 @@
 
 #define ifrvalK_NULL		0
 
-#define  ifrDevMID_video	0x0A
-#define  ifrDevMID_audio	0x0B
+#define  ifrDevMID_audio	0x0A
+#define  ifrDevMID_video	0x0B
 
 #define  SPECMD_ifrDevModADDR_CHG		0x0A
 #define  SPECMD_ifrDevDATS_CHG			0x0B

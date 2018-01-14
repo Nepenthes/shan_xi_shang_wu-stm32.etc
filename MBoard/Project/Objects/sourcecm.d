@@ -49,6 +49,7 @@
 .\objects\sourcecm.o: ..\Module\Entrance_guard\rfID.h
 .\objects\sourcecm.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\sourcecm.o: ..\Module\Entrance_guard\kBoard.h
+.\objects\sourcecm.o: ..\Module\Entrance_guard\doorLock.h
 .\objects\sourcecm.o: ..\Module\Fire_MS\fireMS.h
 .\objects\sourcecm.o: ..\Module\Gas_MS\gasMS.h
 .\objects\sourcecm.o: ..\Module\Light_MS\lightMS.h

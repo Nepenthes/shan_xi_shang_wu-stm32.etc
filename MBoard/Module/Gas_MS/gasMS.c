@@ -105,6 +105,13 @@ void gasMS_Thread(const void *argument){
 	osEvent  evt;
     osStatus status;	
 	
+	const bool UPLOAD_MODE = false;	//1：数据变化时才上传 0：周期定时上传
+	
+	const uint8_t upldPeriod = 5;	//周期因数
+	
+	uint8_t UPLDcnt = 0;
+	bool UPLD_EN = false;
+	
 	const uint8_t dpSize = 30;
 	const uint8_t dpPeriod = 20;
 	
@@ -113,6 +120,7 @@ void gasMS_Thread(const void *argument){
 	
 	gasMS_MEAS	sensorData;
 	static gasMS_MEAS Data_temp = {1};
+	static gasMS_MEAS Data_tempDP = {1};
 	
 	gasMS_MEAS *mptr = NULL;
 	gasMS_MEAS *rptr = NULL;
@@ -133,17 +141,42 @@ void gasMS_Thread(const void *argument){
 		sensorData.anaDAT	= (uint8_t)(gasGet_Adc_Average(1,8) / 41);		//数据采集
 		sensorData.VAL		= GAS_DATA;
 		
-		if(Data_temp.anaDAT != sensorData.anaDAT || 	//数据推送（数据更替时才触发）
-		   Data_temp.VAL != sensorData.VAL){	
+		if(!UPLOAD_MODE){	//选择上传触发模式
 		
-			Data_temp.anaDAT = sensorData.anaDAT;
-			Data_temp.VAL 	 = sensorData.VAL;
+			if(UPLDcnt < upldPeriod)UPLDcnt ++;
+			else{
+			
+				UPLDcnt = 0;
+				UPLD_EN = true;
+			}
+		}else{
+		
+			if(Data_temp.anaDAT != sensorData.anaDAT || 	//数据推送（数据更替时才触发）
+			   Data_temp.VAL != sensorData.VAL){	
+			
+				Data_temp.anaDAT = sensorData.anaDAT;
+				Data_temp.VAL 	 = sensorData.VAL;
+				UPLD_EN = true;
+			}
+		}
+		
+		if(UPLD_EN){
+			
+			UPLD_EN = false;
 			
 			do{mptr = (gasMS_MEAS *)osPoolCAlloc(gasMS_pool);}while(mptr == NULL);
-			mptr->anaDAT = sensorData.anaDAT;
 			mptr->VAL = sensorData.VAL;
+			mptr->anaDAT = sensorData.anaDAT;
 			osMessagePut(MsgBox_gasMS, (uint32_t)mptr, 100);
-			
+			osDelay(500);
+		}
+		
+		if(Data_tempDP.anaDAT != sensorData.anaDAT || 	//数据推送（数据更替时才触发）
+		   Data_tempDP.VAL != sensorData.VAL){	
+		
+			Data_tempDP.anaDAT = sensorData.anaDAT;
+			Data_tempDP.VAL 	 = sensorData.VAL;
+			   
 			do{mptr = (gasMS_MEAS *)osPoolCAlloc(gasMS_pool);}while(mptr == NULL);
 			mptr->anaDAT = sensorData.anaDAT;
 			mptr->VAL = sensorData.VAL;
@@ -156,7 +189,7 @@ void gasMS_Thread(const void *argument){
 		
 			Pcnt = 0;
 			memset(disp,0,dpSize * sizeof(char));
-			sprintf(disp,"\n\rvalAnalog : %d,valDigital : %d\n\r", sensorData.anaDAT,sensorData.VAL);			
+			sprintf(disp,"\n\rvalAnalog : %d%%,valDigital : %d\n\r", sensorData.anaDAT,sensorData.VAL);			
 			Driver_USART1.Send(disp,strlen(disp));	
 			osDelay(20);
 		}

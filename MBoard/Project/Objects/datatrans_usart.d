@@ -44,6 +44,7 @@
 .\objects\datatrans_usart.o: ..\Module\Entrance_guard\rfID.h
 .\objects\datatrans_usart.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\datatrans_usart.o: ..\Module\Entrance_guard\kBoard.h
+.\objects\datatrans_usart.o: ..\Module\Entrance_guard\doorLock.h
 .\objects\datatrans_usart.o: ..\Module\Tips.h
 .\objects\datatrans_usart.o: ..\Module\Infra_Trans\infraTrans.h
 .\objects\datatrans_usart.o: ..\Module\Moudle_DEC.h

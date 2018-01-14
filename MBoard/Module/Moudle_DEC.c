@@ -10,9 +10,9 @@ extern ARM_DRIVER_USART Driver_USART1;		//设备驱动库串口一设备声明
 
 void stdDeInit(void){
 
-	GPIO_DeInit(GPIOA);
-
-	GPIO_AFIODeInit();
+	TIM_BDTRInitTypeDef TIM_BDTRStruct;
+	
+	TIM_BDTRStructInit(&TIM_BDTRStruct);
 
 	EXTI_DeInit();
 
@@ -219,6 +219,8 @@ void MBDEC_Thread(const void *argument){	//循环检测
 					
 					osSignalSet (tid_tips, EVTSIG_EXT_B);
 					osDelay(signel_waitTime);
+					
+					stdDeInit();	//底层驱动全部失能
 					
 					switch(Moudle_GTA.Extension_ID){	//卡槽一，扩展模块驱动中止
 					

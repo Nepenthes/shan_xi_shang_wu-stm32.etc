@@ -100,6 +100,13 @@ void sourceCM_Thread(const void *argument){
 	osEvent  evt;
     osStatus status;	
 	
+	const bool UPLOAD_MODE = false;	//1：数据变化时才上传 0：周期定时上传
+	
+	const uint8_t upldPeriod = 15;	//数据上传周期因数（UPLOAD_MODE = false 时有效）
+	
+	uint8_t UPLDcnt = 0;
+	bool UPLD_EN = false;
+	
 	const uint8_t dpSize = 40;
 	const uint8_t dpPeriod = 10;
 	
@@ -132,9 +139,26 @@ void sourceCM_Thread(const void *argument){
 		soceRELAY = actuatorData.Switch;
 		actuatorData.anaVal = soceGet_Adc_Average(4,5);
 		
+		if(!UPLOAD_MODE){	//选择上传触发模式
+		
+			if(UPLDcnt < upldPeriod)UPLDcnt ++;
+			else{
+			
+				UPLDcnt = 0;
+				UPLD_EN = true;
+			}
+		}else{
+		
 		if(Data_temp.anaVal != actuatorData.anaVal){	
 		
 				Data_temp.anaVal = actuatorData.anaVal;
+				UPLD_EN = true;
+			}
+		}
+		
+		if(UPLD_EN){
+			
+			UPLD_EN = false;
 				
 				do{mptr = (sourceCM_MEAS *)osPoolCAlloc(sourceCM_pool);}while(mptr == NULL);	//无线数据传输消息推送
 				mptr->anaVal = actuatorData.anaVal;

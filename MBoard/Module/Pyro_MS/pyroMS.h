@@ -15,7 +15,7 @@
 
 typedef struct{
 
-	bool 	 VAL;
+	bool	 	VAL;
 	uint16_t anaDAT;
 }pyroMS_MEAS;
 

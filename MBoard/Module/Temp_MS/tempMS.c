@@ -22,7 +22,6 @@ void sht11_start(void);
 void sendByte(uint8 value);
 uint8 recvByte(uint8 ack);
 
-
 void SHT_WInit(void)
 {
  
@@ -44,7 +43,7 @@ void SHT_RInit(void)
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	 //使能PB端口时钟
 
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU; 		 //推挽输出
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING; 	 //推挽输出
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IO口速度为50MHz
 	GPIO_Init(GPIOB, &GPIO_InitStructure);					 //根据设定参数初始化GPIOB.
 }
@@ -275,6 +274,13 @@ void tempMS_Thread(const void *argument){
 	osEvent  evt;
     osStatus status;
 	
+	const bool UPLOAD_MODE = false;	//1：数据变化时才上传 0：周期定时上传
+	
+	const uint8_t upldPeriod = 15;	//数据上传周期因数（UPLOAD_MODE = false 时有效）
+	
+	uint8_t UPLDcnt = 0;
+	bool UPLD_EN = false;
+	
 	const uint8_t dpSize = 30;
 	const uint8_t dpPeriod = 5;
 	
@@ -284,8 +290,9 @@ void tempMS_Thread(const void *argument){
 	result_t res;
 	uint8_t len;
 	
-	tempMS_MEAS	sensorData;
+	tempMS_MEAS	sensorData = {0.0,0.0};
 	static tempMS_MEAS Data_temp = {1};
+	static tempMS_MEAS Data_tempDP = {1};
 	
 	tempMS_MEAS *mptr = NULL;
 	tempMS_MEAS *rptr = NULL;
@@ -308,17 +315,42 @@ void tempMS_Thread(const void *argument){
 		sensorData.hum 	 = res.hum_temp.temp;
 		sensorData.temp  = res.hum_temp.hum;
 		convert_shtxx(&sensorData.hum, &sensorData.temp);
-
-		if(Data_temp.hum != sensorData.hum || 
-		   Data_temp.temp != sensorData.temp){
 		
-			Data_temp.hum  = sensorData.hum;
-			Data_temp.temp = sensorData.temp;
+		if(!UPLOAD_MODE){	//选择上传触发模式
+		
+			if(UPLDcnt < upldPeriod)UPLDcnt ++;
+			else{
+			
+				UPLDcnt = 0;
+				UPLD_EN = true;
+			}
+		}else{
+			
+			if(Data_temp.hum != sensorData.hum || 
+			   Data_temp.temp != sensorData.temp){
+			
+				Data_temp.hum  = sensorData.hum;
+				Data_temp.temp = sensorData.temp;
+				UPLD_EN = true;
+			}
+		}
+
+		if(UPLD_EN){
+			
+			UPLD_EN = false;
 			
 			do{mptr = (tempMS_MEAS *)osPoolCAlloc(tempMS_pool);}while(mptr == NULL);
 			mptr->hum  = sensorData.hum;
 			mptr->temp = sensorData.temp;
 			osMessagePut(MsgBox_tempMS, (uint32_t)mptr, 100);
+			osDelay(500);
+		}
+		
+		if(Data_tempDP.hum != sensorData.hum || 
+		   Data_tempDP.temp != sensorData.temp){
+		
+			Data_tempDP.hum  = sensorData.hum;
+			Data_tempDP.temp = sensorData.temp;
 			
 			do{mptr = (tempMS_MEAS *)osPoolCAlloc(tempMS_pool);}while(mptr == NULL);
 			mptr->hum  = sensorData.hum;

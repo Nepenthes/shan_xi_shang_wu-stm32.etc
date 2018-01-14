@@ -48,6 +48,7 @@
 .\objects\moudle_dec.o: ..\Module\Entrance_guard\rfID.h
 .\objects\moudle_dec.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\moudle_dec.o: ..\Module\Entrance_guard\kBoard.h
+.\objects\moudle_dec.o: ..\Module\Entrance_guard\doorLock.h
 .\objects\moudle_dec.o: ..\Module\Fire_MS\fireMS.h
 .\objects\moudle_dec.o: ..\Module\Debug_USART\debugUart.h
 .\objects\moudle_dec.o: ..\Module\Gas_MS\gasMS.h

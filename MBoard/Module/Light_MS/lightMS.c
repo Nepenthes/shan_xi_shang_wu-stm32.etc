@@ -14,41 +14,57 @@ osMessageQDef(MsgBox_MTlightMS, 2, &lightMS_MEAS);          // 消息队列定义,用于
 osMessageQId  MsgBox_DPlightMS;
 osMessageQDef(MsgBox_DPlightMS, 2, &lightMS_MEAS);          // 消息队列定义，用于模块线程向显示模块线程
 
-cdsADC_Init(void){
+void cdsIO_Init(void){
+	
+	GPIO_InitTypeDef  GPIO_InitStructure;
 
-//	ADC_InitTypeDef ADC_InitStructure; 
-//	GPIO_InitTypeDef GPIO_InitStructure;
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);	 //使能PB端口时钟
 
-//	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_ADC1, ENABLE );	  //使能ADC1通道时钟
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING; 	
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IO口速度为50MHz
+	GPIO_Init(GPIOA, &GPIO_InitStructure);		
+}
 
-//	RCC_ADCCLKConfig(RCC_PCLK2_Div6);   //设置ADC分频因子6 72M/6=12,ADC最大时间不能超过14M                     
+void cdsADC_Init(void){
 
-//	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
-//	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;		//模拟输入引脚
-//	GPIO_Init(GPIOA, &GPIO_InitStructure);	
+	ADC_InitTypeDef ADC_InitStructure; 
+	GPIO_InitTypeDef GPIO_InitStructure;
 
-//	ADC_DeInit(ADC1);  //复位ADC1,将外设 ADC1 的全部寄存器重设为缺省值
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_ADC1, ENABLE);	  //使能ADC1通道时钟
+ 
 
-//	ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;	//ADC工作模式:ADC1和ADC2工作在独立模式
-//	ADC_InitStructure.ADC_ScanConvMode = DISABLE;	//模数转换工作在单通道模式
-//	ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;	//模数转换工作在单次转换模式
-//	ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;	//转换由软件而不是外部触发启动
-//	ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;	//ADC数据右对齐
-//	ADC_InitStructure.ADC_NbrOfChannel = 1;	//顺序进行规则转换的ADC通道的数目
-//	ADC_Init(ADC1, &ADC_InitStructure);	//根据ADC_InitStruct中指定的参数初始化外设ADCx的寄存器   
+	RCC_ADCCLKConfig(RCC_PCLK2_Div6);   //设置ADC分频因子6 72M/6=12,ADC最大时间不能超过14M
 
 
-//	ADC_Cmd(ADC1, ENABLE);	//使能指定的ADC1
+	//PC0 1 作为模拟通道输入引脚  ADC12_IN8                       
 
-//	ADC_ResetCalibration(ADC1);	//使能复位校准  
-//	 
-//	while(ADC_GetResetCalibrationStatus(ADC1));	//等待复位校准结束
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;		//模拟输入引脚
+	GPIO_Init(GPIOA, &GPIO_InitStructure);	
+	
+	ADC_DeInit(ADC1);  //复位ADC1,将外设 ADC1 的全部寄存器重设为缺省值
 
-//	ADC_StartCalibration(ADC1);	 //开启AD校准
+	ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;	//ADC工作模式:ADC1和ADC2工作在独立模式
+	ADC_InitStructure.ADC_ScanConvMode = DISABLE;	//模数转换工作在单通道模式
+	ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;	//模数转换工作在单次转换模式
+	ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;	//转换由软件而不是外部触发启动
+	ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;	//ADC数据右对齐
+	ADC_InitStructure.ADC_NbrOfChannel = 1;	//顺序进行规则转换的ADC通道的数目
+	ADC_Init(ADC1, &ADC_InitStructure);	//根据ADC_InitStruct中指定的参数初始化外设ADCx的寄存器   
 
-//	while(ADC_GetCalibrationStatus(ADC1));	 //等待校准结束
-
-////	ADC_SoftwareStartConvCmd(ADC1, ENABLE);		//使能指定的ADC1的软件转换启动功能
+  
+	ADC_Cmd(ADC1, ENABLE);	//使能指定的ADC1
+	
+	ADC_ResetCalibration(ADC1);	//使能复位校准  
+	 
+	while(ADC_GetResetCalibrationStatus(ADC1));	//等待复位校准结束
+	
+	ADC_StartCalibration(ADC1);	 //开启AD校准
+ 
+	while(ADC_GetCalibrationStatus(ADC1));	 //等待校准结束
+ 
+//	ADC_SoftwareStartConvCmd(ADC1, ENABLE);		//使能指定的ADC1的软件转换启动功能
 }
 
 u16 cdsGet_Adc(u8 ch)   
@@ -221,7 +237,7 @@ uint32 Read_Light(void)
 //	
 //	return calculateLux(Channel0,Channel1);
 	
-	return (uint32)cdsGet_Adc_Average(0,5);
+	return 0;
 }
 
 uint32_t calculateLux(uint16_t ch0, uint16_t ch1)
@@ -294,6 +310,7 @@ void lightMS_Init(void){
 
 //	TSL2561_Init();
 	cdsADC_Init();
+	cdsIO_Init();
 }
 
 void lightMS_Thread(const void *argument){
@@ -301,14 +318,22 @@ void lightMS_Thread(const void *argument){
 	osEvent  evt;
     osStatus status;	
 	
+	const bool UPLOAD_MODE = false;	//1：数据变化时才上传 0：周期定时上传
+	
+	const uint8_t upldPeriod = 15;	//数据上传周期因数（UPLOAD_MODE = false 时有效）
+	
+	uint8_t UPLDcnt = 0;
+	bool UPLD_EN = false;
+	
 	const uint8_t dpSize = 30;
-	const uint8_t dpPeriod = 40;
+	const uint8_t dpPeriod = 4;
 	
 	static uint8_t Pcnt = 0;
 	char disp[dpSize];
 	
 	lightMS_MEAS sensorData;
 	static lightMS_MEAS Data_temp = {1};
+	static lightMS_MEAS Data_tempDP = {1};
 	
 	lightMS_MEAS *mptr = NULL;
 	lightMS_MEAS *rptr = NULL;
@@ -328,15 +353,38 @@ void lightMS_Thread(const void *argument){
 			rptr = NULL;
 		}
 
-		sensorData.illumination = Read_Light();
+		sensorData.illumination = (u8)(100 - cdsGet_Adc_Average(1,8) / 41);
 		
-		if(Data_temp.illumination != sensorData.illumination){	//数据推送（数据更替时才触发）
+		if(!UPLOAD_MODE){	//选择上传触发模式
 		
-			Data_temp.illumination = sensorData.illumination;
+			if(UPLDcnt < upldPeriod)UPLDcnt ++;
+			else{
 			
+				UPLDcnt = 0;
+				UPLD_EN = true;
+			}
+		}else{
+		
+			if(Data_temp.illumination != sensorData.illumination){	//数据推送（数据更替时才触发）
+			
+				Data_temp.illumination = sensorData.illumination;
+				UPLD_EN = true;
+			}
+		}
+		
+		if(UPLD_EN){
+			
+			UPLD_EN = false;
+		
 			do{mptr = (lightMS_MEAS *)osPoolCAlloc(lightMS_pool);}while(mptr == NULL);	//无线数据传输消息推送
 			mptr->illumination = sensorData.illumination;
 			osMessagePut(MsgBox_lightMS, (uint32_t)mptr, 100);
+			osDelay(500);
+		}
+		
+		if(Data_tempDP.illumination != sensorData.illumination){	//数据推送（数据更替时才触发）
+		
+			Data_tempDP.illumination = sensorData.illumination;
 			
 			do{mptr = (lightMS_MEAS *)osPoolCAlloc(lightMS_pool);}while(mptr == NULL);	//1.44寸液晶显示消息推送
 			mptr->illumination = sensorData.illumination;
@@ -349,7 +397,7 @@ void lightMS_Thread(const void *argument){
 		
 			Pcnt = 0;
 			memset(disp,0,dpSize * sizeof(char));
-			sprintf(disp,"当前光照强度为：%d Lux \r\n",sensorData.illumination);
+			sprintf(disp,"当前光照强度为：%d %% \r\n",sensorData.illumination);
 			Driver_USART1.Send(disp,strlen(disp));
 			osDelay(20);
 		}	

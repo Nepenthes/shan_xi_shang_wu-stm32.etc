@@ -28,6 +28,7 @@
 .\objects\kboard.o: ..\Module\Entrance_guard\rfID.h
 .\objects\kboard.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\kboard.o: ..\Module\Entrance_guard\kBoard.h
+.\objects\kboard.o: ..\Module\Entrance_guard\doorLock.h
 .\objects\kboard.o: ..\User\IO_Map.h
 .\objects\kboard.o: ..\Module\Tips.h
 .\objects\kboard.o: ..\User\osObjects.h

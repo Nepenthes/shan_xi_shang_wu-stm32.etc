@@ -49,6 +49,7 @@
 .\objects\smokems.o: ..\Module\Entrance_guard\rfID.h
 .\objects\smokems.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\smokems.o: ..\Module\Entrance_guard\kBoard.h
+.\objects\smokems.o: ..\Module\Entrance_guard\doorLock.h
 .\objects\smokems.o: ..\Module\Fire_MS\fireMS.h
 .\objects\smokems.o: ..\Module\Gas_MS\gasMS.h
 .\objects\smokems.o: ..\Module\Light_MS\lightMS.h

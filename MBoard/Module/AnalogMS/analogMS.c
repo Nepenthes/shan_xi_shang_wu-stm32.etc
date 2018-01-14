@@ -85,6 +85,13 @@ void analogMS_Thread(const void *argument){
 	osEvent  evt;
     osStatus status;
 	
+	const bool UPLOAD_MODE = false;	//1：数据变化时才上传 0：周期定时上传
+	
+	const uint8_t upldPeriod = 15;	//数据上传周期因数（UPLOAD_MODE = false 时有效）
+	
+	uint8_t UPLDcnt = 0;
+	bool UPLD_EN = false;
+	
 	const uint8_t dpSize = 30;
 	const uint8_t dpPeriod = 10;
 	
@@ -93,6 +100,7 @@ void analogMS_Thread(const void *argument){
 	
 	analogMS_MEAS sensorData;
 	static analogMS_MEAS Data_temp = {1};
+	static analogMS_MEAS Data_tempDP = {1};
 	
 	analogMS_MEAS *mptr = NULL;
 	analogMS_MEAS *rptr = NULL;
@@ -110,33 +118,48 @@ void analogMS_Thread(const void *argument){
 			rptr = NULL;
 		}
 
-		sensorData.Ich1 = analogGet_Adc_Average(0,5);
-		sensorData.Ich2 = analogGet_Adc_Average(4,5);
-		sensorData.Vch1 = analogGet_Adc_Average(1,5);
-		sensorData.Vch2 = analogGet_Adc_Average(5,5);
+		sensorData.Ich1 = analogGet_Adc_Average(0,100);
+		sensorData.Ich2 = analogGet_Adc_Average(4,100);
 		
-		if(Data_temp.Ich1 != sensorData.Ich1 ||
-		   Data_temp.Ich2 != sensorData.Ich2 ||
-		   Data_temp.Vch1 != sensorData.Vch1 ||
-		   Data_temp.Vch2 != sensorData.Vch2){
+		if(!UPLOAD_MODE){	//选择上传触发模式
 		
-			Data_temp.Ich1 = sensorData.Ich1;
-			Data_temp.Ich2 = sensorData.Ich2;
-			Data_temp.Vch1 = sensorData.Vch1;
-			Data_temp.Vch2 = sensorData.Vch2;
+			if(UPLDcnt < upldPeriod)UPLDcnt ++;
+			else{
+			
+				UPLDcnt = 0;
+				UPLD_EN = true;
+			}
+		}else{
+			
+			if(Data_temp.Ich1 != sensorData.Ich1 ||
+			   Data_temp.Ich2 != sensorData.Ich2){
+			
+				Data_temp.Ich1 = sensorData.Ich1;
+				Data_temp.Ich2 = sensorData.Ich2;
+				UPLD_EN = true;
+			}
+		}
+		
+		if(UPLD_EN){
+			
+			UPLD_EN = false;
 			   
 			do{mptr = (analogMS_MEAS *)osPoolCAlloc(analogMS_pool);}while(mptr == NULL);
 			mptr->Ich1 = sensorData.Ich1;
 			mptr->Ich2 = sensorData.Ich2;
-			mptr->Vch1 = sensorData.Vch1;
-			mptr->Vch2 = sensorData.Vch2;
 			osMessagePut(MsgBox_analogMS, (uint32_t)mptr, 100);
+			osDelay(500);
+		}
+		
+		if(Data_tempDP.Ich1 != sensorData.Ich1 ||
+		   Data_tempDP.Ich2 != sensorData.Ich2){
+		
+			Data_tempDP.Ich1 = sensorData.Ich1;
+			Data_tempDP.Ich2 = sensorData.Ich2;
 			
 			do{mptr = (analogMS_MEAS *)osPoolCAlloc(analogMS_pool);}while(mptr == NULL);
 			mptr->Ich1 = sensorData.Ich1;
 			mptr->Ich2 = sensorData.Ich2;
-			mptr->Vch1 = sensorData.Vch1;
-			mptr->Vch2 = sensorData.Vch2;
 			osMessagePut(MsgBox_DPanalogMS, (uint32_t)mptr, 100);
 			osDelay(10);
 		}

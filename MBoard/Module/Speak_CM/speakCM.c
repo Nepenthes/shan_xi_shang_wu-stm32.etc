@@ -74,13 +74,19 @@ void speakCM_Thread(const void *argument){
 	speakCM_MEAS actuatorData;	//本地输入量
 	static speakCM_MEAS  Data_temp   = {1};	//下行数据输入量同步对比缓存
 	static speakCM_MEAS  Data_tempDP = {1};	//本地输入量显示数据对比缓存
+
+	static bool SPKLOOP_EN = false;
+	u8 spk_cnt;
+	const u8 spk_period = 30;
 	
 	speakCM_MEAS *mptr = NULL;
 	speakCM_MEAS *rptr = NULL;
 	
 	SPK_EN = 1;
-	for(;;){
 	
+	actuatorData.spk_num = 255;		//初始化关闭报警
+	
+	for(;;){
 		
 		evt = osMessageGet(MsgBox_MTspeakCM, 100);
 		if (evt.status == osEventMessage){		//等待消息指令
@@ -97,7 +103,8 @@ void speakCM_Thread(const void *argument){
 		if(Data_temp.spk_num != actuatorData.spk_num){
 		
 			Data_temp.spk_num = actuatorData.spk_num;
-			SPK_Select(actuatorData.spk_num,6);
+			if(actuatorData.spk_num == 255)SPKLOOP_EN = false;
+			else SPKLOOP_EN = true;
 		}
 	
 		if(Data_tempDP.spk_num != actuatorData.spk_num){
@@ -109,6 +116,16 @@ void speakCM_Thread(const void *argument){
 			osMessagePut(MsgBox_DPspeakCM, (uint32_t)mptr, 100);
 			osDelay(10);
 		}
+		
+		if(SPKLOOP_EN){
+		
+			if(spk_cnt < spk_period)spk_cnt ++;
+			else{
+				
+				spk_cnt = 0;
+				SPK_Select(actuatorData.spk_num,1);
+			}
+		}
 			
 //		for(temp = 0;temp < 14;temp ++){		/**测试语句**/
 //		
@@ -116,6 +133,8 @@ void speakCM_Thread(const void *argument){
 //			osDelay(3000);
 //			SPK_STP;
 //		}
+		
+		osDelay(10);
 	}
 }
 
