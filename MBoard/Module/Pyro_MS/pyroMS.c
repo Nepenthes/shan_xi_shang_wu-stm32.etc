@@ -38,7 +38,7 @@ void pyroMS_Thread(const void *argument){
 	
 	const bool UPLOAD_MODE = false;	//1：数据变化时才上传 0：周期定时上传
 	
-	const uint8_t upldPeriod = 10;	//数据上传周期因数（UPLOAD_MODE = false 时有效）
+	const uint8_t upldPeriod = 5;	//数据上传周期因数（UPLOAD_MODE = false 时有效）
 	
 	uint8_t UPLDcnt = 0;
 	bool UPLD_EN = false;

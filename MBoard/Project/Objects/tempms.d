@@ -50,6 +50,10 @@
 .\objects\tempms.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\tempms.o: ..\Module\Entrance_guard\kBoard.h
 .\objects\tempms.o: ..\Module\Entrance_guard\doorLock.h
+.\objects\tempms.o: ..\Module\LCD(1.44inches)\LCD_1.44.h
+.\objects\tempms.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\tempms.o: ..\Module\LCD(1.44inches)\GUI_1.44.h
+.\objects\tempms.o: ..\Module\Moudle_DEC.h
 .\objects\tempms.o: ..\Module\Fire_MS\fireMS.h
 .\objects\tempms.o: ..\Module\Gas_MS\gasMS.h
 .\objects\tempms.o: ..\Module\Light_MS\lightMS.h

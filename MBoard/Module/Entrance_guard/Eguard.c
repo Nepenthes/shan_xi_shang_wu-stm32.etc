@@ -15,7 +15,7 @@ osMessageQDef(MsgBox_EGUD, 5, &EGUARD_MEAS);             // 消息队列定义
 osMessageQId  MsgBox_MTEGUD_FID;		
 osMessageQDef(MsgBox_MTEGUD_FID, 5, &EGUARD_MEAS);       // 消息队列定义
 osMessageQId  MsgBox_MTEGUD_DLOCK;		
-osMessageQDef(MsgBox_MTEGUD_DLOCK, 5, &EGUARD_MEAS);       // 消息队列定义
+osMessageQDef(MsgBox_MTEGUD_DLOCK, 5, &EGUARD_MEAS);     // 消息队列定义
 osMessageQId  MsgBox_DPEGUD;		
 osMessageQDef(MsgBox_DPEGUD, 10, &EGUARD_MEAS);          // 消息队列定义
 

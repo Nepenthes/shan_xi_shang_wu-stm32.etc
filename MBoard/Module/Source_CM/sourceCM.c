@@ -45,7 +45,7 @@ void sourceCM_ADCInit(void){
 
 	ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;	//ADC工作模式:ADC1和ADC2工作在独立模式
 	ADC_InitStructure.ADC_ScanConvMode = DISABLE;	//模数转换工作在单通道模式
-	ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;	//模数转换工作在单次转换模式
+	ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;	//模数转换工作在单次转换模式
 	ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;	//转换由软件而不是外部触发启动
 	ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;	//ADC数据右对齐
 	ADC_InitStructure.ADC_NbrOfChannel = 1;	//顺序进行规则转换的ADC通道的数目
@@ -74,7 +74,7 @@ void sourceCM_Init(void){
 u16 soceGet_Adc(u8 ch)   
 {
   	//设置指定ADC的规则组通道，一个序列，采样时间
-	ADC_RegularChannelConfig(ADC1, ch, 1, ADC_SampleTime_239Cycles5 );	//ADC1,ADC通道,采样时间为239.5周期	  			    
+	ADC_RegularChannelConfig(ADC1, ch, 1, ADC_SampleTime_55Cycles5 );	//ADC1,ADC通道,采样时间为239.5周期	  			    
   
 	ADC_SoftwareStartConvCmd(ADC1, ENABLE);		//使能指定的ADC1的软件转换启动功能	
 	 
@@ -83,16 +83,19 @@ u16 soceGet_Adc(u8 ch)
 	return ADC_GetConversionValue(ADC1);	//返回最近一次ADC1规则组的转换结果
 }
 
-u16 soceGet_Adc_Average(u8 ch,u8 times)
+u16 soceGet_Adc_Max(u8 ch,u8 times)
 {
-	u32 temp_val=0;
+	static u16 temp_val = 0;
+	u16 temp_max = 0;
 	u8 t;
+	
 	for(t=0;t<times;t++)
 	{
-		temp_val += soceGet_Adc(ch);
+		temp_val = soceGet_Adc(ch);
+		if(temp_val > temp_max)temp_max = temp_val;
 		delay_ms(5);
 	}
-	return temp_val/times;
+	return temp_max;
 } 
 
 void sourceCM_Thread(const void *argument){
@@ -102,7 +105,7 @@ void sourceCM_Thread(const void *argument){
 	
 	const bool UPLOAD_MODE = false;	//1：数据变化时才上传 0：周期定时上传
 	
-	const uint8_t upldPeriod = 15;	//数据上传周期因数（UPLOAD_MODE = false 时有效）
+	const uint8_t upldPeriod = 5;	//数据上传周期因数（UPLOAD_MODE = false 时有效）
 	
 	uint8_t UPLDcnt = 0;
 	bool UPLD_EN = false;
@@ -137,7 +140,7 @@ void sourceCM_Thread(const void *argument){
 		}
 		
 		soceRELAY = actuatorData.Switch;
-		actuatorData.anaVal = soceGet_Adc_Average(4,5);
+		actuatorData.anaVal = soceGet_Adc_Max(4,100);
 		
 		if(!UPLOAD_MODE){	//选择上传触发模式
 		
@@ -161,6 +164,7 @@ void sourceCM_Thread(const void *argument){
 			UPLD_EN = false;
 				
 				do{mptr = (sourceCM_MEAS *)osPoolCAlloc(sourceCM_pool);}while(mptr == NULL);	//无线数据传输消息推送
+				mptr->Switch = actuatorData.Switch;
 				mptr->anaVal = actuatorData.anaVal;
 				osMessagePut(MsgBox_sourceCM, (uint32_t)mptr, 100);
 		}

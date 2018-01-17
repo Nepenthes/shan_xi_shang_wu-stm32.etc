@@ -106,7 +106,7 @@ void MBDEC_Thread(const void *argument){	//循环检测
 						default:break;
 					}
 					
-					wirelessThread_Active();	//无线传输线程启动（等待使能信号激活）
+					//wirelessThread_Active();	//无线传输线程启动（等待使能信号激活）
 					
 				}else{
 					
@@ -276,12 +276,12 @@ void MBDEC_Thread(const void *argument){	//循环检测
 						
 						case MID_EXEC_CURTAIN:
 							
-								pwmCM_Terminate();
+								osThreadTerminate(tid_curtainCM_Thread);
 								break;
 						
 						case MID_EXEC_DEVPWM:	
 							
-								osThreadTerminate(tid_pwmCM_Thread); 
+								pwmCM_Terminate();
 								break;
 						
 						case MID_EXEC_SPEAK:

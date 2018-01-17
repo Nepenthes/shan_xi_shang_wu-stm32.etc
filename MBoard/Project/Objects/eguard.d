@@ -49,6 +49,10 @@
 .\objects\eguard.o: ..\Module\Infra_Trans\infraTrans.h
 .\objects\eguard.o: ..\Module\KEY&TIPS\Key&Tips.h
 .\objects\eguard.o: ..\Module\Moudle_DEC.h
+.\objects\eguard.o: ..\Module\LCD(1.44inches)\LCD_1.44.h
+.\objects\eguard.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\eguard.o: ..\Module\LCD(1.44inches)\GUI_1.44.h
+.\objects\eguard.o: ..\Module\Moudle_DEC.h
 .\objects\eguard.o: ..\Module\Fire_MS\fireMS.h
 .\objects\eguard.o: ..\Module\Gas_MS\gasMS.h
 .\objects\eguard.o: ..\Module\Light_MS\lightMS.h

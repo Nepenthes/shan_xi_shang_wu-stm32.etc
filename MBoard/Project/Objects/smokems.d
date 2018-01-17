@@ -50,6 +50,10 @@
 .\objects\smokems.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\smokems.o: ..\Module\Entrance_guard\kBoard.h
 .\objects\smokems.o: ..\Module\Entrance_guard\doorLock.h
+.\objects\smokems.o: ..\Module\LCD(1.44inches)\LCD_1.44.h
+.\objects\smokems.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\smokems.o: ..\Module\LCD(1.44inches)\GUI_1.44.h
+.\objects\smokems.o: ..\Module\Moudle_DEC.h
 .\objects\smokems.o: ..\Module\Fire_MS\fireMS.h
 .\objects\smokems.o: ..\Module\Gas_MS\gasMS.h
 .\objects\smokems.o: ..\Module\Light_MS\lightMS.h

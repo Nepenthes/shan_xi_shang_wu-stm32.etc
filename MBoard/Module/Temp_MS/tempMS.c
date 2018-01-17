@@ -3,7 +3,7 @@
 extern ARM_DRIVER_USART Driver_USART1;		//设备驱动库串口一设备声明
 
 osThreadId tid_tempMS_Thread;
-osThreadDef(tempMS_Thread,osPriorityNormal,1,512);
+osThreadDef(tempMS_Thread,osPriorityNormal,1,1024);
 			 
 osPoolId  tempMS_pool;								 
 osPoolDef(tempMS_pool, 10, tempMS_MEAS);                  // 内存池定义
@@ -276,7 +276,7 @@ void tempMS_Thread(const void *argument){
 	
 	const bool UPLOAD_MODE = false;	//1：数据变化时才上传 0：周期定时上传
 	
-	const uint8_t upldPeriod = 15;	//数据上传周期因数（UPLOAD_MODE = false 时有效）
+	const uint8_t upldPeriod = 5;	//数据上传周期因数（UPLOAD_MODE = false 时有效）
 	
 	uint8_t UPLDcnt = 0;
 	bool UPLD_EN = false;
@@ -305,6 +305,7 @@ void tempMS_Thread(const void *argument){
 			rptr = evt.value.p;
 			/*自定义本地线程接收数据处理↓↓↓↓↓↓↓↓↓↓↓↓*/
 			
+			
 
 			do{status = osPoolFree(tempMS_pool, rptr);}while(status != osOK);	//内存释放
 			rptr = NULL;
@@ -312,8 +313,8 @@ void tempMS_Thread(const void *argument){
 		
 		readTH((uint8 *)res.sensor_dat, &len);
 		
-		sensorData.hum 	 = res.hum_temp.temp;
-		sensorData.temp  = res.hum_temp.hum;
+		sensorData.hum 	 = res.hum_temp.hum;
+		sensorData.temp  = res.hum_temp.temp;
 		convert_shtxx(&sensorData.hum, &sensorData.temp);
 		
 		if(!UPLOAD_MODE){	//选择上传触发模式

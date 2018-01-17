@@ -50,6 +50,10 @@
 .\objects\pyroms.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\pyroms.o: ..\Module\Entrance_guard\kBoard.h
 .\objects\pyroms.o: ..\Module\Entrance_guard\doorLock.h
+.\objects\pyroms.o: ..\Module\LCD(1.44inches)\LCD_1.44.h
+.\objects\pyroms.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\pyroms.o: ..\Module\LCD(1.44inches)\GUI_1.44.h
+.\objects\pyroms.o: ..\Module\Moudle_DEC.h
 .\objects\pyroms.o: ..\Module\Fire_MS\fireMS.h
 .\objects\pyroms.o: ..\Module\Gas_MS\gasMS.h
 .\objects\pyroms.o: ..\Module\Light_MS\lightMS.h

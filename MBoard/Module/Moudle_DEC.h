@@ -12,6 +12,8 @@
 #include "infraTrans.h"
 #include "Eguard.h"
 
+#include "LCD_1.44.h"
+
 #include "fireMS.h"
 #include "gasMS.h"
 #include "lightMS.h"

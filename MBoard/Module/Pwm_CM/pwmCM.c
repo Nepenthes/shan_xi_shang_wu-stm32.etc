@@ -9,7 +9,7 @@ static pwmCM_MEAS pwmDevAttr_temp;
 static pwmCM_MEAS pwmDevAttr_tempDP;
 
 osThreadId tid_pwmCM_Thread;
-osThreadDef(pwmCM_Thread,osPriorityNormal,1,256);
+osThreadDef(pwmCM_Thread,osPriorityNormal,1,512);
 
 osThreadId tid_DC11detectA_Thread;
 osThreadId tid_DC11detectB_Thread;
@@ -91,13 +91,20 @@ void DC11detectA_Thread(const void *argument){	//主检测线程
 	osEvent  evt;
     osStatus status;
 	
+	const bool UPLOAD_MODE = false;	//1：数据变化时才上传 0：周期定时上传
+	
+	const uint8_t upldPeriod = 20;	//数据上传周期因数（UPLOAD_MODE = false 时有效）
+	
+	uint8_t UPLDcnt = 0;
+	bool UPLD_EN = false;
+	
 	pwmCM_MEAS *mptr = NULL;
 	pwmCM_MEAS *rptr = NULL;
 	
 	STMFLASH_Read(MODULE_PWMid_DATADDR,(uint16_t *)&pwmDevMOUDLE_ID,1);
 	if((pwmDevMOUDLE_ID != pwmDevMID_unvarLight)&&\
 	   (pwmDevMOUDLE_ID != pwmDevMID_varLight)&&\
-	   (pwmDevMOUDLE_ID != pwmDevMID_varFan))pwmDevMOUDLE_ID= pwmDevMID_varLight;
+	   (pwmDevMOUDLE_ID != pwmDevMID_unvarFan))pwmDevMOUDLE_ID = pwmDevMID_varLight;
 	
 	osDelay(500);
 	
@@ -132,6 +139,15 @@ void DC11detectA_Thread(const void *argument){	//主检测线程
 		if(!LIGHTCM_K1){while(!LIGHTCM_K1)osDelay(20);pwmDevAttr.Switch = true;}		//按键开关
 		if(!LIGHTCM_K2){while(!LIGHTCM_K2)osDelay(20);pwmDevAttr.Switch = false;}	//按键开关
 		
+		if(pwmDevAttr.Switch && !pwmDevAttr.pwmVAL)pwmDevAttr.pwmVAL = 1; //开关打开占空比不能为零
+		if(pwmDevMOUDLE_ID == pwmDevMID_unvarLight ||	//不可调光灯，强制处理参数
+		   pwmDevMOUDLE_ID == pwmDevMID_unvarFan ){		
+		
+			if(pwmDevAttr.Switch)pwmDevAttr.pwmVAL = 100;
+			else pwmDevAttr.pwmVAL = 0;
+		}
+		if(!pwmDevAttr.Switch)pwmDevAttr.pwmVAL = 0;
+		
 		if(pwmDevAttr_temp.Switch != pwmDevAttr.Switch){	//若开关开启，启动旋钮检测线程
 			
 			pwmDevAttr_temp.Switch = pwmDevAttr.Switch;
@@ -144,152 +160,105 @@ void DC11detectA_Thread(const void *argument){	//主检测线程
 			
 				pwmDevAttr.pwmVAL = 0;
 				osThreadTerminate(tid_DC11detectB_Thread);
+			}		
+			
+			osDelay(20);
+		}
+		
+		if(!UPLOAD_MODE){	//选择上传触发模式
+		
+			if(UPLDcnt < upldPeriod)UPLDcnt ++;
+			else{
+			
+				UPLDcnt = 0;
+				UPLD_EN = true;
 			}
+		}else{
+		
+			if(pwmDevAttr_temp.Switch != pwmDevAttr.Switch ||
+			   pwmDevAttr_temp.pwmVAL != pwmDevAttr.pwmVAL){
+		   
+				pwmDevAttr_temp.Switch = pwmDevAttr.Switch;
+				pwmDevAttr_temp.pwmVAL = pwmDevAttr.pwmVAL;
+				UPLD_EN = true;
+			}
+		}
+		
+		
+		if(pwmDevAttr_tempDP.Switch != pwmDevAttr.Switch ||
+		   pwmDevAttr_tempDP.pwmVAL != pwmDevAttr.pwmVAL){
+	   
+			pwmDevAttr_tempDP.Switch = pwmDevAttr.Switch;
+			pwmDevAttr_tempDP.pwmVAL = pwmDevAttr.pwmVAL;
+
+			do{mptr = (pwmCM_MEAS *)osPoolCAlloc(pwmCM_pool);}while(mptr == NULL);	//1.44寸液晶显示消息推送
+			mptr->speDPCMD	= SPECMD_pwmDevDATS_CHG;
+			mptr->Mod_addr  = pwmDevMOUDLE_ID;
+			mptr->Switch    = pwmDevAttr.Switch;
+			mptr->pwmVAL 	= pwmDevAttr.pwmVAL;
+			osMessagePut(MsgBox_DPpwmCM, (uint32_t)mptr, 100);  
+		}
+			
+		if(UPLD_EN){
+			
+			UPLD_EN = false;
 			
 			do{mptr = (pwmCM_MEAS *)osPoolCAlloc(pwmCM_pool);}while(mptr == NULL);	//无线数据传输消息推送
 			mptr->Mod_addr = pwmDevMOUDLE_ID;
 			mptr->Switch   = pwmDevAttr.Switch;
 			mptr->pwmVAL   = pwmDevAttr.pwmVAL;
 			osMessagePut(MsgBox_pwmCM, (uint32_t)mptr, 100);
-			
-			osDelay(10);
 		}
-		
-		if(pwmDevAttr_tempDP.Switch != pwmDevAttr.Switch ||
-		   pwmDevAttr_tempDP.pwmVAL != pwmDevAttr.pwmVAL){
-		   
-				pwmDevAttr_tempDP.Switch = pwmDevAttr.Switch;
-				pwmDevAttr_tempDP.pwmVAL = pwmDevAttr.pwmVAL;
-			   
-				do{mptr = (pwmCM_MEAS *)osPoolCAlloc(pwmCM_pool);}while(mptr == NULL);	//1.44寸液晶显示消息推送
-				mptr->speDPCMD	= SPECMD_pwmDevDATS_CHG;
-				mptr->Switch    = pwmDevAttr.Switch;
-				mptr->pwmVAL 	= pwmDevAttr.pwmVAL;
-				osMessagePut(MsgBox_DPpwmCM, (uint32_t)mptr, 100);
-		   }
 
 		TIM_SetCompare2(TIM2,pwmDevAttr.pwmVAL * 2);	//占空比生效
+		osDelay(10);
 	}
-}
-
-u8 scan_encoder(void){
-
-	static  bool  Curr_encoder_b; 
-	static  bool  Last_encoder_b;  
-	static  bool  updata = 0; 	
-	static	u8	  counter;
-	
-	if(PBout(13) && PBout(14)){
-
-		updata = 0;       
-		return 0;    
-	}
-
-	Last_encoder_b = PBout(14); 
-	while(!PBout(13)){
-
-		Curr_encoder_b = PBout(14);
-		updata = 1;
-	}
-	
-	if(updata){
-
-		updata = 0;
-		if((Last_encoder_b == 0)&&(Curr_encoder_b == 1)){
-
-//				if(counter == 255)        
-//				return;         
-//				counter++;  
-
-				return 1;
-		}else	
-		if((Last_encoder_b == 1)&&(Curr_encoder_b == 0)){
-
-//				if(counter == 0)return;         
-//				counter--; 
-			
-				return 2;
-		}
-	} 
-	
-	return 4;
-	
 }
 
 
 void DC11detectB_Thread(const void *argument){	//占空比调制线程
 
-	pwmCM_MEAS *mptr = NULL;
-	u8 temp;
-	char disp[30];
+//	char disp[30];
+	
+	static bool action;
+	static u8 Knob_STUSold;
+	
+	static u8 count_A = 0;
+	static u8 count_B = 0;
+	
+	const u8 ctLimit = 1;
 	
 	for(;;){
 		
-		temp = scan_encoder();
+		if(!(KNOB_A ^ KNOB_B)){		//记录无转动值
 		
-		temp = 100;
-
-		sprintf(disp,"%d",temp);
-		
-		Driver_USART1.Send(disp,strlen(disp));
-		osDelay(20);
-		
-//		if(PBin(14)){
-//		
-//			if(PBin(13)){
-//			
-//				while(PBin(13));
-//				//Driver_USART1.Send("b",1);
-//				if(pwmDevAttr.pwmVAL > 60)pwmDevAttr.pwmVAL -= 4;else
-//				if(pwmDevAttr.pwmVAL > 20)pwmDevAttr.pwmVAL -= 2;else
-//				if(pwmDevAttr.pwmVAL > 1)pwmDevAttr.pwmVAL -= 1;
-//				osDelay(5);
-//			}
-//		}
-//		
-//		if(!PBin(14)){
-//			
-//			if(PBin(13)){
-//			
-//				while(PBin(13));
-//				//Driver_USART1.Send("a",1);
-//				if(pwmDevAttr.pwmVAL < 20)pwmDevAttr.pwmVAL += 1;else
-//				if(pwmDevAttr.pwmVAL < 60)pwmDevAttr.pwmVAL += 2;else
-//				if(pwmDevAttr.pwmVAL < 100)pwmDevAttr.pwmVAL += 4;
-//				osDelay(5);
-//			}
-//		}
-		
-//		if(temp){
-//		
-//			if(1 == temp){
-//			
-//				Driver_USART1.Send("b",1);
-//				if(pwmDevAttr.pwmVAL > 60)pwmDevAttr.pwmVAL -= 4;else
-//				if(pwmDevAttr.pwmVAL > 20)pwmDevAttr.pwmVAL -= 2;else
-//				if(pwmDevAttr.pwmVAL > 1)pwmDevAttr.pwmVAL -= 1;
-//				osDelay(5);
-//			}
-
-//			if(2 == temp){
-//			
-//				Driver_USART1.Send("a",1);
-//				if(pwmDevAttr.pwmVAL < 20)pwmDevAttr.pwmVAL += 1;else
-//				if(pwmDevAttr.pwmVAL < 60)pwmDevAttr.pwmVAL += 2;else
-//				if(pwmDevAttr.pwmVAL < 100)pwmDevAttr.pwmVAL += 4;
-//				osDelay(5);
-//			}
-//		}	
-
-		if(pwmDevAttr_temp.pwmVAL != pwmDevAttr.pwmVAL){
+			Knob_STUSold  = (u8)KNOB_A << 1;
+			Knob_STUSold |= (u8)KNOB_B;
 			
-			pwmDevAttr_temp.pwmVAL = pwmDevAttr.pwmVAL;
+			action = false;
+			
+//			sprintf(disp, "%d", Knob_STUSold);
+//			Driver_USART1.Send(disp,strlen(disp));
+//			osDelay(100);
+		}else 
+		if(!action){
+			
+			action = true;
+			
+			if(KNOB_A)count_A ++;
+			else count_B++;
+		}
 		
-			do{mptr = (pwmCM_MEAS *)osPoolCAlloc(pwmCM_pool);}while(mptr == NULL);	//无线数据传输消息推送
-			mptr->Mod_addr = pwmDevMOUDLE_ID;
-			mptr->Switch   = pwmDevAttr.Switch;
-			mptr->pwmVAL   = pwmDevAttr.pwmVAL;
-			osMessagePut(MsgBox_pwmCM, (uint32_t)mptr, 100);
+		if(count_A > ctLimit){
+			
+			count_A = 0;
+			if(pwmDevAttr.pwmVAL > 0)pwmDevAttr.pwmVAL -= 1;
+		}
+		
+		if(count_B > ctLimit){
+			
+			count_B = 0;
+			if(pwmDevAttr.pwmVAL < 100)pwmDevAttr.pwmVAL += 1;
 		}
 		
 		osDelay(10);
@@ -332,15 +301,15 @@ void pwmCM_Thread(const void *argument){	//主线程(仅做显示)
 			rptr_sigK = NULL;
 		}
 
-//		if(Pcnt < dpPeriod){osDelay(10);Pcnt ++;}
-//		else{
-//		
-//			Pcnt = 0;
-//			memset(disp,0,dpSize * sizeof(char));
-//			sprintf(disp,"灯光是否开启：%d\n当前亮度：%d%%\n\n",pwmDevAttr.Switch,pwmDevAttr.pwmVAL);
-//			Driver_USART1.Send(disp,strlen(disp));
-//			osDelay(20);
-//		}
+		if(Pcnt < dpPeriod){osDelay(10);Pcnt ++;}
+		else{
+		
+			Pcnt = 0;
+			memset(disp,0,dpSize * sizeof(char));
+			sprintf(disp,"灯光是否开启：%d\n当前亮度：%d%%\n\n",pwmDevAttr.Switch,pwmDevAttr.pwmVAL);
+			Driver_USART1.Send(disp,strlen(disp));
+			osDelay(20);
+		}
 		
 		osDelay(10);
 	}

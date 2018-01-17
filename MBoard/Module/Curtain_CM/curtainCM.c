@@ -52,8 +52,11 @@ void curtainCM_Thread(const void *argument){
 	const uint8_t dpPeriod = 40;
 	char  disp[dpSize];
 	uint8_t Pcnt;
-	
 	uint8_t Kcnt;
+	
+	uint8_t 	  Recovery_cnt;
+	const uint8_t Recovery_period = 10;
+	static bool   sigOut_FLG = false;
 
 	static curtainCM_MEAS actuatorData;
 	static curtainCM_MEAS Data_DPtemp;
@@ -101,7 +104,10 @@ void curtainCM_Thread(const void *argument){
 			osDelay(10);
 		}
 		
-		if(actuatorData.valACT != valACT_NULL){
+		if((actuatorData.valACT != valACT_NULL) && !sigOut_FLG){
+			
+			sigOut_FLG 		= true;
+			Recovery_cnt 	= Recovery_period;
 		
 			switch(actuatorData.valACT){
 			
@@ -111,8 +117,6 @@ void curtainCM_Thread(const void *argument){
 					
 				case CMD_CURTDN:	curtconDN  = 1;	osDelay(100);	curtconDN = 0;	break;
 			}
-			
-			actuatorData.valACT = valACT_NULL;
 		}
 		
 		if(Pcnt < dpPeriod){
@@ -126,6 +130,18 @@ void curtainCM_Thread(const void *argument){
 			sprintf(disp,"¡ï--------------¡î\n ´°Á±×´Ì¬ : %d\n",curtainATTR.valACT);
 			Driver_USART1.Send(disp,strlen(disp));
 			osDelay(20);
+		}
+		
+		if(sigOut_FLG){
+		
+			if(Recovery_cnt < Recovery_period)Recovery_cnt ++;
+			else{
+			
+				sigOut_FLG 		= false;
+				Recovery_cnt 	= 0;
+				
+				actuatorData.valACT = valACT_NULL;
+			}
 		}
 		
 		osDelay(10);

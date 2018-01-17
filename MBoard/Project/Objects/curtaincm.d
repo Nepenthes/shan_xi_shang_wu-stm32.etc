@@ -50,6 +50,10 @@
 .\objects\curtaincm.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\curtaincm.o: ..\Module\Entrance_guard\kBoard.h
 .\objects\curtaincm.o: ..\Module\Entrance_guard\doorLock.h
+.\objects\curtaincm.o: ..\Module\LCD(1.44inches)\LCD_1.44.h
+.\objects\curtaincm.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\curtaincm.o: ..\Module\LCD(1.44inches)\GUI_1.44.h
+.\objects\curtaincm.o: ..\Module\Moudle_DEC.h
 .\objects\curtaincm.o: ..\Module\Fire_MS\fireMS.h
 .\objects\curtaincm.o: ..\Module\Gas_MS\gasMS.h
 .\objects\curtaincm.o: ..\Module\Light_MS\lightMS.h

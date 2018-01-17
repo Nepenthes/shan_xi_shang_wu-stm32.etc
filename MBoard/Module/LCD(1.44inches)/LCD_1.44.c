@@ -531,7 +531,7 @@ void LCD144Disp_Thread(const void *argument){
 		if(MSG_ID != Moudle_GTA.Wirless_ID){
 		
 			MSG_ID = Moudle_GTA.Wirless_ID;
-			LCD_1_44_ClearS(BLACK,122,0,130,13);
+			LCD_1_44_ClearS(BLACK,122,0,130,15);
 			
 			switch(Moudle_GTA.Wirless_ID){
 			
@@ -810,10 +810,10 @@ void LCD144Disp_Thread(const void *argument){
 							
 							sprintf(disp,"%.2f",rptr->temp);
 							LCD_1_44_ShowNum2412(20,50,GREEN,BLACK,(uint8_t *)disp,24,1);
-							Show_Str(20 + strlen(disp) * 24,50,GREEN,BLACK,"℃",24,1);
+							Show_Str(28 + strlen(disp) * 12,52,GREEN,BLACK,"℃",24,1);
 							sprintf(disp,"%.2f",rptr->hum);
 							LCD_1_44_ShowNum2412(20,100,GREEN,BLACK,(uint8_t *)disp,24,1);
-							Show_Str(20 + strlen(disp) * 24,100,GREEN,BLACK,"％",24,1);
+							Show_Str(28 + strlen(disp) * 12,102,GREEN,BLACK,"％",24,1);
 							
 							do{status = osPoolFree(tempMS_pool, rptr);}while(status != osOK);	//内存释放
 							rptr = NULL;
@@ -1113,6 +1113,8 @@ void LCD144Disp_Thread(const void *argument){
 						osEvent  evt;
 						char disp[30];
 				
+						static u8 EXD_ADDR;
+				
 						static uint8_t DP_cnt;
 						static bool DP_FLG = false;
 				
@@ -1125,21 +1127,57 @@ void LCD144Disp_Thread(const void *argument){
 								
 								LCD_1_44_ClearS(BLACK,5,25,128,128);
 								
-								Show_Str(5,25,WHITE,BLACK,"开关状态鑞",24,1);
-								Show_Str(5,75,WHITE,BLACK,"占空比值鑞",24,1);
+								switch(EXD_ADDR){
 								
-								LCD_1_44_ClearS(BLACK,0,50,127,75);
+									case pwmDevMID_unvarLight:	Show_Str(5,50,WHITE,BLACK,"开关状态鑞",24,1);
+																break;
+										
+									case pwmDevMID_varLight:	Show_Str(5,25,WHITE,BLACK,"开关状态鑞",24,1);
+																Show_Str(5,75,WHITE,BLACK,"亮度鑞",24,1);
+																break;
+									
+									case pwmDevMID_unvarFan:	Show_Str(5,50,WHITE,BLACK,"开关状态鑞",24,1);
+																break;
+									
+									default:break;
+								}
+								
 								switch(data_old.Switch){
 								
 									case true:	sprintf(disp,"开启"); break;
 											
 									case false:	sprintf(disp,"关闭"); break;
+									
+									default:break;
 								}
-								Show_Str(40,50,GREEN,BLACK,(uint8_t *)disp,24,1);
 								
-								LCD_1_44_ClearS(BLACK,0,100,127,125);
+								switch(EXD_ADDR){
+								
+									case pwmDevMID_unvarLight:	LCD_1_44_ClearS(BLACK,0,75,127,100);
+																Show_Str(40,75,GREEN,BLACK,(uint8_t *)disp,24,1);
+																break;
+										
+									case pwmDevMID_varLight:	LCD_1_44_ClearS(BLACK,0,50,127,75);
+																Show_Str(40,50,GREEN,BLACK,(uint8_t *)disp,24,1);
+																break;
+									
+									case pwmDevMID_unvarFan:	LCD_1_44_ClearS(BLACK,0,75,127,100);
+																Show_Str(40,75,GREEN,BLACK,(uint8_t *)disp,24,1);
+																break;
+								}
+								
 								sprintf(disp,"%d%%",data_old.pwmVAL);
-								Show_Str(50,100,GREEN,BLACK,(uint8_t *)disp,24,1);
+								
+								switch(EXD_ADDR){
+								
+									case pwmDevMID_unvarLight:	break;
+																
+									case pwmDevMID_varLight:	LCD_1_44_ClearS(BLACK,0,100,127,125);
+																Show_Str(50,100,GREEN,BLACK,(uint8_t *)disp,24,1);
+																break;
+									
+									case pwmDevMID_unvarFan:	break;
+								}
 							}
 						}
 				
@@ -1156,8 +1194,10 @@ void LCD144Disp_Thread(const void *argument){
 									DP_FLG = true;
 									DP_cnt = 50;
 									
+									EXD_ADDR = rptr->Mod_addr;
+									
 									LCD_1_44_ClearS(BLACK,0,25,128,128);
-									Show_Str(10,60,YELLOW,BLACK,"WIFI_EXD_ADDR",24,1);
+									Show_Str(10,60,YELLOW,BLACK,"ZB_EXD_ADDR",24,1);
 									Show_Str(30,80,YELLOW,BLACK,"IS SETTING",24,1);
 									
 									LCD_1_44_ClearS(BLACK,56,14,128,25);
@@ -1169,7 +1209,7 @@ void LCD144Disp_Thread(const void *argument){
 										case pwmDevMID_varLight:	Show_Str(56,14,YELLOW,BLACK,"pwm-Light",12,1); 
 																	break;
 										
-										case pwmDevMID_varFan:		Show_Str(56,14,YELLOW,BLACK,"pwm-Fan",12,1); 
+										case pwmDevMID_unvarFan:	Show_Str(56,14,YELLOW,BLACK,"sw-Fan",12,1); 
 																	break;
 											
 										default:break;
@@ -1183,18 +1223,61 @@ void LCD144Disp_Thread(const void *argument){
 										data_old.Switch = rptr->Switch;
 										data_old.pwmVAL = rptr->pwmVAL;
 										
-										LCD_1_44_ClearS(BLACK,0,50,127,75);
+										switch(EXD_ADDR){
+										
+											case pwmDevMID_unvarLight:	Show_Str(5,50,WHITE,BLACK,"开关状态鑞",24,1);
+																		break;
+												
+											case pwmDevMID_varLight:	Show_Str(5,25,WHITE,BLACK,"开关状态鑞",24,1);
+																		Show_Str(5,75,WHITE,BLACK,"亮度鑞",24,1);
+																		break;
+											
+											case pwmDevMID_unvarFan:	Show_Str(5,50,WHITE,BLACK,"开关状态鑞",24,1);
+																		break;
+											
+											default:break;
+										}
+										
 										switch(rptr->Switch){
 										
 											case true:	sprintf(disp,"开启"); break;
 													
 											case false:	sprintf(disp,"关闭"); break;
+											
+											default:break;
 										}
-										Show_Str(40,50,GREEN,BLACK,(uint8_t *)disp,24,1);
 										
-										LCD_1_44_ClearS(BLACK,0,100,127,125);
+										switch(EXD_ADDR){
+										
+											case pwmDevMID_unvarLight:	LCD_1_44_ClearS(BLACK,0,75,127,100);
+																		Show_Str(40,75,GREEN,BLACK,(uint8_t *)disp,24,1);
+																		break;
+												
+											case pwmDevMID_varLight:	LCD_1_44_ClearS(BLACK,0,50,127,75);
+																		Show_Str(40,50,GREEN,BLACK,(uint8_t *)disp,24,1);
+																		break;
+											
+											case pwmDevMID_unvarFan:	LCD_1_44_ClearS(BLACK,0,75,127,100);
+																		Show_Str(40,75,GREEN,BLACK,(uint8_t *)disp,24,1);
+																		break;
+											
+											default:break;
+										}
+										
 										sprintf(disp,"%d%%",rptr->pwmVAL);
-										Show_Str(50,100,GREEN,BLACK,(uint8_t *)disp,24,1);
+										
+										switch(EXD_ADDR){
+										
+											case pwmDevMID_unvarLight:	break;
+																		
+											case pwmDevMID_varLight:	LCD_1_44_ClearS(BLACK,0,100,127,125);
+																		Show_Str(50,100,GREEN,BLACK,(uint8_t *)disp,24,1);
+																		break;
+											
+											case pwmDevMID_unvarFan:	break;
+											
+											default:break;
+										}
 									}
 								}break;
 							}
@@ -1224,6 +1307,8 @@ void LCD144Disp_Thread(const void *argument){
 								case CMD_CURTSTP:	sprintf(disp,"停止");break;
 								
 								case CMD_CURTDN:	sprintf(disp,"下降");break;
+								
+										default:    sprintf(disp,"  NULL");
 							}
 							Show_Str(30,85,GREEN,BLACK,(uint8_t *)disp,24,1);
 							
@@ -1246,9 +1331,13 @@ void LCD144Disp_Thread(const void *argument){
 							rptr = evt.value.p;
 							/*显示部分程序↓↓↓↓↓↓↓*/
 							
-							CUR = 6.75 / 4096.0 * (float)rptr->anaVal;
+							if((rptr->anaVal * (4.5 / 5586)) < 2.5)CUR = 0.0;
+							else{
 							
-							LCD_1_44_ClearS(BLACK,0,75,127,100);
+								CUR = (rptr->anaVal * (4.5 / 5586) - 2.5) * (10.0 / 2.0);
+							}
+							
+							LCD_1_44_ClearS(BLACK,0,50,128,75);
 							switch(rptr->Switch){
 							
 								case true:	sprintf(disp,"开启"); break;
@@ -1259,7 +1348,7 @@ void LCD144Disp_Thread(const void *argument){
 							
 							LCD_1_44_ClearS(BLACK,0,100,127,127);
 							sprintf(disp,"%.2f A",CUR);
-							Show_Str(60,100,GREEN,BLACK,(uint8_t *)disp,24,1);
+							Show_Str(40,100,GREEN,BLACK,(uint8_t *)disp,24,1);
 							
 							do{status = osPoolFree(sourceCM_pool, rptr);}while(status != osOK);	//内存释放
 							rptr = NULL;
@@ -1281,21 +1370,21 @@ void LCD144Disp_Thread(const void *argument){
 							LCD_1_44_ClearS(BLACK,0,75,127,100);
 							switch(rptr->spk_num){
 							
-								case 0:	sprintf(disp,"烟雾报警");break;
+								case 0:	sprintf(disp,"烟雾超限");break;
 									
-								case 1:	sprintf(disp,"燃气报警");break;
+								case 1:	sprintf(disp,"燃气泄漏");break;
 									
 								case 2:	sprintf(disp,"火焰报警");break;
 									
-								case 3:	sprintf(disp,"插座报警");break;
+								case 3:	sprintf(disp,"插座超载");break;
 									
 								case 4:	sprintf(disp,"窗帘开");break;
 								
 								case 5:	sprintf(disp,"窗帘关");break;
 								
-								case 6:	sprintf(disp,"灯光");break;
+								case 6:	sprintf(disp,"灯光已开");break;
 								
-								case 7:	sprintf(disp,"灯光关");break;
+								case 7:	sprintf(disp,"灯光已关");break;
 								
 								case 8:	sprintf(disp,"灯光调亮");break;
 							
@@ -1305,15 +1394,21 @@ void LCD144Disp_Thread(const void *argument){
 								
 								case 11:sprintf(disp,"灯光最暗");break;
 								
-								case 12:sprintf(disp,"电视开");break;
+								case 12:sprintf(disp,"电视已开");break;
 								
-								case 13:sprintf(disp,"电视关");break;
+								case 13:sprintf(disp,"电视已关");break;
 								
 								default:sprintf(disp,"一切正常");break;
 							}
 							
-							Show_Str(10,75,GREEN,BLACK,(uint8_t *)disp,24,1);
+							if(rptr->spk_num < 14){
 							
+								Show_Str(10,75,RED,BLACK,(uint8_t *)disp,24,1);
+							}else{
+							
+								Show_Str(10,75,GREEN,BLACK,(uint8_t *)disp,24,1);
+							}
+									
 							do{status = osPoolFree(speakCM_pool, rptr);}while(status != osOK);	//内存释放
 							rptr = NULL;
 						}

@@ -212,9 +212,9 @@ void fingerID_Thread(const void *argument){
 					
 						do{mptr = (EGUARD_MEAS *)osPoolCAlloc(EGUD_pool);}while(mptr == NULL); 	//外发消息内存申请
 					
-						osDelay(3000);
-						sptr = fingerID_CMDTX(0,20);
-						if(sptr -> CMD == FID_EXERES_SUCCESS){		//扫描20次是否有手指取结果
+						osDelay(2000);
+						sptr = fingerID_CMDTX(0,40);
+						if(sptr -> CMD == FID_EXERES_SUCCESS){		//扫描40次是否有手指取结果
 							
 							do{status = osPoolFree(EGUD_pool, sptr);}while(status != osOK);
 							sptr = NULL;							
@@ -228,6 +228,8 @@ void fingerID_Thread(const void *argument){
 									if(loop == cmdQ_fidSave_len - 1)cmd_continue = true;	//前面四条静态指令都被成功执行，则使能最后一条动态复合指令
 									osDelay(500);
 								}else{
+									
+									beeps(0);
 									
 									osDelay(200);
 									mptr -> CMD = FID_EXERES_FAIL;								
@@ -257,6 +259,8 @@ void fingerID_Thread(const void *argument){
 									mptr -> CMD = FID_EXERES_SUCCESS;	//无数据反馈，仅填充结果，数据内容0x00填充
 									mptr -> DAT = 0x00;		
 									osMessagePut(MsgBox_EGUD, (uint32_t)mptr, 100);
+									
+									beeps(4);
 								}else{
 									
 									mptr -> CMD = FID_EXERES_FAIL;

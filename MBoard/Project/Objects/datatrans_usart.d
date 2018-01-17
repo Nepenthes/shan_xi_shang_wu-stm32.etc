@@ -48,6 +48,10 @@
 .\objects\datatrans_usart.o: ..\Module\Tips.h
 .\objects\datatrans_usart.o: ..\Module\Infra_Trans\infraTrans.h
 .\objects\datatrans_usart.o: ..\Module\Moudle_DEC.h
+.\objects\datatrans_usart.o: ..\Module\LCD(1.44inches)\LCD_1.44.h
+.\objects\datatrans_usart.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\datatrans_usart.o: ..\Module\LCD(1.44inches)\GUI_1.44.h
+.\objects\datatrans_usart.o: ..\Module\Moudle_DEC.h
 .\objects\datatrans_usart.o: ..\Module\Fire_MS\fireMS.h
 .\objects\datatrans_usart.o: ..\Module\Gas_MS\gasMS.h
 .\objects\datatrans_usart.o: ..\Module\Light_MS\lightMS.h

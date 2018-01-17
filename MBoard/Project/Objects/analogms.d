@@ -50,6 +50,10 @@
 .\objects\analogms.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\analogms.o: ..\Module\Entrance_guard\kBoard.h
 .\objects\analogms.o: ..\Module\Entrance_guard\doorLock.h
+.\objects\analogms.o: ..\Module\LCD(1.44inches)\LCD_1.44.h
+.\objects\analogms.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\analogms.o: ..\Module\LCD(1.44inches)\GUI_1.44.h
+.\objects\analogms.o: ..\Module\Moudle_DEC.h
 .\objects\analogms.o: ..\Module\Fire_MS\fireMS.h
 .\objects\analogms.o: ..\Module\Gas_MS\gasMS.h
 .\objects\analogms.o: ..\Module\Light_MS\lightMS.h

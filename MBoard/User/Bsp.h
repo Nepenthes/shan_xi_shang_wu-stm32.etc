@@ -5,7 +5,6 @@
 #include <dataTrans_USART.h>
 #include <debugUart.h>
 #include <Key&Tips.h>
-#include <LCD_1.44.h>
 
 #include "infraTrans.h"
 #include "Moudle_DEC.h"

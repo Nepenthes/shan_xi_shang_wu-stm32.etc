@@ -59,6 +59,9 @@
 .\objects\intrrupt.o: ..\Module\Smoke_MS\smokeMS.h
 .\objects\intrrupt.o: ..\Module\Temp_MS\tempMS.h
 .\objects\intrrupt.o: ..\Module\Infra_Trans\infraTrans.h
+.\objects\intrrupt.o: ..\Module\LCD(1.44inches)\LCD_1.44.h
+.\objects\intrrupt.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\intrrupt.o: ..\Module\LCD(1.44inches)\GUI_1.44.h
 .\objects\intrrupt.o: ..\Module\Curtain_CM\curtainCM.h
 .\objects\intrrupt.o: ..\Module\Source_CM\sourceCM.h
 .\objects\intrrupt.o: ..\Module\Speak_CM\speakCM.h

@@ -58,6 +58,9 @@
 .\objects\tips.o: ..\Module\Smoke_MS\smokeMS.h
 .\objects\tips.o: ..\Module\Temp_MS\tempMS.h
 .\objects\tips.o: ..\Module\Infra_Trans\infraTrans.h
+.\objects\tips.o: ..\Module\LCD(1.44inches)\LCD_1.44.h
+.\objects\tips.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\tips.o: ..\Module\LCD(1.44inches)\GUI_1.44.h
 .\objects\tips.o: ..\Module\Curtain_CM\curtainCM.h
 .\objects\tips.o: ..\Module\Source_CM\sourceCM.h
 .\objects\tips.o: ..\Module\Speak_CM\speakCM.h

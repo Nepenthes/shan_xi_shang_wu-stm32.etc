@@ -32,6 +32,8 @@
 
 extern osThreadId tid_USARTWireless_Thread;
 	
+void USART2Wireless_wifiESP8266Init(void);
+	
 void myUSART2_callback(uint32_t event);
 void USART2Wirless_Init(void);
 void USART_WirelessInit(void);

@@ -58,6 +58,9 @@
 .\objects\moudle_dec.o: ..\Module\Smoke_MS\smokeMS.h
 .\objects\moudle_dec.o: ..\Module\Temp_MS\tempMS.h
 .\objects\moudle_dec.o: ..\Module\Infra_Trans\infraTrans.h
+.\objects\moudle_dec.o: ..\Module\LCD(1.44inches)\LCD_1.44.h
+.\objects\moudle_dec.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\moudle_dec.o: ..\Module\LCD(1.44inches)\GUI_1.44.h
 .\objects\moudle_dec.o: ..\Module\Curtain_CM\curtainCM.h
 .\objects\moudle_dec.o: ..\Module\Source_CM\sourceCM.h
 .\objects\moudle_dec.o: ..\Module\Speak_CM\speakCM.h

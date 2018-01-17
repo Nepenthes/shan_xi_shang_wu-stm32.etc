@@ -70,14 +70,17 @@ void speakCM_Thread(const void *argument){
 
 	osEvent  evt;
     osStatus status;	
+	
+	u8 UPLD_cnt;
+	const u8 UPLD_period = 5;
 
 	speakCM_MEAS actuatorData;	//本地输入量
 	static speakCM_MEAS  Data_temp   = {1};	//下行数据输入量同步对比缓存
 	static speakCM_MEAS  Data_tempDP = {1};	//本地输入量显示数据对比缓存
 
 	static bool SPKLOOP_EN = false;
-	u8 spk_cnt;
-	const u8 spk_period = 30;
+	const u8 spk_period = 12;
+	u8 spk_cnt = spk_period;			//周期起始值为阈值，立即报警
 	
 	speakCM_MEAS *mptr = NULL;
 	speakCM_MEAS *rptr = NULL;
@@ -117,7 +120,7 @@ void speakCM_Thread(const void *argument){
 			osDelay(10);
 		}
 		
-		if(SPKLOOP_EN){
+		if(SPKLOOP_EN){		
 		
 			if(spk_cnt < spk_period)spk_cnt ++;
 			else{
@@ -125,6 +128,17 @@ void speakCM_Thread(const void *argument){
 				spk_cnt = 0;
 				SPK_Select(actuatorData.spk_num,1);
 			}
+		}
+		
+		if(UPLD_cnt < UPLD_period)UPLD_cnt ++;	//数据定时上传
+		else{
+		
+			UPLD_cnt = 0;
+			
+			do{mptr = (speakCM_MEAS *)osPoolCAlloc(speakCM_pool);}while(mptr == NULL);
+			mptr->spk_num = actuatorData.spk_num;
+			osMessagePut(MsgBox_speakCM, (uint32_t)mptr, 100);
+			osDelay(10);
 		}
 			
 //		for(temp = 0;temp < 14;temp ++){		/**测试语句**/

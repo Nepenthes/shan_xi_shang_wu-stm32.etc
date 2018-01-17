@@ -411,7 +411,7 @@ void eventK25(void){
 			do{mptr = (pwmCM_kMSG *)osPoolCAlloc(memID_pwmCMsigK_pool);}while(mptr == NULL);
 			/*自定义数据处理↓↓↓↓↓↓↓↓↓↓↓↓*/
 			
-				mptr->mADDR = pwmDevMID_varFan;
+				mptr->mADDR = pwmDevMID_unvarFan;
 			
 			osMessagePut(MsgBox_pwmCMsigK, (uint32_t)mptr, osWaitForever);	//指令推送至模块驱动
 			osDelay(100);

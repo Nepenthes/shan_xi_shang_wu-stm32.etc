@@ -50,6 +50,10 @@
 .\objects\main.o: ..\Module\Entrance_guard\doorLock.h
 .\objects\main.o: ..\Module\Infra_Trans\infraTrans.h
 .\objects\main.o: ..\Module\Moudle_DEC.h
+.\objects\main.o: ..\Module\LCD(1.44inches)\LCD_1.44.h
+.\objects\main.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\main.o: ..\Module\LCD(1.44inches)\GUI_1.44.h
+.\objects\main.o: ..\Module\Moudle_DEC.h
 .\objects\main.o: ..\Module\Fire_MS\fireMS.h
 .\objects\main.o: ..\Module\Gas_MS\gasMS.h
 .\objects\main.o: ..\Module\Light_MS\lightMS.h
@@ -60,6 +64,3 @@
 .\objects\main.o: ..\Module\Curtain_CM\curtainCM.h
 .\objects\main.o: ..\Module\Source_CM\sourceCM.h
 .\objects\main.o: ..\Module\Speak_CM\speakCM.h
-.\objects\main.o: ..\Module\LCD(1.44inches)\LCD_1.44.h
-.\objects\main.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\main.o: ..\Module\LCD(1.44inches)\GUI_1.44.h

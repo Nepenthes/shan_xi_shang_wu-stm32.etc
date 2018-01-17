@@ -48,6 +48,10 @@
 .\objects\key&tips.o: ..\Module\Entrance_guard\rc522_config.h
 .\objects\key&tips.o: ..\Module\Entrance_guard\kBoard.h
 .\objects\key&tips.o: ..\Module\Entrance_guard\doorLock.h
+.\objects\key&tips.o: ..\Module\LCD(1.44inches)\LCD_1.44.h
+.\objects\key&tips.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\key&tips.o: ..\Module\LCD(1.44inches)\GUI_1.44.h
+.\objects\key&tips.o: ..\Module\Moudle_DEC.h
 .\objects\key&tips.o: ..\Module\Fire_MS\fireMS.h
 .\objects\key&tips.o: ..\Module\Debug_USART\debugUart.h
 .\objects\key&tips.o: ..\Module\Gas_MS\gasMS.h
@@ -60,4 +64,3 @@
 .\objects\key&tips.o: ..\Module\Curtain_CM\curtainCM.h
 .\objects\key&tips.o: ..\Module\Source_CM\sourceCM.h
 .\objects\key&tips.o: ..\Module\Speak_CM\speakCM.h
-.\objects\key&tips.o: D:\Keil\Software\ARM\ARMCC\Bin\..\include\stdlib.h

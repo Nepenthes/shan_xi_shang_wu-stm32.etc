@@ -17,9 +17,12 @@
 #define	 LIGHTCM_K1 	PBin(10)
 #define	 LIGHTCM_K2 	PBin(11)
 
+#define  KNOB_A		PBin(13)
+#define  KNOB_B		PBin(14)
+
 #define  pwmDevMID_unvarLight	0x0A
 #define  pwmDevMID_varLight		0x0B
-#define  pwmDevMID_varFan		0x0C
+#define  pwmDevMID_unvarFan		0x0C
 
 #define  SPECMD_pwmDevModADDR_CHG	0x0A
 #define  SPECMD_pwmDevDATS_CHG		0x0B

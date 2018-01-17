@@ -55,7 +55,7 @@ void USART2Wirless_Init(void){
 	Driver_USART2.Control (ARM_USART_CONTROL_TX, 1);
 	Driver_USART2.Control (ARM_USART_CONTROL_RX, 1);
 
-	Driver_USART2.Send("i'm usart2 for wireless datstransfor\r\n", 38);
+//	Driver_USART2.Send("i'm usart2 for wireless datstransfor\r\n", 38);
 }
 
 void myUSART2_callback(uint32_t event){
@@ -86,7 +86,7 @@ void USART2Wireless_wifiESP8266Init(void){
 
 	const u8 	InitCMDLen = 9;
 	const u16 	timeTab_waitAnsr[InitCMDLen] = {
-	
+		
 		100,
 		100,
 		100,
@@ -104,11 +104,10 @@ void USART2Wireless_wifiESP8266Init(void){
 		"AT+CWMODE_DEF=1\r\n",
 		"AT+CWDHCP_DEF=1,1\r\n",
 		"AT+CWJAP_DEF=\"GTA2018_IOT\",\"88888888\"\r\n",
-		"AT+CIPSTART=\"TCP\",\"192.168.31.26\",8085\r\n",
+		"AT+CIPSTART=\"TCP\",\"192.168.31.27\",8085\r\n",
 		"AT+CIPMODE=1\r\n",
 		"AT+CIPSEND\r\n"
 	};
-	
 	const u8 REPLY_DATLENTAB[InitCMDLen][2] = {
 		
 		{2,2},
@@ -121,7 +120,6 @@ void USART2Wireless_wifiESP8266Init(void){
 		{2,2},
 		{1,1},
 	};
-	
 	const char *wifiInit_REPLY[InitCMDLen][2] = {
 		
 		{"OK","OK"},
@@ -149,6 +147,8 @@ void USART2Wireless_wifiESP8266Init(void){
 								3,
 								timeTab_waitAnsr[loop])
 								)loop = 0;
+	
+	beeps(6);
 }
 
 u8 Extension_IDCHG(u8 Addr_in){
@@ -176,6 +176,8 @@ u8 Extension_IDCHG(u8 Addr_in){
 		case MID_SENSOR_ANALOG:	return 0x21;
 			
 		case MID_EXEC_DEVIFR:	return 0x34;
+		
+		case MID_EXEC_SOURCE:	return 0x33;
 			
 		case MID_EGUARD:		return 0x0A;
 		
@@ -223,14 +225,13 @@ void USARTWireless_Thread(const void *argument){
 	
 	osSignalWait(WIRLESS_THREAD_EN,osWaitForever);		//等待线程使能信号
 	osSignalClear(tid_USARTWireless_Thread,WIRLESS_THREAD_EN);
-
-	/******************************无线传输模块初始化*************************************/
-	switch(Moudle_GTA.Wirless_ID){
 	
-		case MID_TRANS_Wifi:	USART2Wireless_wifiESP8266Init();break;
-		
-		case MID_TRANS_Zigbee:	break;
-		
+	switch(Moudle_GTA.Wirless_ID){		//初始化先行，在线程激活前
+	
+		case MID_TRANS_Zigbee	:	 break;
+			
+		case MID_TRANS_Wifi		:	 USART2Wireless_wifiESP8266Init(); break;
+			
 		default:break;
 	}
 	
@@ -622,13 +623,16 @@ void USARTWireless_Thread(const void *argument){
 							rptr = evt.value.p;
 							/*自定义发送数据处理↓↓↓↓↓↓↓↓↓↓↓↓*/
 							
-							TXdats_BUFtemp[0] = (char)rptr->temp;
-							TXdats_BUFtemp[1] = (char)((rptr->temp - (float)TXdats_BUFtemp[0])*100);
+							if(rptr->temp >= 0.0)TXdats_BUFtemp[0] = 1;
+							else TXdats_BUFtemp[0] = 2; 
 							
-							TXdats_BUFtemp[2] = (char)rptr->hum;
-							TXdats_BUFtemp[3] = (char)((rptr->hum - (float)TXdats_BUFtemp[2])*100);
+							TXdats_BUFtemp[1] = (char)rptr->temp;
+							TXdats_BUFtemp[2] = (char)((rptr->temp - (float)TXdats_BUFtemp[1])*100);
 							
-							memp = dataTransFrameLoad_TX(dataTrans_TXBUF,datsTransCMD_UPLOAD,Moudle_GTA.Extension_ID,TXdats_BUFtemp,4);
+							TXdats_BUFtemp[3] = (char)rptr->hum;
+							TXdats_BUFtemp[4] = (char)((rptr->hum - (float)TXdats_BUFtemp[3])*100);
+							
+							memp = dataTransFrameLoad_TX(dataTrans_TXBUF,datsTransCMD_UPLOAD,Moudle_GTA.Extension_ID,TXdats_BUFtemp,5);
 							
 							Driver_USART2.Send(dataTrans_TXBUF,memp);
 							osDelay(20);
@@ -671,8 +675,8 @@ void USARTWireless_Thread(const void *argument){
 							rptr = evt.value.p;
 							/*自定义发送数据处理↓↓↓↓↓↓↓↓↓↓↓↓*/
 							
-							VOL = 500.0 / 4096.0 * (float)rptr->Ich1;		//电压
-							CUR = 5.0 / 4096.0 * (float)rptr->Ich2;			//电流
+							VOL = 420.0 / 4096.0 * (float)rptr->Ich1;		//电压
+							CUR = 6.1 / 4096.0 * (float)rptr->Ich2;			//电流
 							
 							TXdats_BUFtemp[0] = (uint8_t)((uint32_t)VOL % 10000 / 100);
 							TXdats_BUFtemp[1] = (uint8_t)((uint32_t)VOL % 100);
@@ -839,7 +843,11 @@ void USARTWireless_Thread(const void *argument){
 							rptr = evt.value.p;
 							/*自定义发送数据处理↓↓↓↓↓↓↓↓↓↓↓↓*/
 							
-							CUR = 7.33 / 4096.0 * (float)rptr->anaVal;
+							if((rptr->anaVal * (4.5 / 5586)) < 2.5)CUR = 0.0;
+							else{
+							
+								CUR = (rptr->anaVal * (4.5 / 5586) - 2.5) * (10.0 / 2.0);
+							}
 							
 							TXdats_BUFtemp[0] = rptr->Switch;
 							TXdats_BUFtemp[1] = (uint8_t)((uint32_t)CUR % 100);
@@ -864,7 +872,9 @@ void USARTWireless_Thread(const void *argument){
 							rptr = evt.value.p;
 							/*自定义发送数据处理↓↓↓↓↓↓↓↓↓↓↓↓*/
 							
-							//仅下行，无上发数据
+							TXdats_BUFtemp[0] = rptr->spk_num;
+							
+							memp = dataTransFrameLoad_TX(dataTrans_TXBUF,datsTransCMD_UPLOAD,Moudle_GTA.Extension_ID,TXdats_BUFtemp,1);
 
 							Driver_USART2.Send(dataTrans_TXBUF,memp);
 							osDelay(20);
