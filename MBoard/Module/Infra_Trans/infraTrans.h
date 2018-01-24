@@ -13,7 +13,7 @@
 
 #include "Tips.h"
 
-#include <Key&Tips.h>
+#include <Key&Tips.h>		
 
 #define IFRLRN_STATUS	PBout(13)
 #define RDATA 			PBin(14)

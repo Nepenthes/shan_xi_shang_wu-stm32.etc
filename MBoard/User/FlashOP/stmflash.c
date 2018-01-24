@@ -86,14 +86,13 @@ void STMFLASH_Write(u32 WriteAddr,u16 *pBuffer,u16 NumToWrite)
 void STMFLASH_Read(u32 ReadAddr,u16 *pBuffer,u16 NumToRead)   	
 {
 	u16 i;
-	for(i=0;i<NumToRead;i++)
-	{
+	for(i=0;i<NumToRead;i++){
+		
 		pBuffer[i]=STMFLASH_ReadHalfWord(ReadAddr);//读取2个字节.
 		ReadAddr+=2;//偏移2个字节.	
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////
 //WriteAddr:起始地址
 //WriteData:要写入的数据
 void Test_Write(u32 WriteAddr,u16 WriteData)   	

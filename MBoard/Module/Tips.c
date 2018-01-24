@@ -6,8 +6,8 @@ const u8 spect_len[spect_size] = {2,2,2,4,4,4,7,7,7,6,5};
 const u8 spect[spect_size][8] = {
 
 	{1,2},
-	{1,4},
-	{1,7},
+	{2,7},
+	{6,1},
 	{3,3,4,5},
 	{5,4,3,2},
 	{7,2,3,1},
@@ -40,7 +40,7 @@ void beeps(u8 num){
 	u8 loop;
 	
 	for(loop = 0;loop < spect_len[num];loop ++)
-		tips_beep(spect[num][loop],50,3);
+		tips_beep(spect[num][loop],100,3);
 }
 
 void tipsInit(void){

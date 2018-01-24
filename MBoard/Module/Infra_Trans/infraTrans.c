@@ -41,42 +41,100 @@ typedef void (* funkeyThread)(funKeyInit key_Init,Obj_keyStatus *orgKeyStatus,fu
 
 extern ARM_DRIVER_USART Driver_USART1;								//设备驱动库串口一设备声明
 
-void keyIFR_ADCInit(void)
-{
-    ADC_InitTypeDef ADC_InitStructure;
+void IFR_leyInit_X(void){
+	
     GPIO_InitTypeDef GPIO_InitStructure;
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_ADC1, ENABLE );	  //使能ADC1通道时钟
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB, ENABLE );	  //使能ADC1通道时钟
 
-    RCC_ADCCLKConfig(RCC_PCLK2_Div6);   //设置ADC分频因子6 72M/6=12,ADC最大时间不能超过14M
-
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_4 | GPIO_Pin_5;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;		//模拟输入引脚
+    GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;		//模拟输入引脚
     GPIO_Init(GPIOA, &GPIO_InitStructure);
+	
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU; 			
+	GPIO_Init(GPIOB, &GPIO_InitStructure);
 
-    ADC_DeInit(ADC1);  //复位ADC1,将外设 ADC1 的全部寄存器重设为缺省值
+	PAout(0) = PAout(1) = PAout(4) = PAout(5) = 0;
+	PBin(8)  = PBin(9)  = PBin(10) = 1; 
+}
 
-    ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;	//ADC工作模式:ADC1和ADC2工作在独立模式
-    ADC_InitStructure.ADC_ScanConvMode = DISABLE;	//模数转换工作在单通道模式
-    ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;	//模数转换工作在单次转换模式
-    ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;	//转换由软件而不是外部触发启动
-    ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;	//ADC数据右对齐
-    ADC_InitStructure.ADC_NbrOfChannel = 1;	//顺序进行规则转换的ADC通道的数目
-    ADC_Init(ADC1, &ADC_InitStructure);	//根据ADC_InitStruct中指定的参数初始化外设ADCx的寄存器
+void IFR_leyInit_Y(void){
+	
+    GPIO_InitTypeDef GPIO_InitStructure;
 
-    ADC_Cmd(ADC1, ENABLE);	//使能指定的ADC1
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB, ENABLE );	  //使能ADC1通道时钟
 
-    ADC_ResetCalibration(ADC1);	//使能复位校准
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_4 | GPIO_Pin_5;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_IPU;		//模拟输入引脚
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+	
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 			
+	GPIO_Init(GPIOB, &GPIO_InitStructure);	
 
-    while(ADC_GetResetCalibrationStatus(ADC1));	//等待复位校准结束
+	PAin(0)  = PAin(1)  = PAin(4)   = PAin(5) = 1;
+	PBout(8) = PBout(9) = PBout(10) = 0; 
+}
 
-    ADC_StartCalibration(ADC1);	 //开启AD校准
+uint8_t IFR_kScan_A(void){
 
-    while(ADC_GetCalibrationStatus(ADC1));	 //等待校准结束
+	uint8_t key = 0;
+	
+	IFR_leyInit_X();
+	
+	if(!PBin(8)) key = 1;
+	if(!PBin(9)) key = 2;
+	if(!PBin(10))key = 3;
+	
+	IFR_leyInit_Y();
+	
+	if(!PAin(0))key += 0;
+	if(!PAin(1))key += 3;
+	if(!PAin(4))key += 6;
+	if(!PAin(5))key += 9;
+	
+	switch(key){		//强矫正
+	
+		case 1 :	key = 1;break;
+			
+		case 2 :	key = 3;break;
+			
+		case 3 :	key = 2;break;
+			
+		case 4 :	key = 4;break;
+			
+		case 5 :	key = 5;break;
+			
+		case 6 :	key = 6;break;
+			
+		case 8 :	key = 7;break;
+			
+		case 10:	key = 8;break;
+			
+		case 11:	key = 9;break;
+			
+		case 12:	key =10;break;
+		
+		default:	key = ifrvalK_NULL;
+					break;
+	}
+	
+	return key;
+}
 
-//	ADC_SoftwareStartConvCmd(ADC1, ENABLE);		//使能指定的ADC1的软件转换启动功能
+uint8_t IFR_kScan_B(void){
 
+	IFR_leyInit_X();
+	
+	delay_us(10);
+	
+	if((!PBin(8)) | (!PBin(9)) | (!PBin(10))){
+		
+		return IFR_kScan_A();	
+	}else return ifrvalK_NULL;
 }
 
 void Remote_Init(void)
@@ -111,7 +169,7 @@ void Remote_Init(void)
 	
     EXTI_InitStructure.EXTI_Line = EXTI_Line6;
     EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
+    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising_Falling;
     EXTI_InitStructure.EXTI_LineCmd = ENABLE;
     EXTI_Init(&EXTI_InitStructure);
 
@@ -128,7 +186,7 @@ void Remote_Init(void)
 u16 HW_ReceiveTime(void)
 {
     u16 t=0;
-	const uint16_t MAX = 12000 / IFR_PER;
+	const uint16_t MAX = 60000 / IFR_PER;
 
     while(PCin(6))
     {
@@ -144,7 +202,7 @@ u16 HW_ReceiveTime(void)
 u16 LW_ReceiveTime(void)
 {
     u16 t=0;
-	const uint16_t MAX = 12000 / IFR_PER;
+	const uint16_t MAX = 60000 / IFR_PER;
 
     while(!PCin(6))
     {
@@ -164,70 +222,42 @@ void IFR_Send(uint16_t HTab[],uint8_t Hp,uint16_t LTab[],uint8_t Lp){
 	uint8_t loop;
 	uint16_t temp;
 	
-	char disp[20];							//对应数据位信号长度输出测试
-	sprintf(disp,"%d",HTab[30]);
-	Driver_USART1.Send(disp,strlen(disp));
+//	char disp[20];							//对应数据位信号长度输出测试
+//	
+//	memset(disp,0,sizeof(char) * 20);
+//	sprintf(disp,"%d",HTab[14]);
+//	Driver_USART1.Send(disp,strlen(disp));
 	
 	PBout(15) = 0;
 	for(loop = 0;loop < Lp;loop ++){
 	
 		if(LTab[loop] < MAX){
 		
-			temp = (LTab[loop] + LTab[loop] / 14) / 12;	//载波重现 14为时间补偿，12(调试值) = 13-1(13 为 26 / IFR_PER) ， 26为38k载波单周期
+			temp = (LTab[loop] + LTab[loop] / 9) / 10;	//载波重现 14为时间补偿，12(调试值) = 13-1(13 为 26 / IFR_PER) ， 26为38k载波单周期
 		}	
 		else{
 		
-			temp = (LTab[loop] + LTab[loop] / 14) / 12 + 60UL; //长时间保持信号补偿
+			temp = (LTab[loop] + LTab[loop] / 9) / 10 + 20UL; //长时间保持信号补偿
 		}
-		while(temp --){			//38k载波单周期调制
+		while(temp --){			//38k载波单周期调制 
 		
 			PBout(15) = 1;		
-			delay_us(11);
+			delay_us(8);
 			PBout(15) = 0;
-			delay_us(12);			
+			delay_us(16);			
 		}
 		
 		PBout(15) = 0;		    //低电平信号互补
-		temp = HTab[loop] + HTab[loop] / 15;
+		temp = HTab[loop] + HTab[loop] / 20;
 		while(temp --)delay_us(IFR_PER);
 	}
 	
 	PBout(15) = 0;
 }
 
-//获得ADC值
-//ch:通道值 0~3
-uint16_t keyIFRGet_Adc(uint8_t ch)
-{
-    //设置指定ADC的规则组通道，一个序列，采样时间
-    ADC_RegularChannelConfig(ADC1, ch, 1, ADC_SampleTime_239Cycles5);	//ADC1,ADC通道,采样时间为239.5周期
-
-    ADC_SoftwareStartConvCmd(ADC1, ENABLE);		//使能指定的ADC1的软件转换启动功能
-
-    while(!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC ));//等待转换结束
-
-    return ADC_GetConversionValue(ADC1);	//返回最近一次ADC1规则组的转换结果
-}
-
-uint16_t keyIFRGet_Adc_Average(uint8_t ch,uint8_t times)
-{
-    u32 temp_val = 0;
-    uint8_t t;
-
-    for(t=0; t<times; t++)
-    {
-        temp_val += keyIFRGet_Adc(ch);
-        delay_ms(5);
-    }
-    return temp_val / times;
-}
-
 uint8_t keyIFR_Scan(void) {
 
-    uint16_t keyAnalog =  keyIFRGet_Adc_Average(4,3);
-	
-	if(keyAnalog < 180)return ifrvalK_NULL;
-	else return (uint8_t)(10 - (keyAnalog / 400));
+	return IFR_kScan_B();
 }
 
 void keyAnalog_Test(void) {
@@ -235,11 +265,9 @@ void keyAnalog_Test(void) {
     char disp[30];
     uint16_t keyAnalog;
 
-    keyIFR_ADCInit();
-
     for(;;) {
 
-        keyAnalog = keyIFRGet_Adc(4);
+        keyAnalog = keyIFR_Scan();
 
         sprintf(disp,"valAnalog : %d\n\r", keyAnalog);
         Driver_USART1.Send(disp,strlen(disp));
@@ -258,9 +286,9 @@ void KB_ifrDats_Save(u8 num){
 //	ifrKB_tabHp[num] = tabHp;
 //	ifrKB_tabLp[num] = tabLp;
 	
-	STMFLASH_Write(MODULE_IFRdatsHpn_DATADDR + num,(uint16_t *)&tabHp,1);
-	STMFLASH_Write(MODULE_IFRdatsLpn_DATADDR + num,(uint16_t *)&tabLp,1);
-	STMFLASH_Write(MODULE_IFRdatsHp_DATADDR + (num * 256),(uint16_t *)HTtab,tabHp);
+	STMFLASH_Write(MODULE_IFRdatsHpn_DATADDR + (num * 2),(uint16_t *)&tabHp,1);	//地址必需为2的倍数，都乘以2，避开奇数
+	STMFLASH_Write(MODULE_IFRdatsLpn_DATADDR + (num * 2),(uint16_t *)&tabLp,1);
+	STMFLASH_Write(MODULE_IFRdatsHp_DATADDR + (num * 256),(uint16_t *)HTtab,tabHp);	//本地址存储连线数组，无需处理奇数
 	STMFLASH_Write(MODULE_IFRdatsLp_DATADDR + (num * 256),(uint16_t *)LTtab,tabLp);
 }
 
@@ -269,7 +297,11 @@ void usr_sigin(void){
 	uint16_t Ktemp;
 	uint8_t	 cnt;
 	
-	beeps(2);
+	ifrCM_Attr.VAL_KEY = ifrvalK_NULL;
+	
+	beeps(4);
+
+lrn_start:
 	
 	cnt = 5;
 	while(cnt --){	//tips 开始学习
@@ -283,19 +315,19 @@ void usr_sigin(void){
 	
 	for(;;){	//tips 等待存储目标按键
 		
+		if(ifrCM_Attr.VAL_KEY == 1){IFRLRN_STATUS = 1;beeps(3);return;}
+		
 		Ktemp = ifrCM_Attr.VAL_KEY;
 		
 		if(ifrCM_Attr.VAL_KEY == ifrvalK_NULL){
 		
-			IFRLRN_STATUS = !IFRLRN_STATUS;
-			osDelay(200);
+			IFRLRN_STATUS = 0;
+			osDelay(20);
 		}else break;
 	}
 	
 	osDelay(100);
 	measure_en = true;
-	
-	ifrCM_Attr.VAL_KEY = ifrvalK_NULL;
 	
 	beeps(1);
 	
@@ -303,10 +335,12 @@ void usr_sigin(void){
 	
 	while(measure_en){	//等待遥控信号
 		
+		if(ifrCM_Attr.VAL_KEY == 1){IFRLRN_STATUS = 1;beeps(3);return;}
+		
 		if(ifrCM_Attr.VAL_KEY != ifrvalK_NULL)Ktemp = ifrCM_Attr.VAL_KEY;
 	
-		IFRLRN_STATUS = 0;
-		osDelay(20);
+		IFRLRN_STATUS = !IFRLRN_STATUS;
+		osDelay(150);
 	}IFRLRN_STATUS = 1;
 	
 	KB_ifrDats_Save(Ktemp);	//目标按键存储ifr载波信息
@@ -322,6 +356,8 @@ void usr_sigin(void){
 	
 	ifrCM_Attr.STATUS = kifrSTATUS_LRNOVR;
 	osDelay(500);
+	
+goto lrn_start;
 }
 
 void keyIFR_Thread_umdScan(const void *argument){
@@ -427,22 +463,22 @@ void keyIFR_Thread(const void *argument){
 			else{
 					
 				ifrCM_Attr.STATUS = kifrSTATUS_SGOUT;
-				osDelay(500);
+				osDelay(300);
 			
 				memset(HTtab, 0, Tab_size * sizeof(uint16_t));
 				memset(LTtab, 0, Tab_size * sizeof(uint16_t));
 				
-				STMFLASH_Read(MODULE_IFRdatsHpn_DATADDR + ifrCM_Attr.VAL_KEY,(uint16_t *)&tabHp,1);
-				STMFLASH_Read(MODULE_IFRdatsLpn_DATADDR + ifrCM_Attr.VAL_KEY,(uint16_t *)&tabLp,1);
+				STMFLASH_Read(MODULE_IFRdatsHpn_DATADDR + (ifrCM_Attr.VAL_KEY * 2),(uint16_t *)&tabHp,1);	//地址必需为2的倍数，都乘以2，避开奇数
+				STMFLASH_Read(MODULE_IFRdatsLpn_DATADDR + (ifrCM_Attr.VAL_KEY * 2),(uint16_t *)&tabLp,1);
 				
-				STMFLASH_Read(MODULE_IFRdatsHp_DATADDR + (ifrCM_Attr.VAL_KEY * 256),(uint16_t *)HTtab,tabHp);
+				STMFLASH_Read(MODULE_IFRdatsHp_DATADDR + (ifrCM_Attr.VAL_KEY * 256),(uint16_t *)HTtab,tabHp);	//本地址存储连线数组，无需处理奇数
 				STMFLASH_Read(MODULE_IFRdatsLp_DATADDR + (ifrCM_Attr.VAL_KEY * 256),(uint16_t *)LTtab,tabLp);
 				
-				if((HTtab[0] + HTtab[1] + HTtab[2] + LTtab[0] + LTtab[1] + LTtab[2]) > 65000){ifrCM_Attr.VAL_KEY = ifrvalK_NULL; continue;} //取样，读到非法溢出值（未经存储过的值），无法使用
+				if((HTtab[0] + HTtab[1]+ LTtab[0] + LTtab[1]) > 65000){ifrCM_Attr.VAL_KEY = ifrvalK_NULL; continue;} //取样，读到非法溢出值（未经存储过的值），无法使用
 
 				IFR_Send(HTtab,tabHp,LTtab,tabLp);
 				osDelay(20);
-				IFR_Send(HTtab,tabHp,LTtab,tabLp);
+//				IFR_Send(HTtab,tabHp,LTtab,tabLp);
 				
 //				IFR_Send((uint16_t *)ifrKB_HTtab[ifrCM_Attr.VAL_KEY],ifrKB_tabHp[ifrCM_Attr.VAL_KEY],(uint16_t *)ifrKB_LTtab[ifrCM_Attr.VAL_KEY],ifrKB_tabLp[ifrCM_Attr.VAL_KEY]);
 //				osDelay(20);
@@ -477,7 +513,6 @@ void keyIFRActive(void){
 	static bool memInit_flg = false;
 	
 	Remote_Init();
-	keyIFR_ADCInit();
 	
 	tid_keyIFR_Thread = osThreadCreate(osThread(keyIFR_Thread),NULL);
 	tid_keyIFR_Thread_umdScan = osThreadCreate(osThread(keyIFR_Thread_umdScan),NULL);
