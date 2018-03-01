@@ -12,6 +12,7 @@ osMessageQDef(MsgBox_lightMS, 2, &lightMS_MEAS);            // ÏûÏ¢¶ÓÁĞ¶¨Òå£¬ÓÃÓ
 osMessageQId  MsgBox_MTlightMS;
 osMessageQDef(MsgBox_MTlightMS, 2, &lightMS_MEAS);          // ÏûÏ¢¶ÓÁĞ¶¨Òå,ÓÃÓÚÎŞÏßÍ¨Ñ¶Ïß³ÌÏòÄ£¿éÏß³Ì
 osMessageQId  MsgBox_DPlightMS;
+
 osMessageQDef(MsgBox_DPlightMS, 2, &lightMS_MEAS);          // ÏûÏ¢¶ÓÁĞ¶¨Òå£¬ÓÃÓÚÄ£¿éÏß³ÌÏòÏÔÊ¾Ä£¿éÏß³Ì
 
 void cdsIO_Init(void){

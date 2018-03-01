@@ -9,7 +9,7 @@ extern osThreadId tid_kBoard_Thread;
 extern osThreadId tid_doorLock_Thread;
 					 
 osPoolId  EGUD_pool;								 
-osPoolDef(EGUD_pool, 20, EGUARD_MEAS);                   // 内存池定义
+osPoolDef(EGUD_pool, 30, EGUARD_MEAS);                   // 内存池定义
 osMessageQId  MsgBox_EGUD;		
 osMessageQDef(MsgBox_EGUD, 5, &EGUARD_MEAS);             // 消息队列定义
 osMessageQId  MsgBox_MTEGUD_FID;		

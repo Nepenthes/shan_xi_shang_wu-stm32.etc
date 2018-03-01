@@ -3795,45 +3795,45 @@ Image Symbol Table
     HT_Tab                                   0x20000368   Data         510  intrrupt.o(.bss)
     LT_Tab                                   0x20000566   Data         510  intrrupt.o(.bss)
     .bss                                     0x20000764   Section     2048  stmflash.o(.bss)
-    .bss                                     0x20000f64   Section      496  eguard.o(.bss)
-    .bss                                     0x20001154   Section       18  kboard.o(.bss)
-    Eguard_Password                          0x20001154   Data           9  kboard.o(.bss)
-    Password_temp                            0x2000115d   Data           9  kboard.o(.bss)
-    .bss                                     0x20001168   Section      124  firems.o(.bss)
-    .bss                                     0x200011e4   Section      124  pyroms.o(.bss)
-    .bss                                     0x20001260   Section      124  gasms.o(.bss)
-    .bss                                     0x200012dc   Section      124  smokems.o(.bss)
-    .bss                                     0x20001358   Section      124  lightms.o(.bss)
-    .bss                                     0x200013d4   Section      164  tempms.o(.bss)
-    .bss                                     0x20001478   Section      164  analogms.o(.bss)
-    .bss                                     0x2000151c   Section       14  lcd_1.44.o(.bss)
-    .bss                                     0x2000152c   Section     1252  key&tips.o(.bss)
-    evt                                      0x2000152c   Data          12  key&tips.o(.bss)
-    tips                                     0x20001538   Data          80  key&tips.o(.bss)
-    myKeyEvent                               0x20001588   Data        1160  key&tips.o(.bss)
-    .bss                                     0x20001a10   Section    12438  infratrans.o(.bss)
-    .bss                                     0x20004aa8   Section      176  pwmcm.o(.bss)
-    .bss                                     0x20004b58   Section      124  curtaincm.o(.bss)
-    .bss                                     0x20004bd4   Section      124  sourcecm.o(.bss)
-    .bss                                     0x20004c50   Section      124  speakcm.o(.bss)
-    .bss                                     0x20004ccc   Section      112  usart_stm32f10x.o(.bss)
-    USART1_Info                              0x20004ccc   Data          20  usart_stm32f10x.o(.bss)
-    USART1_TransferInfo                      0x20004ce0   Data          36  usart_stm32f10x.o(.bss)
-    USART2_Info                              0x20004d04   Data          20  usart_stm32f10x.o(.bss)
-    USART2_TransferInfo                      0x20004d18   Data          36  usart_stm32f10x.o(.bss)
-    .bss                                     0x20004d40   Section    26088  rtx_conf_cm.o(.bss)
-    std_libspace                             0x2000ac48   Data        1632  rtx_conf_cm.o(.bss)
-    std_libmutex                             0x2000b2a8   Data         128  rtx_conf_cm.o(.bss)
-    .bss                                     0x2000b328   Section       28  i2c_stm32f10x.o(.bss)
-    I2C1_Info                                0x2000b328   Data          28  i2c_stm32f10x.o(.bss)
-    .bss                                     0x2000b344   Section       52  rt_task.o(.bss)
-    .bss                                     0x2000b378   Section       48  rt_list.o(.bss)
-    .bss                                     0x2000b3a8   Section       96  libspace.o(.bss)
-    HEAP                                     0x2000b408   Section      512  startup_stm32f10x_hd.o(HEAP)
-    Heap_Mem                                 0x2000b408   Data         512  startup_stm32f10x_hd.o(HEAP)
-    STACK                                    0x2000b608   Section     1024  startup_stm32f10x_hd.o(STACK)
-    Stack_Mem                                0x2000b608   Data        1024  startup_stm32f10x_hd.o(STACK)
-    __initial_sp                             0x2000ba08   Data           0  startup_stm32f10x_hd.o(STACK)
+    .bss                                     0x20000f64   Section      656  eguard.o(.bss)
+    .bss                                     0x200011f4   Section       18  kboard.o(.bss)
+    Eguard_Password                          0x200011f4   Data           9  kboard.o(.bss)
+    Password_temp                            0x200011fd   Data           9  kboard.o(.bss)
+    .bss                                     0x20001208   Section      124  firems.o(.bss)
+    .bss                                     0x20001284   Section      124  pyroms.o(.bss)
+    .bss                                     0x20001300   Section      124  gasms.o(.bss)
+    .bss                                     0x2000137c   Section      124  smokems.o(.bss)
+    .bss                                     0x200013f8   Section      124  lightms.o(.bss)
+    .bss                                     0x20001474   Section      164  tempms.o(.bss)
+    .bss                                     0x20001518   Section      164  analogms.o(.bss)
+    .bss                                     0x200015bc   Section       14  lcd_1.44.o(.bss)
+    .bss                                     0x200015cc   Section     1252  key&tips.o(.bss)
+    evt                                      0x200015cc   Data          12  key&tips.o(.bss)
+    tips                                     0x200015d8   Data          80  key&tips.o(.bss)
+    myKeyEvent                               0x20001628   Data        1160  key&tips.o(.bss)
+    .bss                                     0x20001ab0   Section    12438  infratrans.o(.bss)
+    .bss                                     0x20004b48   Section      176  pwmcm.o(.bss)
+    .bss                                     0x20004bf8   Section      124  curtaincm.o(.bss)
+    .bss                                     0x20004c74   Section      124  sourcecm.o(.bss)
+    .bss                                     0x20004cf0   Section      124  speakcm.o(.bss)
+    .bss                                     0x20004d6c   Section      112  usart_stm32f10x.o(.bss)
+    USART1_Info                              0x20004d6c   Data          20  usart_stm32f10x.o(.bss)
+    USART1_TransferInfo                      0x20004d80   Data          36  usart_stm32f10x.o(.bss)
+    USART2_Info                              0x20004da4   Data          20  usart_stm32f10x.o(.bss)
+    USART2_TransferInfo                      0x20004db8   Data          36  usart_stm32f10x.o(.bss)
+    .bss                                     0x20004de0   Section    26088  rtx_conf_cm.o(.bss)
+    std_libspace                             0x2000ace8   Data        1632  rtx_conf_cm.o(.bss)
+    std_libmutex                             0x2000b348   Data         128  rtx_conf_cm.o(.bss)
+    .bss                                     0x2000b3c8   Section       28  i2c_stm32f10x.o(.bss)
+    I2C1_Info                                0x2000b3c8   Data          28  i2c_stm32f10x.o(.bss)
+    .bss                                     0x2000b3e4   Section       52  rt_task.o(.bss)
+    .bss                                     0x2000b418   Section       48  rt_list.o(.bss)
+    .bss                                     0x2000b448   Section       96  libspace.o(.bss)
+    HEAP                                     0x2000b4a8   Section      512  startup_stm32f10x_hd.o(HEAP)
+    Heap_Mem                                 0x2000b4a8   Data         512  startup_stm32f10x_hd.o(HEAP)
+    STACK                                    0x2000b6a8   Section     1024  startup_stm32f10x_hd.o(STACK)
+    Stack_Mem                                0x2000b6a8   Data        1024  startup_stm32f10x_hd.o(STACK)
+    __initial_sp                             0x2000baa8   Data           0  startup_stm32f10x_hd.o(STACK)
 
     Global Symbols
 
@@ -4726,81 +4726,81 @@ Image Symbol Table
     dbg_msg                                  0x2000034c   Data           1  hal_cm.o(.data)
     os_timer_cb_Tim0                         0x20000350   Data          24  tips.o(.bss)
     STMFLASH_BUF                             0x20000764   Data        2048  stmflash.o(.bss)
-    os_pool_m_EGUD_pool                      0x20000f64   Data         332  eguard.o(.bss)
-    os_messageQ_q_MsgBox_EGUD                0x200010b0   Data          36  eguard.o(.bss)
-    os_messageQ_q_MsgBox_MTEGUD_FID          0x200010d4   Data          36  eguard.o(.bss)
-    os_messageQ_q_MsgBox_MTEGUD_DLOCK        0x200010f8   Data          36  eguard.o(.bss)
-    os_messageQ_q_MsgBox_DPEGUD              0x2000111c   Data          56  eguard.o(.bss)
-    os_pool_m_fireMS_pool                    0x20001168   Data          52  firems.o(.bss)
-    os_messageQ_q_MsgBox_fireMS              0x2000119c   Data          24  firems.o(.bss)
-    os_messageQ_q_MsgBox_MTfireMS            0x200011b4   Data          24  firems.o(.bss)
-    os_messageQ_q_MsgBox_DPfireMS            0x200011cc   Data          24  firems.o(.bss)
-    os_pool_m_pyroMS_pool                    0x200011e4   Data          52  pyroms.o(.bss)
-    os_messageQ_q_MsgBox_pyroMS              0x20001218   Data          24  pyroms.o(.bss)
-    os_messageQ_q_MsgBox_MTpyroMS            0x20001230   Data          24  pyroms.o(.bss)
-    os_messageQ_q_MsgBox_DPpyroMS            0x20001248   Data          24  pyroms.o(.bss)
-    os_pool_m_gasMS_pool                     0x20001260   Data          52  gasms.o(.bss)
-    os_messageQ_q_MsgBox_gasMS               0x20001294   Data          24  gasms.o(.bss)
-    os_messageQ_q_MsgBox_MTgasMS             0x200012ac   Data          24  gasms.o(.bss)
-    os_messageQ_q_MsgBox_DPgasMS             0x200012c4   Data          24  gasms.o(.bss)
-    os_pool_m_smokeMS_pool                   0x200012dc   Data          52  smokems.o(.bss)
-    os_messageQ_q_MsgBox_smokeMS             0x20001310   Data          24  smokems.o(.bss)
-    os_messageQ_q_MsgBox_MTsmokeMS           0x20001328   Data          24  smokems.o(.bss)
-    os_messageQ_q_MsgBox_DPsmokeMS           0x20001340   Data          24  smokems.o(.bss)
-    os_pool_m_lightMS_pool                   0x20001358   Data          52  lightms.o(.bss)
-    os_messageQ_q_MsgBox_lightMS             0x2000138c   Data          24  lightms.o(.bss)
-    os_messageQ_q_MsgBox_MTlightMS           0x200013a4   Data          24  lightms.o(.bss)
-    os_messageQ_q_MsgBox_DPlightMS           0x200013bc   Data          24  lightms.o(.bss)
-    os_pool_m_tempMS_pool                    0x200013d4   Data          92  tempms.o(.bss)
-    os_messageQ_q_MsgBox_tempMS              0x20001430   Data          24  tempms.o(.bss)
-    os_messageQ_q_MsgBox_MTtempMS            0x20001448   Data          24  tempms.o(.bss)
-    os_messageQ_q_MsgBox_DPtempMS            0x20001460   Data          24  tempms.o(.bss)
-    os_pool_m_analogMS_pool                  0x20001478   Data          92  analogms.o(.bss)
-    os_messageQ_q_MsgBox_analogMS            0x200014d4   Data          24  analogms.o(.bss)
-    os_messageQ_q_MsgBox_MTanalogMS          0x200014ec   Data          24  analogms.o(.bss)
-    os_messageQ_q_MsgBox_DPanalogMS          0x20001504   Data          24  analogms.o(.bss)
-    lcd144dev                                0x2000151c   Data          14  lcd_1.44.o(.bss)
-    os_pool_m_IFR_pool                       0x20001a10   Data          52  infratrans.o(.bss)
-    os_messageQ_q_MsgBox_IFR                 0x20001a44   Data          24  infratrans.o(.bss)
-    os_messageQ_q_MsgBox_MTIFR               0x20001a5c   Data          24  infratrans.o(.bss)
-    os_messageQ_q_MsgBox_DPIFR               0x20001a74   Data          24  infratrans.o(.bss)
-    os_pool_m_IFRsigK_pool                   0x20001a8c   Data          28  infratrans.o(.bss)
-    os_messageQ_q_MsgBox_IFRsigK             0x20001aa8   Data          24  infratrans.o(.bss)
-    HTtab                                    0x20001ac0   Data         510  infratrans.o(.bss)
-    LTtab                                    0x20001cbe   Data         510  infratrans.o(.bss)
-    ifrKB_HTtab                              0x20001ebc   Data        5610  infratrans.o(.bss)
-    ifrKB_LTtab                              0x200034a6   Data        5610  infratrans.o(.bss)
-    ifrKB_tabHp                              0x20004a90   Data          11  infratrans.o(.bss)
-    ifrKB_tabLp                              0x20004a9b   Data          11  infratrans.o(.bss)
-    os_pool_m_pwmCM_pool                     0x20004aa8   Data          52  pwmcm.o(.bss)
-    os_messageQ_q_MsgBox_pwmCM               0x20004adc   Data          24  pwmcm.o(.bss)
-    os_messageQ_q_MsgBox_MTpwmCM             0x20004af4   Data          24  pwmcm.o(.bss)
-    os_messageQ_q_MsgBox_DPpwmCM             0x20004b0c   Data          24  pwmcm.o(.bss)
-    os_pool_m_pwmCMsigK_pool                 0x20004b24   Data          28  pwmcm.o(.bss)
-    os_messageQ_q_MsgBox_pwmCMsigK           0x20004b40   Data          24  pwmcm.o(.bss)
-    os_pool_m_curtainCM_pool                 0x20004b58   Data          52  curtaincm.o(.bss)
-    os_messageQ_q_MsgBox_curtainCM           0x20004b8c   Data          24  curtaincm.o(.bss)
-    os_messageQ_q_MsgBox_MTcurtainCM         0x20004ba4   Data          24  curtaincm.o(.bss)
-    os_messageQ_q_MsgBox_DPcurtainCM         0x20004bbc   Data          24  curtaincm.o(.bss)
-    os_pool_m_sourceCM_pool                  0x20004bd4   Data          52  sourcecm.o(.bss)
-    os_messageQ_q_MsgBox_sourceCM            0x20004c08   Data          24  sourcecm.o(.bss)
-    os_messageQ_q_MsgBox_MTsourceCM          0x20004c20   Data          24  sourcecm.o(.bss)
-    os_messageQ_q_MsgBox_DPsourceCM          0x20004c38   Data          24  sourcecm.o(.bss)
-    os_pool_m_speakCM_pool                   0x20004c50   Data          52  speakcm.o(.bss)
-    os_messageQ_q_MsgBox_speakCM             0x20004c84   Data          24  speakcm.o(.bss)
-    os_messageQ_q_MsgBox_MTspeakCM           0x20004c9c   Data          24  speakcm.o(.bss)
-    os_messageQ_q_MsgBox_DPspeakCM           0x20004cb4   Data          24  speakcm.o(.bss)
-    mp_tcb                                   0x20004d40   Data         896  rtx_conf_cm.o(.bss)
-    mp_stk                                   0x200050c0   Data        1040  rtx_conf_cm.o(.bss)
-    os_stack_mem                             0x200054d0   Data       22144  rtx_conf_cm.o(.bss)
-    os_fifo                                  0x2000ab50   Data         132  rtx_conf_cm.o(.bss)
-    os_active_TCB                            0x2000abd4   Data          68  rtx_conf_cm.o(.bss)
-    os_messageQ_q_osTimerMessageQ            0x2000ac18   Data          48  rtx_conf_cm.o(.bss)
-    os_idle_TCB                              0x2000b344   Data          52  rt_task.o(.bss)
-    os_rdy                                   0x2000b378   Data          24  rt_list.o(.bss)
-    os_dly                                   0x2000b390   Data          24  rt_list.o(.bss)
-    __libspace_start                         0x2000b3a8   Data          96  libspace.o(.bss)
-    __temporary_stack_top$libspace           0x2000b408   Data           0  libspace.o(.bss)
+    os_pool_m_EGUD_pool                      0x20000f64   Data         492  eguard.o(.bss)
+    os_messageQ_q_MsgBox_EGUD                0x20001150   Data          36  eguard.o(.bss)
+    os_messageQ_q_MsgBox_MTEGUD_FID          0x20001174   Data          36  eguard.o(.bss)
+    os_messageQ_q_MsgBox_MTEGUD_DLOCK        0x20001198   Data          36  eguard.o(.bss)
+    os_messageQ_q_MsgBox_DPEGUD              0x200011bc   Data          56  eguard.o(.bss)
+    os_pool_m_fireMS_pool                    0x20001208   Data          52  firems.o(.bss)
+    os_messageQ_q_MsgBox_fireMS              0x2000123c   Data          24  firems.o(.bss)
+    os_messageQ_q_MsgBox_MTfireMS            0x20001254   Data          24  firems.o(.bss)
+    os_messageQ_q_MsgBox_DPfireMS            0x2000126c   Data          24  firems.o(.bss)
+    os_pool_m_pyroMS_pool                    0x20001284   Data          52  pyroms.o(.bss)
+    os_messageQ_q_MsgBox_pyroMS              0x200012b8   Data          24  pyroms.o(.bss)
+    os_messageQ_q_MsgBox_MTpyroMS            0x200012d0   Data          24  pyroms.o(.bss)
+    os_messageQ_q_MsgBox_DPpyroMS            0x200012e8   Data          24  pyroms.o(.bss)
+    os_pool_m_gasMS_pool                     0x20001300   Data          52  gasms.o(.bss)
+    os_messageQ_q_MsgBox_gasMS               0x20001334   Data          24  gasms.o(.bss)
+    os_messageQ_q_MsgBox_MTgasMS             0x2000134c   Data          24  gasms.o(.bss)
+    os_messageQ_q_MsgBox_DPgasMS             0x20001364   Data          24  gasms.o(.bss)
+    os_pool_m_smokeMS_pool                   0x2000137c   Data          52  smokems.o(.bss)
+    os_messageQ_q_MsgBox_smokeMS             0x200013b0   Data          24  smokems.o(.bss)
+    os_messageQ_q_MsgBox_MTsmokeMS           0x200013c8   Data          24  smokems.o(.bss)
+    os_messageQ_q_MsgBox_DPsmokeMS           0x200013e0   Data          24  smokems.o(.bss)
+    os_pool_m_lightMS_pool                   0x200013f8   Data          52  lightms.o(.bss)
+    os_messageQ_q_MsgBox_lightMS             0x2000142c   Data          24  lightms.o(.bss)
+    os_messageQ_q_MsgBox_MTlightMS           0x20001444   Data          24  lightms.o(.bss)
+    os_messageQ_q_MsgBox_DPlightMS           0x2000145c   Data          24  lightms.o(.bss)
+    os_pool_m_tempMS_pool                    0x20001474   Data          92  tempms.o(.bss)
+    os_messageQ_q_MsgBox_tempMS              0x200014d0   Data          24  tempms.o(.bss)
+    os_messageQ_q_MsgBox_MTtempMS            0x200014e8   Data          24  tempms.o(.bss)
+    os_messageQ_q_MsgBox_DPtempMS            0x20001500   Data          24  tempms.o(.bss)
+    os_pool_m_analogMS_pool                  0x20001518   Data          92  analogms.o(.bss)
+    os_messageQ_q_MsgBox_analogMS            0x20001574   Data          24  analogms.o(.bss)
+    os_messageQ_q_MsgBox_MTanalogMS          0x2000158c   Data          24  analogms.o(.bss)
+    os_messageQ_q_MsgBox_DPanalogMS          0x200015a4   Data          24  analogms.o(.bss)
+    lcd144dev                                0x200015bc   Data          14  lcd_1.44.o(.bss)
+    os_pool_m_IFR_pool                       0x20001ab0   Data          52  infratrans.o(.bss)
+    os_messageQ_q_MsgBox_IFR                 0x20001ae4   Data          24  infratrans.o(.bss)
+    os_messageQ_q_MsgBox_MTIFR               0x20001afc   Data          24  infratrans.o(.bss)
+    os_messageQ_q_MsgBox_DPIFR               0x20001b14   Data          24  infratrans.o(.bss)
+    os_pool_m_IFRsigK_pool                   0x20001b2c   Data          28  infratrans.o(.bss)
+    os_messageQ_q_MsgBox_IFRsigK             0x20001b48   Data          24  infratrans.o(.bss)
+    HTtab                                    0x20001b60   Data         510  infratrans.o(.bss)
+    LTtab                                    0x20001d5e   Data         510  infratrans.o(.bss)
+    ifrKB_HTtab                              0x20001f5c   Data        5610  infratrans.o(.bss)
+    ifrKB_LTtab                              0x20003546   Data        5610  infratrans.o(.bss)
+    ifrKB_tabHp                              0x20004b30   Data          11  infratrans.o(.bss)
+    ifrKB_tabLp                              0x20004b3b   Data          11  infratrans.o(.bss)
+    os_pool_m_pwmCM_pool                     0x20004b48   Data          52  pwmcm.o(.bss)
+    os_messageQ_q_MsgBox_pwmCM               0x20004b7c   Data          24  pwmcm.o(.bss)
+    os_messageQ_q_MsgBox_MTpwmCM             0x20004b94   Data          24  pwmcm.o(.bss)
+    os_messageQ_q_MsgBox_DPpwmCM             0x20004bac   Data          24  pwmcm.o(.bss)
+    os_pool_m_pwmCMsigK_pool                 0x20004bc4   Data          28  pwmcm.o(.bss)
+    os_messageQ_q_MsgBox_pwmCMsigK           0x20004be0   Data          24  pwmcm.o(.bss)
+    os_pool_m_curtainCM_pool                 0x20004bf8   Data          52  curtaincm.o(.bss)
+    os_messageQ_q_MsgBox_curtainCM           0x20004c2c   Data          24  curtaincm.o(.bss)
+    os_messageQ_q_MsgBox_MTcurtainCM         0x20004c44   Data          24  curtaincm.o(.bss)
+    os_messageQ_q_MsgBox_DPcurtainCM         0x20004c5c   Data          24  curtaincm.o(.bss)
+    os_pool_m_sourceCM_pool                  0x20004c74   Data          52  sourcecm.o(.bss)
+    os_messageQ_q_MsgBox_sourceCM            0x20004ca8   Data          24  sourcecm.o(.bss)
+    os_messageQ_q_MsgBox_MTsourceCM          0x20004cc0   Data          24  sourcecm.o(.bss)
+    os_messageQ_q_MsgBox_DPsourceCM          0x20004cd8   Data          24  sourcecm.o(.bss)
+    os_pool_m_speakCM_pool                   0x20004cf0   Data          52  speakcm.o(.bss)
+    os_messageQ_q_MsgBox_speakCM             0x20004d24   Data          24  speakcm.o(.bss)
+    os_messageQ_q_MsgBox_MTspeakCM           0x20004d3c   Data          24  speakcm.o(.bss)
+    os_messageQ_q_MsgBox_DPspeakCM           0x20004d54   Data          24  speakcm.o(.bss)
+    mp_tcb                                   0x20004de0   Data         896  rtx_conf_cm.o(.bss)
+    mp_stk                                   0x20005160   Data        1040  rtx_conf_cm.o(.bss)
+    os_stack_mem                             0x20005570   Data       22144  rtx_conf_cm.o(.bss)
+    os_fifo                                  0x2000abf0   Data         132  rtx_conf_cm.o(.bss)
+    os_active_TCB                            0x2000ac74   Data          68  rtx_conf_cm.o(.bss)
+    os_messageQ_q_osTimerMessageQ            0x2000acb8   Data          48  rtx_conf_cm.o(.bss)
+    os_idle_TCB                              0x2000b3e4   Data          52  rt_task.o(.bss)
+    os_rdy                                   0x2000b418   Data          24  rt_list.o(.bss)
+    os_dly                                   0x2000b430   Data          24  rt_list.o(.bss)
+    __libspace_start                         0x2000b448   Data          96  libspace.o(.bss)
+    __temporary_stack_top$libspace           0x2000b4a8   Data           0  libspace.o(.bss)
 
 
 
@@ -5505,7 +5505,7 @@ Memory Map of the image
     0x0801547c   0x0000001c   Data   RO         7059    locale$$data        c_w.l(lc_numeric_c.o)
 
 
-    Execution Region RW_IRAM1 (Base: 0x20000000, Size: 0x0000ba08, Max: 0x0000c000, ABSOLUTE, COMPRESSED[0x0000007c])
+    Execution Region RW_IRAM1 (Base: 0x20000000, Size: 0x0000baa8, Max: 0x0000c000, ABSOLUTE, COMPRESSED[0x0000007c])
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -5559,34 +5559,34 @@ Memory Map of the image
     0x20000350   0x00000018   Zero   RW          353    .bss                tips.o
     0x20000368   0x000003fc   Zero   RW          488    .bss                intrrupt.o
     0x20000764   0x00000800   Zero   RW          522    .bss                stmflash.o
-    0x20000f64   0x000001f0   Zero   RW          570    .bss                eguard.o
-    0x20001154   0x00000012   Zero   RW          849    .bss                kboard.o
-    0x20001166   0x00000002   PAD
-    0x20001168   0x0000007c   Zero   RW          992    .bss                firems.o
-    0x200011e4   0x0000007c   Zero   RW         1058    .bss                pyroms.o
-    0x20001260   0x0000007c   Zero   RW         1112    .bss                gasms.o
-    0x200012dc   0x0000007c   Zero   RW         1181    .bss                smokems.o
-    0x20001358   0x0000007c   Zero   RW         1261    .bss                lightms.o
-    0x200013d4   0x000000a4   Zero   RW         1393    .bss                tempms.o
-    0x20001478   0x000000a4   Zero   RW         1481    .bss                analogms.o
-    0x2000151c   0x0000000e   Zero   RW         1559    .bss                lcd_1.44.o
-    0x2000152a   0x00000002   PAD
-    0x2000152c   0x000004e4   Zero   RW         1850    .bss                key&tips.o
-    0x20001a10   0x00003096   Zero   RW         1933    .bss                infratrans.o
-    0x20004aa6   0x00000002   PAD
-    0x20004aa8   0x000000b0   Zero   RW         2048    .bss                pwmcm.o
-    0x20004b58   0x0000007c   Zero   RW         2120    .bss                curtaincm.o
-    0x20004bd4   0x0000007c   Zero   RW         2174    .bss                sourcecm.o
-    0x20004c50   0x0000007c   Zero   RW         2241    .bss                speakcm.o
-    0x20004ccc   0x00000070   Zero   RW         2505    .bss                usart_stm32f10x.o
-    0x20004d3c   0x00000004   PAD
-    0x20004d40   0x000065e8   Zero   RW         2732    .bss                rtx_conf_cm.o
-    0x2000b328   0x0000001c   Zero   RW         3037    .bss                i2c_stm32f10x.o
-    0x2000b344   0x00000034   Zero   RW         6255    .bss                RTX_CM3.lib(rt_task.o)
-    0x2000b378   0x00000030   Zero   RW         6505    .bss                RTX_CM3.lib(rt_list.o)
-    0x2000b3a8   0x00000060   Zero   RW         6833    .bss                c_w.l(libspace.o)
-    0x2000b408   0x00000200   Zero   RW         5570    HEAP                startup_stm32f10x_hd.o
-    0x2000b608   0x00000400   Zero   RW         5569    STACK               startup_stm32f10x_hd.o
+    0x20000f64   0x00000290   Zero   RW          570    .bss                eguard.o
+    0x200011f4   0x00000012   Zero   RW          849    .bss                kboard.o
+    0x20001206   0x00000002   PAD
+    0x20001208   0x0000007c   Zero   RW          992    .bss                firems.o
+    0x20001284   0x0000007c   Zero   RW         1058    .bss                pyroms.o
+    0x20001300   0x0000007c   Zero   RW         1112    .bss                gasms.o
+    0x2000137c   0x0000007c   Zero   RW         1181    .bss                smokems.o
+    0x200013f8   0x0000007c   Zero   RW         1261    .bss                lightms.o
+    0x20001474   0x000000a4   Zero   RW         1393    .bss                tempms.o
+    0x20001518   0x000000a4   Zero   RW         1481    .bss                analogms.o
+    0x200015bc   0x0000000e   Zero   RW         1559    .bss                lcd_1.44.o
+    0x200015ca   0x00000002   PAD
+    0x200015cc   0x000004e4   Zero   RW         1850    .bss                key&tips.o
+    0x20001ab0   0x00003096   Zero   RW         1933    .bss                infratrans.o
+    0x20004b46   0x00000002   PAD
+    0x20004b48   0x000000b0   Zero   RW         2048    .bss                pwmcm.o
+    0x20004bf8   0x0000007c   Zero   RW         2120    .bss                curtaincm.o
+    0x20004c74   0x0000007c   Zero   RW         2174    .bss                sourcecm.o
+    0x20004cf0   0x0000007c   Zero   RW         2241    .bss                speakcm.o
+    0x20004d6c   0x00000070   Zero   RW         2505    .bss                usart_stm32f10x.o
+    0x20004ddc   0x00000004   PAD
+    0x20004de0   0x000065e8   Zero   RW         2732    .bss                rtx_conf_cm.o
+    0x2000b3c8   0x0000001c   Zero   RW         3037    .bss                i2c_stm32f10x.o
+    0x2000b3e4   0x00000034   Zero   RW         6255    .bss                RTX_CM3.lib(rt_task.o)
+    0x2000b418   0x00000030   Zero   RW         6505    .bss                RTX_CM3.lib(rt_list.o)
+    0x2000b448   0x00000060   Zero   RW         6833    .bss                c_w.l(libspace.o)
+    0x2000b4a8   0x00000200   Zero   RW         5570    HEAP                startup_stm32f10x_hd.o
+    0x2000b6a8   0x00000400   Zero   RW         5569    STACK               startup_stm32f10x_hd.o
 
 
 ==============================================================================
@@ -5605,7 +5605,7 @@ Image component sizes
         88         22          0          0          0        959   delay.o
        368         50          0          0          0      12235   dma_stm32f10x.o
        424         40         16          5          0       2722   doorlock.o
-       188         62         44         21        496       2903   eguard.o
+       188         62         44         21        656       2903   eguard.o
       1746        134        449          6          0       8050   fingerid.o
        520        114         52         24        124       8242   firems.o
        830        140         52         31        124       6523   gasms.o
@@ -5645,7 +5645,7 @@ Image component sizes
       5246        252        260          0        112      62496   usart_stm32f10x.o
 
     ----------------------------------------------------------------------
-     53454       5898      17956        808      46580     672875   Object Totals
+     53454       5898      17956        808      46740     672875   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         68          0         10         25         10          0   (incl. Padding)
 
@@ -5767,14 +5767,14 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     69000       6848      18192        848      46776     746497   Grand Totals
-     69000       6848      18192        124      46776     746497   ELF Image Totals (compressed)
+     69000       6848      18192        848      46936     746497   Grand Totals
+     69000       6848      18192        124      46936     746497   ELF Image Totals (compressed)
      69000       6848      18192        124          0          0   ROM Totals
 
 ==============================================================================
 
     Total RO  Size (Code + RO Data)                87192 (  85.15kB)
-    Total RW  Size (RW Data + ZI Data)             47624 (  46.51kB)
+    Total RW  Size (RW Data + ZI Data)             47784 (  46.66kB)
     Total ROM Size (Code + RO Data + RW Data)      87316 (  85.27kB)
 
 ==============================================================================
