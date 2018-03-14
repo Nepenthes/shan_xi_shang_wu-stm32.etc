@@ -26,6 +26,7 @@
 #include "curtainCM.h"
 #include "sourceCM.h"
 #include "speakCM.h"
+#include "RelaysCM.h"
 
 #include "debugUART.h"
 #include <dataTrans_USART.h>
@@ -35,6 +36,7 @@
 	
 #define		MID_EXEC_DEVPWM		0x83
 #define		MID_EXEC_CURTAIN	0x43
+#define 	MID_EXEC_RELAYS		0x42
 #define 	MID_EXEC_SOURCE		0x82
 #define		MID_EXEC_SPEAK		0x41
 
@@ -53,7 +55,7 @@
 #define		wireless_FLG	0x40	//无线通讯模块是否在线标志位
 #define		LCD4_3_FLG		0x20	//显示模块是否在线标志位
 
-#define		EVTSIG_MDEC_EN	123		//模块地址检测线程使能信号
+#define		EVTSIG_MDEC_EN	123		//模块地址检测进程使能信号
 
 #define		extension_IF	(!PEin(7))
 #define		wireless_IF		(((GPIO_ReadInputData(GPIOD) >> 3) & 0x1f) != 0x1f)   //无线模块在线检测(特殊检测)

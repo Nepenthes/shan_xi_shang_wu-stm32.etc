@@ -5,8 +5,8 @@
 
 extern ARM_DRIVER_USART Driver_USART1;								//设备驱动库串口一设备声明
 
-osThreadId tid_keyMboard_Thread;										//按键监测主线程ID
-osThreadDef(keyMboard_Thread,osPriorityAboveNormal,1,2048);	//按键监测主线程定义
+osThreadId tid_keyMboard_Thread;										//按键监测主进程ID
+osThreadDef(keyMboard_Thread,osPriorityAboveNormal,1,2048);	//按键监测主进程定义
 
 typedef void (* funkeyThread)(funKeyInit key_Init,Obj_keyStatus *orgKeyStatus,funKeyScan key_Scan,Obj_eventKey keyEvent,const char *Tips_head);
 
@@ -168,7 +168,7 @@ void key_Thread(	funKeyInit 		key_Init,
 	static uint8_t	kCount;						//按键计数值变量，长按保持计数和连按计数使用同一个变量，因为两个状态不会同时发生
 	static uint8_t	kCount_rec;			//历史计数值保存
 	
-	static osThreadId ID_Temp;					//当前线程ID缓存
+	static osThreadId ID_Temp;					//当前进程ID缓存
 	static osEvent evt;
 	static uint8_t KEY_DEBUG_FLG = 0;
 
@@ -421,7 +421,7 @@ void eventK25(void){
 	}
 }
 
-/***按键监测主线程***/
+/***按键监测主进程***/
 void keyMboard_Thread(const void *argument){
 	
 	const char *Tips_Head = "底板按键";

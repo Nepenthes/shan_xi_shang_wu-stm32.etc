@@ -64,3 +64,4 @@
 .\objects\pwmcm.o: ..\Module\Curtain_CM\curtainCM.h
 .\objects\pwmcm.o: ..\Module\Source_CM\sourceCM.h
 .\objects\pwmcm.o: ..\Module\Speak_CM\speakCM.h
+.\objects\pwmcm.o: ..\Module\Relays_CM\RelaysCM.h

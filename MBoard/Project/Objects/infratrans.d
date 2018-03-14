@@ -65,3 +65,4 @@
 .\objects\infratrans.o: ..\Module\Curtain_CM\curtainCM.h
 .\objects\infratrans.o: ..\Module\Source_CM\sourceCM.h
 .\objects\infratrans.o: ..\Module\Speak_CM\speakCM.h
+.\objects\infratrans.o: ..\Module\Relays_CM\RelaysCM.h

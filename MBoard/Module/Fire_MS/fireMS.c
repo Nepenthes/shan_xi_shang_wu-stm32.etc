@@ -8,13 +8,13 @@ osThreadDef(fireMS_Thread,osPriorityNormal,1,512);
 osPoolId  fireMS_pool;								 
 osPoolDef(fireMS_pool, 10, fireMS_MEAS);                  // 内存池定义
 osMessageQId  MsgBox_fireMS;
-osMessageQDef(MsgBox_fireMS, 2, &fireMS_MEAS);            // 消息队列定义，用于模块线程向无线通讯线程
+osMessageQDef(MsgBox_fireMS, 2, &fireMS_MEAS);            // 消息队列定义，用于模块进程向无线通讯进程
 osMessageQId  MsgBox_MTfireMS;
-osMessageQDef(MsgBox_MTfireMS, 2, &fireMS_MEAS);          // 消息队列定义,用于无线通讯线程向模块线程
+osMessageQDef(MsgBox_MTfireMS, 2, &fireMS_MEAS);          // 消息队列定义,用于无线通讯进程向模块进程
 osMessageQId  MsgBox_DPfireMS;
-osMessageQDef(MsgBox_DPfireMS, 2, &fireMS_MEAS);          // 消息队列定义，用于模块线程向显示模块线程
+osMessageQDef(MsgBox_DPfireMS, 2, &fireMS_MEAS);          // 消息队列定义，用于模块进程向显示模块进程
 
-fireDIO_Init(void){
+void fireDIO_Init(void){
 
 	GPIO_InitTypeDef  GPIO_InitStructure;
 
@@ -58,13 +58,13 @@ void fireMS_Thread(const void *argument){
 	
 	for(;;){
 		
-	/***********************本地线程数据接收***************************************************/
+	/***********************本地进程数据接收***************************************************/
 	//传感器构件数据仅作上传，接收数据功能保留，暂时不用
 		evt = osMessageGet(MsgBox_MTfireMS, 100);
 		if (evt.status == osEventMessage) {		//等待消息指令
 			
 			rptr = evt.value.p;
-			/*自定义本地线程接收数据处理↓↓↓↓↓↓↓↓↓↓↓↓*/
+			/*自定义本地进程接收数据处理↓↓↓↓↓↓↓↓↓↓↓↓*/
 			
 
 			do{status = osPoolFree(fireMS_pool, rptr);}while(status != osOK);	//内存释放
@@ -91,7 +91,7 @@ void fireMS_Thread(const void *argument){
 			}
 		}
 
-	/***********************线程数据推送*****************************************************/		
+	/***********************进程数据推送*****************************************************/		
 		if(UPLD_EN){
 			
 			UPLD_EN = false;

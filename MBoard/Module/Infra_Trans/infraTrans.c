@@ -14,11 +14,11 @@ osThreadDef(keyIFR_Thread_umdScan,osPriorityAboveNormal,1,512);
 osPoolId  IFR_pool;								 
 osPoolDef(IFR_pool, 10, IFR_MEAS);                  // 内存池定义
 osMessageQId  MsgBox_IFR;
-osMessageQDef(MsgBox_IFR, 2, &IFR_MEAS);            // 消息队列定义，用于模块线程向无线通讯线程
+osMessageQDef(MsgBox_IFR, 2, &IFR_MEAS);            // 消息队列定义，用于模块进程向无线通讯进程
 osMessageQId  MsgBox_MTIFR;
-osMessageQDef(MsgBox_MTIFR, 2, &IFR_MEAS);          // 消息队列定义,用于无线通讯线程向模块线程
+osMessageQDef(MsgBox_MTIFR, 2, &IFR_MEAS);          // 消息队列定义,用于无线通讯进程向模块进程
 osMessageQId  MsgBox_DPIFR;
-osMessageQDef(MsgBox_DPIFR, 2, &IFR_MEAS);          // 消息队列定义，用于模块线程向显示模块线程
+osMessageQDef(MsgBox_DPIFR, 2, &IFR_MEAS);          // 消息队列定义，用于模块进程向显示模块进程
 
 osPoolId  memID_IFRsigK_pool;								 
 osPoolDef(IFRsigK_pool, 4, IFR_kMSG);              // 按键消息内存池定义
@@ -378,7 +378,7 @@ void keyIFR_Thread_umdScan(const void *argument){
 		if (evt.status == osEventMessage){		//等待消息指令
 			
 			rptr = evt.value.p;
-			/*自定义本地线程接收数据处理↓↓↓↓↓↓↓↓↓↓↓↓*/
+			/*自定义本地进程接收数据处理↓↓↓↓↓↓↓↓↓↓↓↓*/
 			
 			if(rptr->Mod_addr == ifrDevMOUDLE_ID)
 				ifrCM_Attr.VAL_KEY = rptr->VAL_KEY;
@@ -432,7 +432,7 @@ void keyIFR_Thread(const void *argument){
 	
 	for(;;){
 		
-	/********************************底板按键线程数据接收******************************************/
+	/********************************底板按键进程数据接收******************************************/
 		evt = osMessageGet(MsgBox_IFRsigK, 100);
 		if (evt.status == osEventMessage){
 			
@@ -454,7 +454,7 @@ void keyIFR_Thread(const void *argument){
 			rptr_sigK = NULL;
 		}
 		
-	/************************************常线程***************************************************/
+	/************************************常进程***************************************************/
 		ifrCM_Attr.STATUS = kifrSTATUS_NONLRN;
 		
 		if(ifrCM_Attr.VAL_KEY != ifrvalK_NULL){

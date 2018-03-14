@@ -62,3 +62,4 @@
 .\objects\datatrans_usart.o: ..\Module\Curtain_CM\curtainCM.h
 .\objects\datatrans_usart.o: ..\Module\Source_CM\sourceCM.h
 .\objects\datatrans_usart.o: ..\Module\Speak_CM\speakCM.h
+.\objects\datatrans_usart.o: ..\Module\Relays_CM\RelaysCM.h

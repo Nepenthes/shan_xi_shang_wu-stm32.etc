@@ -64,3 +64,4 @@
 .\objects\lightms.o: ..\Module\Curtain_CM\curtainCM.h
 .\objects\lightms.o: ..\Module\Source_CM\sourceCM.h
 .\objects\lightms.o: ..\Module\Speak_CM\speakCM.h
+.\objects\lightms.o: ..\Module\Relays_CM\RelaysCM.h

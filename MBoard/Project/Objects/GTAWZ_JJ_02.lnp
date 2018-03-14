@@ -28,6 +28,7 @@
 ".\objects\curtaincm.o"
 ".\objects\sourcecm.o"
 ".\objects\speakcm.o"
+".\objects\relayscm.o"
 ".\objects\datatrans_usart.o"
 ".\objects\debuguart.o"
 ".\objects\usart_stm32f10x.o"

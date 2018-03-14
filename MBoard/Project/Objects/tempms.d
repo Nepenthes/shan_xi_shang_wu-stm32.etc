@@ -64,3 +64,4 @@
 .\objects\tempms.o: ..\Module\Curtain_CM\curtainCM.h
 .\objects\tempms.o: ..\Module\Source_CM\sourceCM.h
 .\objects\tempms.o: ..\Module\Speak_CM\speakCM.h
+.\objects\tempms.o: ..\Module\Relays_CM\RelaysCM.h

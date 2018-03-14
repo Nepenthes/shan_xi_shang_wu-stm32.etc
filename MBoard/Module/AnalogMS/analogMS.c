@@ -8,11 +8,11 @@ osThreadDef(analogMS_Thread,osPriorityNormal,1,512);
 osPoolId  analogMS_pool;								 
 osPoolDef(analogMS_pool, 10, analogMS_MEAS);                  // 内存池定义
 osMessageQId  MsgBox_analogMS;
-osMessageQDef(MsgBox_analogMS, 2, &analogMS_MEAS);            // 消息队列定义，用于模块线程向无线通讯线程
+osMessageQDef(MsgBox_analogMS, 2, &analogMS_MEAS);            // 消息队列定义，用于模块进程向无线通讯进程
 osMessageQId  MsgBox_MTanalogMS;
-osMessageQDef(MsgBox_MTanalogMS, 2, &analogMS_MEAS);          // 消息队列定义,用于无线通讯线程向模块线程
+osMessageQDef(MsgBox_MTanalogMS, 2, &analogMS_MEAS);          // 消息队列定义,用于无线通讯进程向模块进程
 osMessageQId  MsgBox_DPanalogMS;
-osMessageQDef(MsgBox_DPanalogMS, 2, &analogMS_MEAS);          // 消息队列定义，用于模块线程向显示模块线程
+osMessageQDef(MsgBox_DPanalogMS, 2, &analogMS_MEAS);          // 消息队列定义，用于模块进程向显示模块进程
 
 void analogMS_ADCInit(void){
 
@@ -111,7 +111,7 @@ void analogMS_Thread(const void *argument){
 		if (evt.status == osEventMessage) {		//等待消息指令
 			
 			rptr = evt.value.p;
-			/*自定义本地线程接收数据处理↓↓↓↓↓↓↓↓↓↓↓↓*/
+			/*自定义本地进程接收数据处理↓↓↓↓↓↓↓↓↓↓↓↓*/
 			
 
 			do{status = osPoolFree(analogMS_pool, rptr);}while(status != osOK);	//内存释放

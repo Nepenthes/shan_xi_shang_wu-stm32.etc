@@ -64,3 +64,4 @@
 .\objects\smokems.o: ..\Module\Curtain_CM\curtainCM.h
 .\objects\smokems.o: ..\Module\Source_CM\sourceCM.h
 .\objects\smokems.o: ..\Module\Speak_CM\speakCM.h
+.\objects\smokems.o: ..\Module\Relays_CM\RelaysCM.h

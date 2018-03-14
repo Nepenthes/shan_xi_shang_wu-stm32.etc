@@ -106,7 +106,7 @@ void MBDEC_Thread(const void *argument){	//循环检测
 						default:break;
 					}
 					
-					//wirelessThread_Active();	//无线传输线程启动（等待使能信号激活）
+					//wirelessThread_Active();	//无线传输进程启动（等待使能信号激活）
 					
 				}else{
 					
@@ -185,15 +185,20 @@ void MBDEC_Thread(const void *argument){	//循环检测
 								Eguard_Active();
 								break;
 						
-						case MID_EXEC_DEVIFR	 :	
+						case MID_EXEC_DEVIFR:	
 							
 								keyIFRActive();
 								osSignalSet (tid_USARTDebug_Thread, USARTDEBUG_THREAD_EN);
 								break;
 						
-						case MID_EXEC_SOURCE :  
+						case MID_EXEC_SOURCE:  
 							
 								sourceCMThread_Active();
+								break;
+						
+						case MID_EXEC_RELAYS:
+								
+								RelaysCMThread_Active();
 								break;
 						
 						case MID_EXEC_CURTAIN:
@@ -201,19 +206,20 @@ void MBDEC_Thread(const void *argument){	//循环检测
 								curtainCMThread_Active();
 								break;
 						
-						case MID_EXEC_DEVPWM	 :	
+						case MID_EXEC_DEVPWM:	
 							
 								pwmCMThread_Active();
 								break;
 						
 						case MID_EXEC_SPEAK:
+							
 								speakCMThread_Active();
 								break;
 							
 						default:break;
 					}
 					
-					osSignalSet (tid_USARTWireless_Thread, WIRLESS_THREAD_EN); //激活无线传输线程
+					osSignalSet (tid_USARTWireless_Thread, WIRLESS_THREAD_EN); //激活无线传输进程
 					
 				}else{
 					
@@ -274,6 +280,11 @@ void MBDEC_Thread(const void *argument){	//循环检测
 								osThreadTerminate(tid_sourceCM_Thread); 
 								break;
 						
+						case MID_EXEC_RELAYS:
+								
+								osThreadTerminate(tid_RelaysCM_Thread); 
+								break;
+						
 						case MID_EXEC_CURTAIN:
 							
 								osThreadTerminate(tid_curtainCM_Thread);
@@ -320,7 +331,7 @@ void MBDEC_Thread(const void *argument){	//循环检测
 	}
 }
 
-void MoudleDEC_Init(void){	//模块检测线程激活
+void MoudleDEC_Init(void){	//模块检测进程激活
 	
 	MoudleDEC_ioInit();
 	tid_MBDEC_Thread = osThreadCreate(osThread(MBDEC_Thread),NULL);

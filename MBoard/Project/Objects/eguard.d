@@ -63,3 +63,4 @@
 .\objects\eguard.o: ..\Module\Curtain_CM\curtainCM.h
 .\objects\eguard.o: ..\Module\Source_CM\sourceCM.h
 .\objects\eguard.o: ..\Module\Speak_CM\speakCM.h
+.\objects\eguard.o: ..\Module\Relays_CM\RelaysCM.h

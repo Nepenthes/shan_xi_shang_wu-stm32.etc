@@ -65,3 +65,4 @@
 .\objects\intrrupt.o: ..\Module\Curtain_CM\curtainCM.h
 .\objects\intrrupt.o: ..\Module\Source_CM\sourceCM.h
 .\objects\intrrupt.o: ..\Module\Speak_CM\speakCM.h
+.\objects\intrrupt.o: ..\Module\Relays_CM\RelaysCM.h

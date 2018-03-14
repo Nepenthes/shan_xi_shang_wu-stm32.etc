@@ -64,3 +64,4 @@
 .\objects\firems.o: ..\Module\Curtain_CM\curtainCM.h
 .\objects\firems.o: ..\Module\Source_CM\sourceCM.h
 .\objects\firems.o: ..\Module\Speak_CM\speakCM.h
+.\objects\firems.o: ..\Module\Relays_CM\RelaysCM.h

@@ -65,4 +65,5 @@
 .\objects\gui_1.44.o: ..\Module\Curtain_CM\curtainCM.h
 .\objects\gui_1.44.o: ..\Module\Source_CM\sourceCM.h
 .\objects\gui_1.44.o: ..\Module\Speak_CM\speakCM.h
+.\objects\gui_1.44.o: ..\Module\Relays_CM\RelaysCM.h
 .\objects\gui_1.44.o: ..\Module\LCD(1.44inches)\FONT_1.44.h

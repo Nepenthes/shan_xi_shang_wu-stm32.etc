@@ -14,17 +14,17 @@ int main (void const *argument)
 	// create 'thread' functions that start executing,
 	// example: tid_name = osThreadCreate (osThread(name), NULL);
 	
-	BSP_Init();
-	
-	wirelessThread_Active();
-	
-	MoudleDEC_Init();
-	
-	LCD144Disp_Active();
-	
-	keyMboardActive();
-	
-	tipsLEDActive();
+		BSP_Init();
+		
+		wirelessThread_Active();
+		
+		MoudleDEC_Init();
+		
+		LCD144Disp_Active();
+		
+		keyMboardActive();
+		
+		tipsLEDActive();
 	
 	osKernelStart ();                         	// start thread execution 
 }

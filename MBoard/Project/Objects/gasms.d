@@ -64,3 +64,4 @@
 .\objects\gasms.o: ..\Module\Curtain_CM\curtainCM.h
 .\objects\gasms.o: ..\Module\Source_CM\sourceCM.h
 .\objects\gasms.o: ..\Module\Speak_CM\speakCM.h
+.\objects\gasms.o: ..\Module\Relays_CM\RelaysCM.h

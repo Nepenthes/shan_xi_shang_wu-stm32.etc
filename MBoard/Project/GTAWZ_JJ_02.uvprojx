@@ -332,7 +332,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\User;..\Module;..\User\reWrite;..\User\FlashOP;..\Module\LCD(1.44inches);..\Module\KEY&amp;TIPS;..\Module\Debug_USART;..\Module\Transmitter_USART;..\Module\Entrance_guard;..\Module\Fire_MS;..\Module\Gas_MS;..\Module\Light_MS;..\Module\Pyro_MS;..\Module\Simu_MS;..\Module\Smoke_MS;..\Module\Temp_MS;..\Module\AnalogMS;..\Module\Infra_Trans;..\Module\Pwm_CM;..\Module\Source_CM;..\Module\Curtain_CM;..\Module\Speak_CM;..\备忘录</IncludePath>
+              <IncludePath>..\User;..\Module;..\User\reWrite;..\User\FlashOP;..\Module\LCD(1.44inches);..\Module\KEY&amp;TIPS;..\Module\Debug_USART;..\Module\Transmitter_USART;..\Module\Entrance_guard;..\Module\Fire_MS;..\Module\Gas_MS;..\Module\Light_MS;..\Module\Pyro_MS;..\Module\Simu_MS;..\Module\Smoke_MS;..\Module\Temp_MS;..\Module\AnalogMS;..\Module\Infra_Trans;..\Module\Pwm_CM;..\Module\Relays_CM;..\Module\Source_CM;..\Module\Curtain_CM;..\Module\Speak_CM;..\备忘录</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -539,6 +539,11 @@
               <FileName>speakCM.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Module\Speak_CM\speakCM.c</FilePath>
+            </File>
+            <File>
+              <FileName>RelaysCM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Module\Relays_CM\RelaysCM.c</FilePath>
             </File>
           </Files>
         </Group>

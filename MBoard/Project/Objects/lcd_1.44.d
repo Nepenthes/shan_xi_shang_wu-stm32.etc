@@ -65,3 +65,4 @@
 .\objects\lcd_1.44.o: ..\Module\Curtain_CM\curtainCM.h
 .\objects\lcd_1.44.o: ..\Module\Source_CM\sourceCM.h
 .\objects\lcd_1.44.o: ..\Module\Speak_CM\speakCM.h
+.\objects\lcd_1.44.o: ..\Module\Relays_CM\RelaysCM.h

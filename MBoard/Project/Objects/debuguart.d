@@ -63,3 +63,4 @@
 .\objects\debuguart.o: ..\Module\Curtain_CM\curtainCM.h
 .\objects\debuguart.o: ..\Module\Source_CM\sourceCM.h
 .\objects\debuguart.o: ..\Module\Speak_CM\speakCM.h
+.\objects\debuguart.o: ..\Module\Relays_CM\RelaysCM.h

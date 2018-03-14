@@ -645,6 +645,14 @@ void LCD144Disp_Thread(const void *argument){
 						Show_Str(50,100,GREEN,BLACK,"X X",24,1);
 						break;
 				
+				case MID_EXEC_RELAYS:
+					
+						Show_Str(5,25,WHITE,BLACK,"开关一鑞",24,1);
+						Show_Str(50,50,GREEN,BLACK,"X X",24,1);
+						Show_Str(5,75,WHITE,BLACK,"开关二鑞",24,1);
+						Show_Str(50,100,GREEN,BLACK,"X X",24,1);
+						break;
+				
 				case MID_EXEC_CURTAIN:
 					
 						Show_Str(5,50,WHITE,BLACK,"窗帘状态鑞",24,1);
@@ -1283,6 +1291,34 @@ void LCD144Disp_Thread(const void *argument){
 							}
 							
 							do{status = osPoolFree(pwmCM_pool, rptr);}while(status != osOK);	//内存释放
+							rptr = NULL;
+						}
+					}break;
+			
+			case MID_EXEC_RELAYS:{
+			
+						RelaysCM_MEAS *rptr;
+						osEvent  evt;
+						char disp[30];
+				
+						evt = osMessageGet(MsgBox_DPRelaysCM, 10);
+						if (evt.status == osEventMessage){
+							
+							rptr = evt.value.p;
+							/*显示部分程序↓↓↓↓↓↓↓*/
+							
+							LCD_1_44_ClearS(BLACK,0,50,127,75);
+							LCD_1_44_ClearS(BLACK,0,100,127,125);
+							
+							if(rptr->relay_con & 0x01)sprintf(disp,"开启");
+							else sprintf(disp,"关闭");
+							Show_Str(40,50,GREEN,BLACK,(uint8_t *)disp,24,1);
+							
+							if(rptr->relay_con & 0x02)sprintf(disp,"开启");
+							else sprintf(disp,"关闭");
+							Show_Str(40,100,GREEN,BLACK,(uint8_t *)disp,24,1);
+							
+							do{status = osPoolFree(RelaysCM_pool, rptr);}while(status != osOK);	//内存释放
 							rptr = NULL;
 						}
 					}break;

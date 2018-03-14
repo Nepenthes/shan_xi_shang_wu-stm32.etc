@@ -64,3 +64,4 @@
 .\objects\analogms.o: ..\Module\Curtain_CM\curtainCM.h
 .\objects\analogms.o: ..\Module\Source_CM\sourceCM.h
 .\objects\analogms.o: ..\Module\Speak_CM\speakCM.h
+.\objects\analogms.o: ..\Module\Relays_CM\RelaysCM.h

@@ -103,8 +103,8 @@ void USART2Wireless_wifiESP8266Init(void){
 		"AT\r\n",
 		"AT+CWMODE_DEF=1\r\n",
 		"AT+CWDHCP_DEF=1,1\r\n",
-		"AT+CWJAP_DEF=\"GTA2018_IOT\",\"88888888\"\r\n",
-		"AT+CIPSTART=\"TCP\",\"192.168.31.27\",8085\r\n",
+		"AT+CWJAP_DEF=\"GTA2017\",\"88888888\"\r\n",
+		"AT+CIPSTART=\"TCP\",\"10.2.8.222\",8085\r\n",		//台架一：31.26		台架二：31.27
 		"AT+CIPMODE=1\r\n",
 		"AT+CIPSEND\r\n"
 	};
@@ -158,6 +158,8 @@ u8 Extension_IDCHG(u8 Addr_in){
 		case MID_EXEC_DEVPWM:	return 0x32;
 			
 		case MID_EXEC_CURTAIN:	return 0x31;
+		
+		case MID_EXEC_RELAYS:	return 0x30;
 			
 		case MID_EXEC_SPEAK:	return 0x24;
 			
@@ -176,7 +178,7 @@ u8 Extension_IDCHG(u8 Addr_in){
 		case MID_SENSOR_ANALOG:	return 0x21;
 			
 		case MID_EXEC_DEVIFR:	return 0x34;
-		
+			
 		case MID_EXEC_SOURCE:	return 0x33;
 			
 		case MID_EGUARD:		return 0x0A;
@@ -223,10 +225,10 @@ void USARTWireless_Thread(const void *argument){
 	u8 memp;
 	char *p = NULL;
 	
-	osSignalWait(WIRLESS_THREAD_EN,osWaitForever);		//等待线程使能信号
+	osSignalWait(WIRLESS_THREAD_EN,osWaitForever);		//等待进程使能信号
 	osSignalClear(tid_USARTWireless_Thread,WIRLESS_THREAD_EN);
 	
-	switch(Moudle_GTA.Wirless_ID){		//初始化先行，在线程激活前
+	switch(Moudle_GTA.Wirless_ID){		//初始化先行，在进程激活前
 	
 		case MID_TRANS_Zigbee	:	 break;
 			
@@ -282,7 +284,7 @@ void USARTWireless_Thread(const void *argument){
 			memset(dataTrans_RXBUF, 0, sizeof(u8) * frameDatatrans_totlen);
 		}
 		
-/*************↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓无线数据接收，处理推送至驱动级线程↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*********************/
+/*************↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓无线数据接收，处理推送至驱动级进程↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*********************/
 		if(RX_FLG){
 			
 			RX_FLG = false;
@@ -450,6 +452,19 @@ void USARTWireless_Thread(const void *argument){
 						osDelay(100);
 					}break;
 				
+				case MID_EXEC_RELAYS:{
+					
+						RelaysCM_MEAS *mptr = NULL;
+						
+						do{mptr = (RelaysCM_MEAS *)osPoolCAlloc(RelaysCM_pool);}while(mptr == NULL);
+						/*自定义数据处理↓↓↓↓↓↓↓↓↓↓↓↓*/
+						
+						mptr->relay_con = RXdats_BUFtemp[0];
+						
+						osMessagePut(MsgBox_MTRelaysCM, (uint32_t)mptr, osWaitForever);	//指令推送至模块驱动
+						osDelay(100);
+					}break;
+				
 				case MID_EXEC_CURTAIN:{
 					
 						curtainCM_MEAS *mptr = NULL;
@@ -493,7 +508,7 @@ void USARTWireless_Thread(const void *argument){
 			}
 		}
 		
-/****************↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑驱动级线程数据接收，处理后推送至无线数据传输↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*************************/
+/****************↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑驱动级进程数据接收，处理后推送至无线数据传输↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*************************/
 		memset(TXdats_BUFtemp, 0, sizeof(u8) * dats_BUFtemp_len);
 		switch(Moudle_GTA.Extension_ID){	//数据发送
 		
@@ -807,6 +822,26 @@ void USARTWireless_Thread(const void *argument){
 							Driver_USART2.Send(dataTrans_TXBUF,memp);
 							osDelay(20);
 							do{status = osPoolFree(pwmCM_pool, rptr);}while(status != osOK);	//内存释放
+							rptr = NULL;
+						}
+					}break;
+			
+			case MID_EXEC_RELAYS:{
+				
+						RelaysCM_MEAS *rptr = NULL;
+				
+						evt = osMessageGet(MsgBox_RelaysCM, 100);
+						if (evt.status == osEventMessage) {		//等待消息指令
+							
+							rptr = evt.value.p;
+							/*自定义发送数据处理↓↓↓↓↓↓↓↓↓↓↓↓*/
+							
+							TXdats_BUFtemp[0] = rptr->relay_con;	
+							memp = dataTransFrameLoad_TX(dataTrans_TXBUF,datsTransCMD_UPLOAD,Moudle_GTA.Extension_ID,TXdats_BUFtemp,1);
+
+							Driver_USART2.Send(dataTrans_TXBUF,memp);
+							osDelay(20);
+							do{status = osPoolFree(RelaysCM_pool, rptr);}while(status != osOK);	//内存释放
 							rptr = NULL;
 						}
 					}break;
